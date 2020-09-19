@@ -20,7 +20,7 @@ public class CardTest {
     private Card card2;
     private Card card3;
     /**
-     * Test on the getter of the field value + the constructor of a card.
+     * Test on the getters of the field value + the constructor of a card.
      */
     @Test
     public void testValueGetter () {
@@ -35,10 +35,12 @@ public class CardTest {
         card3 = new Card(value3);
 
         assertEquals ("Test getter on card 1", value1, card1.getValue());
-
         assertEquals ("Test getter on card 2", value2, card2.getValue());
-
         assertEquals ("Test getter on card 3", value3, card3.getValue());
+
+        assertEquals ("Test display getter on card 1", "2", card1.getDisplayableValue());
+        assertEquals ("Test display getter on card 2", "A", card2.getDisplayableValue());
+        assertEquals ("Test display getter on card 3", "10", card3.getDisplayableValue());
     }
 
     /**
