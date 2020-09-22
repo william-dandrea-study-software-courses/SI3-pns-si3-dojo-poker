@@ -17,7 +17,7 @@ public class Card implements Comparable<Card> {
     private final static String[] names = {"2", "3", "4", "5", "6", "7", "8", "9", "10", "V", "D", "R", "A"};
 
     // -- Variables --
-    private int value;
+    private final int value;
 
     // -- Constructors --
     public Card (int value) {
@@ -48,12 +48,7 @@ public class Card implements Comparable<Card> {
             throw new NullPointerException("compare can be done with a null object");
         }
 
-        if (getValue() < o.getValue())
-            return -1;
-        else if (getValue() > o.getValue())
-            return 1;
-        else
-            return 0;
+        return Integer.compare(getValue(), o.getValue());
     }
 
     // -- Other methods --

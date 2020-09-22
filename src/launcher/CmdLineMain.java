@@ -1,6 +1,6 @@
 package launcher;
 
-import hands.HandComparator;
+import util.cmdline.CmdLineController;
 
 /**
  * This will launch the app in command line version
@@ -10,10 +10,8 @@ import hands.HandComparator;
 
 public class CmdLineMain {
     public static void main(String[] args) {
-        System.out.println("Launching the app...");
+        CmdLineController controller = new CmdLineController();
 
-        HandComparator comparator = new HandComparator();
-
-        System.out.println("Hand comparator ready : " + comparator);
+        controller.displayState();
     }
 }
