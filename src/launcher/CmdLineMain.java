@@ -14,6 +14,7 @@ public class CmdLineMain {
 
         controller.displayState();
 
+        controller.askPlayer();
         
     }
 }

@@ -1,6 +1,8 @@
 package util.cmdline;
 
+import hands.Hand;
 import hands.HandComparator;
+import hands.HandBuilder;
 
 /**
  * This class will control a simple cmd line lifetime.
@@ -28,5 +30,14 @@ public class CmdLineController {
 
     public void displayState () {
         ui.print("(Controller) Ready ? " + isReady());
+    }
+
+    public void askPlayer() {
+        String line = ui.readLine("What the hand : ");
+
+        HandBuilder builder = new HandBuilder();
+        Hand hand = builder.buildHandFromString(line);
+
+        ui.print("You enter : " + hand.toString());
     }
 }
