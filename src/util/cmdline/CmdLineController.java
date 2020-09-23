@@ -46,16 +46,24 @@ public class CmdLineController {
     public void run () {
         HandComparator comparator = new HandComparator();
 
-        Hand hand1 = askPlayer("Main 1 : ");
-        Hand hand2 = askPlayer("Main 2 : ");
+        Hand hand1 = null, hand2 = null;
+
+        while(hand1 == null || hand2 == null) {
+            try {
+                hand1 = askPlayer("Main 1 : ");
+                hand2 = askPlayer("Main 2 : ");
+            } catch (IllegalArgumentException e) {
+                ui.print("Une erreur de saisie à été détecté.");
+            }
+        }
 
         Hand winner = comparator.compare(hand1, hand2);
         if (winner == null) {
             ui.print("Egalite");
         } else if (winner.equals(hand1)){
-            ui.print("La main 1 gagne...");
+            ui.print("La main 1 gagne avec ");
         } else if (winner.equals(hand2)) {
-            ui.print("La main 2 gagne...");
+            ui.print("La main 2 gagne avec ");
         }
     }
 }
