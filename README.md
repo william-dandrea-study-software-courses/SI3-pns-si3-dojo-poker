@@ -2,7 +2,7 @@
 
 ## Contributors
 
-* Gabriel Cogne
+* COGNE Gabriel
 * D'ANDREA William
 * CLODONG Yann
 * CHOUHABI Mohammed Amine
