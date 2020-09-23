@@ -61,4 +61,9 @@ public class Card implements Comparable<Card> {
     public String getDisplayableValue () {
         return names[getValue() - 2];
     }
+
+    @Override
+    public String toString () {
+        return getDisplayableValue();
+    }
 }
