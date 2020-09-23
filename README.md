@@ -3,3 +3,4 @@
 ## Contributors
 
 * Gabriel Cogne
+* D'ANDREA William
