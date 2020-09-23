@@ -82,3 +82,8 @@ lint/generated/
 lint/outputs/
 lint/tmp/
 # lint/reports/
+
+# Eclipse
+.classpath
+.project
+.DS_Store
