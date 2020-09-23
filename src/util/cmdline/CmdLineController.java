@@ -29,4 +29,8 @@ public class CmdLineController {
     public void displayState () {
         ui.print("(Controller) Ready ? " + isReady());
     }
+    public void askPlayer(){
+        ui.print("What is your hand? :");
+        String line=ui.readline()
+    }
 }
