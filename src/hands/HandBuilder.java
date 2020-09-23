@@ -7,6 +7,11 @@ public class HandBuilder {
     private final static String[] names = {"2", "3", "4", "5", "6", "7", "8", "9", "10", "V", "D", "R", "A"};
 
     // -- Build methods --
+    /**
+     * This method build a hand with cards. The hand is describe
+     * @param hand
+     * @return
+     */
     public Hand buildHandFromString(String hand) {
         Hand res = new Hand();
 

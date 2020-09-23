@@ -50,7 +50,8 @@ public class Hand extends ArrayList<Card> {
 
         return highest;
     }
-    @override
+
+    @Override
     public String toString (){
         StringBuilder f= new StringBuilder ();
         for (Card c : this) {

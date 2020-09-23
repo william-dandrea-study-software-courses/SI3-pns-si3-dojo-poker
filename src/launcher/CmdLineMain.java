@@ -11,10 +11,6 @@ import util.cmdline.CmdLineController;
 public class CmdLineMain {
     public static void main(String[] args) {
         CmdLineController controller = new CmdLineController();
-
-        controller.displayState();
-
-        controller.askPlayer();
-        
+        controller.run();
     }
 }

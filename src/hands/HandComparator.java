@@ -1,5 +1,7 @@
 package hands;
 
+import cards.Card;
+
 /**
  * This class is used to compare several hands. She will determine which is the better and why.
  *

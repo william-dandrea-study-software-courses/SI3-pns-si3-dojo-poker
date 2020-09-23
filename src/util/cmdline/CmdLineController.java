@@ -32,12 +32,30 @@ public class CmdLineController {
         ui.print("(Controller) Ready ? " + isReady());
     }
 
-    public void askPlayer() {
-        String line = ui.readLine("What the hand : ");
+    public Hand askPlayer(String question) {
+        String line = ui.readLine(question);
 
         HandBuilder builder = new HandBuilder();
         Hand hand = builder.buildHandFromString(line);
 
         ui.print("You enter : " + hand.toString());
+
+        return hand;
+    }
+
+    public void run () {
+        HandComparator comparator = new HandComparator();
+
+        Hand hand1 = askPlayer("Main 1 : ");
+        Hand hand2 = askPlayer("Main 2 : ");
+
+        Hand winner = comparator.compare(hand1, hand2);
+        if (winner == null) {
+            ui.print("Egalite");
+        } else if (winner.equals(hand1)){
+            ui.print("La main 1 gagne...");
+        } else if (winner.equals(hand2)) {
+            ui.print("La main 2 gagne...");
+        }
     }
 }
