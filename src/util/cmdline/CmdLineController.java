@@ -61,9 +61,9 @@ public class CmdLineController {
         if (winner == null) {
             ui.print("Egalite");
         } else if (winner.equals(hand1)){
-            ui.print("La main 1 gagne avec ");
+            ui.print("La main 1 gagne avec" + comparator.getExplication());
         } else if (winner.equals(hand2)) {
-            ui.print("La main 2 gagne avec ");
+            ui.print("La main 2 gagne avec" + comparator.getExplication());
         }
     }
 }
