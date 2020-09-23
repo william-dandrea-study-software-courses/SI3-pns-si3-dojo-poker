@@ -13,5 +13,7 @@ public class CmdLineMain {
         CmdLineController controller = new CmdLineController();
 
         controller.displayState();
+
+        
     }
 }
