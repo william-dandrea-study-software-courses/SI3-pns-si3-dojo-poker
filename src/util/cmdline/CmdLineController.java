@@ -8,7 +8,7 @@ import hands.HandBuilder;
  * This class will control a simple cmd line lifetime.
  *
  * @author Gabriel Cogne
- * @author
+ * @author Clodong Yann
  * @author
  * @author
  */
