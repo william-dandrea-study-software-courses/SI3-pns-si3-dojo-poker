@@ -51,6 +51,22 @@ public class Hand extends ArrayList<Card> {
         return highest;
     }
 
+    public Card getPairCards () {
+
+        Card cardMax = null;
+
+        for (Card c : this) {
+            for (Card c2 : this) {
+                if (c != c2 && c.getValue() == c2.getValue()) {
+                    if (cardMax == null || cardMax.getValue() < c.getValue()) {
+                        cardMax = c;
+                    }
+                }
+            }
+        }
+        return cardMax;
+    }
+
     @Override
     public String toString (){
         StringBuilder f= new StringBuilder ();
