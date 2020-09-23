@@ -1,9 +1,8 @@
 package cards;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * JUnit class test for <i>Card</i> class.
@@ -19,6 +18,7 @@ public class CardTest {
     private Card card1;
     private Card card2;
     private Card card3;
+
     /**
      * Test on the getters of the field value + the constructor of a card.
      */
@@ -34,13 +34,13 @@ public class CardTest {
 
         card3 = new Card(value3);
 
-        assertEquals ("Test getter on card 1", value1, card1.getValue());
-        assertEquals ("Test getter on card 2", value2, card2.getValue());
-        assertEquals ("Test getter on card 3", value3, card3.getValue());
+        assertEquals (value1, card1.getValue(), "Test getter on card 1");
+        assertEquals (value2, card2.getValue(), "Test getter on card 2");
+        assertEquals (value3, card3.getValue(), "Test getter on card 3");
 
-        assertEquals ("Test display getter on card 1", "2", card1.getDisplayableValue());
-        assertEquals ("Test display getter on card 2", "A", card2.getDisplayableValue());
-        assertEquals ("Test display getter on card 3", "10", card3.getDisplayableValue());
+        assertEquals ("2", card1.getDisplayableValue(), "Test display getter on card 1");
+        assertEquals ("A", card2.getDisplayableValue(), "Test display getter on card 2");
+        assertEquals ("10", card3.getDisplayableValue(), "Test display getter on card 3");
     }
 
     /**
@@ -53,8 +53,8 @@ public class CardTest {
         card3 = new Card(6);
         Card card4 = new Card(10);
 
-        assertTrue("Test compare to with greater card", card1.compareTo(card2) < 0);
-        assertTrue("Test compare to with a less card",card1.compareTo(card3) > 0);
-        assertEquals("Test compare to with an equals card", 0, card1.compareTo(card4));
+        assertTrue(card1.compareTo(card2) < 0, "Test compare to with greater card");
+        assertTrue(card1.compareTo(card3) > 0, "Test compare to with a less card");
+        assertEquals(0, card1.compareTo(card4), "Test compare to with an equals card");
     }
 }
