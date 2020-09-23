@@ -54,4 +54,14 @@ public class HandTest {
             assertEquals("Too many cards in the hand", e.getMessage(), "Test taille limite de la liste");
         }
     }
+
+    @Test
+    public void testGetHighestCard () {
+        Hand hand1 = new Hand();
+
+        hand1.add(new Card(2));
+        hand1.add(new Card(13));
+
+        assertEquals(13, hand1.getHighestCard().getValue(), "Get highest value");
+    }
 }
