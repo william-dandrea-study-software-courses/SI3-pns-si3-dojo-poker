@@ -6,7 +6,7 @@ import cards.Card;
  * This class is used to compare several hands. She will determine which is the better and why.
  *
  * @author
- * @author Gabriel COGNE
+ * @author Gabriel Cogne
  * @author
  * @author 
  */
