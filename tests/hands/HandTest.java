@@ -37,5 +37,21 @@ public class HandTest {
         assertEquals(card2, hand1.get(1), "Test on getter for second card");
 
         assertTrue (!hand1.isEmpty(), "Test isEmpty hand == false");
+
+        Card card3 = new Card(2);
+        Card card4 = new Card(13);
+        Card card5 = new Card(2);
+        Card card6 = new Card(13);
+
+        hand1.add(card3);
+        hand1.add(card4);
+        hand1.add(card5);
+
+        try {
+            hand1.add(card6);
+            fail("An exception should be raised");
+        } catch (ArrayIndexOutOfBoundsException e) {
+            assertEquals("Too many cards in the hand", e.getMessage(), "Test taille limite de la liste");
+        }
     }
 }
