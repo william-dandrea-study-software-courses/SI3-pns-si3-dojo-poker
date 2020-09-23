@@ -1,6 +1,7 @@
 package hands;
 
 import cards.Card;
+import cards.Color;
 
 public class HandBuilder {
     // -- Static fields --
@@ -23,12 +24,16 @@ public class HandBuilder {
     }
 
     private Card buildCardFromString(String card) {
-        int value = getCardValueFromString(card);
+        final int COLOR_LENGTH = 2;
+
+        int value = getCardValueFromString(card.substring(0, card.length() - COLOR_LENGTH));
         if (value == -1) {
             throw new IllegalArgumentException("The card value must be in {2, 3, 4, 5, 6, 7, 8, 9, V, D, R, A}");
         }
 
-        return new Card(value);
+        Color color = Color.valueOf(card.substring(card.length() - COLOR_LENGTH));
+
+        return new Card(value, color);
     }
 
     /**

@@ -15,6 +15,7 @@ package cards;
 public class Card implements Comparable<Card> {
     // -- final statics variables --
     private final static String[] names = {"2", "3", "4", "5", "6", "7", "8", "9", "10", "V", "D", "R", "A"};
+    private Color color;
 
     // -- Variables --
     private final int value;
@@ -24,9 +25,18 @@ public class Card implements Comparable<Card> {
         this.value = value;
     }
 
+    public Card (int value, Color color) {
+        this (value);
+        this.color = color;
+    }
+
     // -- Getters --
     public int getValue () {
         return value;
+    }
+
+    public Color getColor () {
+        return color;
     }
 
     // -- Override method --
@@ -51,8 +61,12 @@ public class Card implements Comparable<Card> {
         return Integer.compare(getValue(), o.getValue());
     }
 
-    // -- Other methods --
+    @Override
+    public String toString () {
+        return getDisplayableValue() + getColor();
+    }
 
+    // -- Other methods --
     /**
      * This method will give a displayable version of the value
      * for example you will have R for King instead of 13.
@@ -60,10 +74,5 @@ public class Card implements Comparable<Card> {
      */
     public String getDisplayableValue () {
         return names[getValue() - 2];
-    }
-
-    @Override
-    public String toString () {
-        return getDisplayableValue();
     }
 }

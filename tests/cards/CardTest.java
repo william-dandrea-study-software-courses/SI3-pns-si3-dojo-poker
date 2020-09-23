@@ -58,4 +58,13 @@ public class CardTest {
         assertTrue(card1.compareTo(card3) > 0, "Test compare to with a less card");
         assertEquals(0, card1.compareTo(card4), "Test compare to with an equals card");
     }
+
+    @Test
+    public void testColorGetter () {
+        card1 = new Card (13, Color.Ca);
+        card2 = new Card (13, Color.valueOf("Pi"));
+
+        assertEquals(Color.Ca, card1.getColor(), "Test color 1");
+        assertEquals(Color.Pi, card2.getColor(), "Test color 2");
+    }
 }
