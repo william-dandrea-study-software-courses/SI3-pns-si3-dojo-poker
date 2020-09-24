@@ -1,6 +1,7 @@
 package hands;
 
 import cards.Card;
+import cards.Color;
 
 import java.util.ArrayList;
 
@@ -55,7 +56,7 @@ public class Hand extends ArrayList<Card> {
 
         Card cardMax = null;
 
-        for (Card c : this) {
+        for (Card c : this) { // TODO guys I think there is a better way to this. maybe try "for (int i = 0; i < this.size(); i++) for (int j = i + 1; j < this.size(); j++);
             for (Card c2 : this) {
                 if (c != c2 && c.getValue() == c2.getValue()) {
                     if (cardMax == null || cardMax.getValue() < c.getValue()) {
@@ -65,6 +66,27 @@ public class Hand extends ArrayList<Card> {
             }
         }
         return cardMax;
+    }
+
+    /**
+     * This method will check if all cards have the same. If that true then it will return the highest card
+     * in the hand, otherwise it will return null.
+     * @return The highest card because a color state value is the greatest value in the hand
+     */
+    public Card isColor () {
+        if (isEmpty())
+            return null;
+
+        Color firstColor = this.get(0).getColor();
+
+        for (Card c : this) {
+            if (!c.getColor().equals(firstColor)) {
+                return null;
+            }
+        }
+
+
+        return getHighestCard();
     }
 
     @Override
