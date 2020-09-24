@@ -17,13 +17,21 @@ public class HandBuilder {
         Hand res = new Hand();
 
         for (String card : hand.split(" ")) {
+            if (card.isBlank())
+                continue;
             res.add(buildCardFromString(card));
         }
 
         return res;
     }
 
-    private Card buildCardFromString(String card) {
+    /**
+     * Create a card from a string
+     * @param card a string that describe the value and the color as {value}{color} without space between them
+     * @return the created card
+     * @throws IllegalArgumentException - One of the arguments is bad written
+     */
+    private Card buildCardFromString(String card) throws IllegalArgumentException {
         final int COLOR_LENGTH = 2;
 
         int value = getCardValueFromString(card.substring(0, card.length() - COLOR_LENGTH));

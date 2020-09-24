@@ -44,7 +44,7 @@ public class Hand extends ArrayList<Card> {
         Card highest = this.get(0);
 
         for (Card c : this) {
-            if (c.compareTo(highest) > 1) {
+            if (c.compareTo(highest) > 0) {
                 highest = c;
             }
         }
@@ -87,6 +87,43 @@ public class Hand extends ArrayList<Card> {
 
 
         return getHighestCard();
+    }
+
+    /**
+     * This method will sort the hand from the less to higher value. And will then check that there is only
+     * 1 as difference between the values of 2 consecutive cards.
+     * @return the highest card of the list if it's a suite, null otherwise
+     */
+    public Card isSuite () {
+        if (isEmpty()) {
+            return null;
+        }
+
+        // This will sort the list from the less to higher value
+        this.sort(Card::compareTo);
+
+        System.out.println(this);
+
+        int previousValue = this.get(0).getValue();
+
+        for (int i = 1; i < this.size(); i++) {
+            if (Math.abs(previousValue - this.get(i).getValue()) != 1) {
+                return null;
+            }
+            previousValue = this.get(i).getValue();
+        }
+
+        return this.get(this.size() - 1);
+    }
+
+    public Card isQuinteFlush () {
+        Card suite = isSuite();
+        Card color = isColor();
+
+        if (suite == null || color == null) {
+            return null;
+        }
+        return suite;
     }
 
     @Override

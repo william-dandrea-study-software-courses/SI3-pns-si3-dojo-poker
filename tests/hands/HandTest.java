@@ -57,11 +57,49 @@ public class HandTest {
 
     @Test
     public void testGetHighestCard () {
-        Hand hand1 = new Hand();
+        HandBuilder builder = new HandBuilder();
 
-        hand1.add(new Card(2));
-        hand1.add(new Card(13));
+        Hand hand1 = builder.buildHandFromString("2Tr RCa");
 
         assertEquals(13, hand1.getHighestCard().getValue(), "Get highest value");
+    }
+
+    @Test
+    public void testIsColor () {
+        HandBuilder builder = new HandBuilder();
+
+        Hand hand1 = builder.buildHandFromString("");
+
+        assertEquals(null, hand1.isColor(), "Test is not color 1");
+
+        hand1 = builder.buildHandFromString("7Tr 6Tr 8Ca 9Tr 5Co");
+
+        assertEquals(null, hand1.isColor(), "Test is not color 2");
+
+        hand1 = builder.buildHandFromString("7Tr 6Tr 8Tr 9Tr 5Tr");
+
+        assertEquals(9, hand1.isColor().getValue(), "Test is color + return value");
+    }
+
+    @Test
+    public void testSuites () {
+        HandBuilder builder = new HandBuilder();
+
+        Hand hand1 = builder.buildHandFromString("");
+
+        assertEquals(null, hand1.isSuite(), "Test is not suite 1");
+        assertEquals(null, hand1.isQuinteFlush(), "Test is not quinte flush 1");
+
+        hand1 = builder.buildHandFromString("7Tr 6Tr DCa 9Tr 5Co");
+        assertEquals(null, hand1.isSuite(), "Test is not suite 2");
+        assertEquals(null, hand1.isQuinteFlush(), "Test is not quinte flush 2");
+
+        hand1 = builder.buildHandFromString("7Tr 6Tr 8Ca 9Tr 5Co");
+        assertEquals(9, hand1.isSuite().getValue(), "Test is suite 1");
+        assertEquals(null, hand1.isQuinteFlush(), "Test is not quinte flush 3");
+
+        hand1 = builder.buildHandFromString("7Tr 6Tr 8Tr 9Tr 5Tr");
+        assertEquals(9, hand1.isSuite().getValue(), "Test is suite 2");
+        assertEquals(9, hand1.isQuinteFlush().getValue(), "Test is quinte flush");
     }
 }
