@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * A class that represent a card game hand.
  *
  * @author Gabriel Cogne
- * @author
+ * @author D'Andrea William
  * @author
  * @author
  */
@@ -52,19 +52,26 @@ public class Hand extends ArrayList<Card> {
         return highest;
     }
 
+
+    /**
+     * This method will check if there is a pair in the Hand, if yes, it will return t
+     * @return the higher pair card in the hand, null if there is no pair in the hand
+     */
     public Card getPairCards () {
-
         Card cardMax = null;
+        // TODO guys I think there is a better way to this. maybe try "for (int i = 0; i < this.size(); i++) for (int j = i + 1; j < this.size(); j++);
+        for (int i = 0; i <this.size(); i++) {
+            for (int j = 0; j < this.size(); j++) {
 
-        for (Card c : this) { // TODO guys I think there is a better way to this. maybe try "for (int i = 0; i < this.size(); i++) for (int j = i + 1; j < this.size(); j++);
-            for (Card c2 : this) {
-                if (c != c2 && c.getValue() == c2.getValue()) {
-                    if (cardMax == null || cardMax.getValue() < c.getValue()) {
-                        cardMax = c;
+                if (this.get(i).getValue() == this.get(j).getValue()) {
+                    if (this.get(i).getValue() > cardMax.getValue()) {
+                        cardMax = this.get(i);
                     }
                 }
+
             }
         }
+
         return cardMax;
     }
 
