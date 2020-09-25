@@ -85,9 +85,8 @@ public class Hand extends ArrayList<Card> {
 
         if(brelans.size() != 0) {
             int max = 0;
-
             for(int i = 1; i < brelans.size(); i++) {
-                if(brelans.get(i).getValue() > brelans.get(max).getValue()) {
+                if(brelans.get(i).compareTo(brelans.get(max)) > 0) {     //brelans.get(i).getValue() > brelans.get(max).getValue()) {
                     max = i;
                 }
             }
