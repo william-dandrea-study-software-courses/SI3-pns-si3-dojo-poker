@@ -10,7 +10,7 @@ import java.util.ArrayList;
  *
  * @author Gabriel Cogne
  * @author D'Andrea William
- * @author
+ * @author Clodong Yann
  * @author
  */
 public class Hand extends ArrayList<Card> {
@@ -72,7 +72,61 @@ public class Hand extends ArrayList<Card> {
             }
         }
 
+
         return cardMax;
+    }
+
+    /**
+     * This method will check if there is a brolens in the Hand, if yes, it will return t
+     * @return the higher pair card in the hand, null if there is no brolens in the hand
+     */
+    public Card getBrelan() {
+        ArrayList<Card> brelans = getCardWhichHaveNLessOneOtherSameValuedCard(3);
+
+        if(brelans.size() != 0) {
+            int max = 0;
+
+            for(int i = 1; i < brelans.size(); i++) {
+                if(brelans.get(i).getValue() > brelans.get(max).getValue()) {
+                    max = i;
+                }
+            }
+
+            return brelans.get(max);
+        }
+        return null;
+    }
+
+    /**
+     * This method return the cards which have the n cousin (Same value) in the hand.
+     * @return an Array of card (can be empty)
+     */
+    ArrayList<Card> getCardWhichHaveNLessOneOtherSameValuedCard(int n) {
+        // J'avais pas d'idée pour le nom :)
+
+        Hand hand = new Hand();
+        hand.addAll(this);
+
+        Card[] instanceOfCardByValues = new Card[13];
+        int[] powerOfValues = new int[13];
+
+
+        for(int i = 0; i < this.size(); i++) {
+            int value = get(i).getValue();
+            powerOfValues[value]++;
+            if(instanceOfCardByValues[value] == null) {
+                instanceOfCardByValues[value] = get(i);
+            }
+        }
+
+        ArrayList<Card> results = new ArrayList<Card>();
+        for(int i = 0; i < 13; i++) {
+            if(powerOfValues[i] == n) {
+                results.add(instanceOfCardByValues[i]);
+            }
+        }
+
+        return results;
     }
 
     /**
