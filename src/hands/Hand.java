@@ -176,6 +176,12 @@ public class Hand extends ArrayList<Card> {
         return this.get(this.size() - 1);
     }
 
+    /**
+     * This method will if the hand is a quite flush. That mean, it will test color and suite
+     * on this hand. If one of the two previously named methods return null then this method will
+     * return null, otherwise, this method return the highest card in the hand.
+     * @return null if the hand is not quinte flush, the highest card otherwise
+     */
     public Card isQuinteFlush () {
         Card suite = isSuite();
         Card color = isColor();

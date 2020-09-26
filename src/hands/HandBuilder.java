@@ -3,6 +3,15 @@ package hands;
 import cards.Card;
 import cards.Color;
 
+/**
+ * This class allow to create a hand from a string content. Using it require to follow some
+ * rules about the string content. The rules are :<br>
+ *     - A hand is only created with several cards that are splinted by a space<br>
+ *     - A card is created by a value and a color. those two elements are not splinted<br>
+ *     - A value can be "2", "3", "4", "5", "6", "7", "8", "9", "10", "V", "D", "R" or "A"<br>
+ *     - A color can be "Ca", "Co", "Pi", "Tr". Attention the system is case-sensitive<br>
+ */
+
 public class HandBuilder {
     // -- Static fields --
     private final static String[] names = {"2", "3", "4", "5", "6", "7", "8", "9", "10", "V", "D", "R", "A"};
@@ -10,8 +19,11 @@ public class HandBuilder {
     // -- Build methods --
     /**
      * This method build a hand with cards. The hand is describe
-     * @param hand
-     * @return
+     *
+     * @param hand A String that contains several cards with some rules as describe in the {@link HandBuilder class
+     * documentation}
+     * @return a hand that will contain as many cards as in the string content and as the system
+     *         allow in a hand
      */
     public Hand buildHandFromString(String hand) {
         Hand res = new Hand();

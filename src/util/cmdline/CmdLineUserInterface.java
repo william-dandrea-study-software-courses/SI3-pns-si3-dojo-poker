@@ -8,6 +8,7 @@ import java.util.Scanner;
  * This class is the interface in command line between user and computer
  *
  * @author Gabriel Cogne
+ * @version 1.0
  */
 
 public class CmdLineUserInterface {
@@ -26,10 +27,9 @@ public class CmdLineUserInterface {
     }
 
     // -- Methods --
-
     /**
      * This method will display an object and go to next line (this mean it add a '\n')
-     * @param msg the object to display using toString() method
+     * @param msg the object to display using {@link #toString() toString} method
      */
     public void print (Object msg) {
         out.println(msg);

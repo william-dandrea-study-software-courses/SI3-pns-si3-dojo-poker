@@ -9,7 +9,7 @@ package cards;
  * @author
  * @author
  *
- * @version 0.1
+ * @version 1.0
  */
 
 public class Card implements Comparable<Card> {
