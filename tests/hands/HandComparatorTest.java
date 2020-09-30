@@ -19,6 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class HandComparatorTest {
 
     private Hand pairHand, doublePairHand, brelanHand, carreHand, randomHand;
+    private HandBuilder builder;
 
 
     @BeforeEach
@@ -32,27 +33,7 @@ public class HandComparatorTest {
         randomHand = builder.buildHandFromString("6Pi 4Co 5Ca 7Ca 2Tr");
     }
 
-    @Test
-    public void testGetHighestCard(){
 
-    }
-
-
-    @Test
-    public void testNPairs() {
-        assertEquals(pairHand.getCardWhichHaveNLessOneOtherSameValuedCard(2).size(), 1, "Test for N=2 Size Pair Hand");
-        assertEquals(pairHand.getCardWhichHaveNLessOneOtherSameValuedCard(2).get(0), new Card(7, Color.Pi), "Test for N=2 Value Pair Hand");
-
-        assertEquals(pairHand.getCardWhichHaveNLessOneOtherSameValuedCard(3).size(), 0);
-
-        assertEquals(brelanHand.getCardWhichHaveNLessOneOtherSameValuedCard(3).size(), 1);
-        assertEquals(brelanHand.getCardWhichHaveNLessOneOtherSameValuedCard(3).get(0), new Card(7, Color.Pi));
-    }
-
-    @Test
-    public  void testBrelans() {
-
-    }
 
     @Test
     public void testGetExplicationHighestCard () {
