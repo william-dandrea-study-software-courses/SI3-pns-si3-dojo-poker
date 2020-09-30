@@ -3,6 +3,9 @@ package hands;
 import cards.Card;
 import cards.Color;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * This class allow to create a hand from a string content. Using it require to follow some
  * rules about the string content. The rules are :<br>
@@ -15,6 +18,14 @@ import cards.Color;
 public class HandBuilder {
     // -- Static fields --
     private final static String[] names = {"2", "3", "4", "5", "6", "7", "8", "9", "10", "V", "D", "R", "A"};
+
+    // -- fields --
+    private List<Card> knownCards;
+
+    // -- Constructor --
+    public HandBuilder () {
+        knownCards = new ArrayList<>();
+    }
 
     // -- Build methods --
     /**
@@ -53,7 +64,16 @@ public class HandBuilder {
 
         Color color = Color.valueOf(card.substring(card.length() - COLOR_LENGTH));
 
-        return new Card(value, color);
+        Card res = new Card(value, color);
+
+        if (knownCards.contains(res)) {
+            // This mean that a card with same value and color has been already created
+            throw new RuntimeException("Card already existing");
+        }
+
+        knownCards.add(res);
+
+        return res;
     }
 
     /**

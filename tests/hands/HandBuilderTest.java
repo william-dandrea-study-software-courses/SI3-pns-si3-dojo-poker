@@ -15,7 +15,7 @@ public class HandBuilderTest {
     }
 
     @Test
-    public void testBuild () {
+    public void testBuildSuccess () {
         Hand hand = builder.buildHandFromString("7Tr 6Pi");
 
         assertFalse(hand.isEmpty(), "Test the hand isn't empty");
@@ -23,6 +23,11 @@ public class HandBuilderTest {
         assertEquals(Color.Tr, hand.get(0).getColor(), "Test card color 1");
         assertEquals(6, hand.get(1).getValue(), "Test card value 2");
         assertEquals(Color.Pi, hand.get(1).getColor(), "Test card color 2");
+    }
+
+    @Test
+    public void testMistakeInCardGrammar () {
+        Hand hand = null;
 
         try {
             hand = builder.buildHandFromString("1Tr");
@@ -37,6 +42,19 @@ public class HandBuilderTest {
             fail ("An Pique is built with Pi not PI so there should be an exception raised");
         } catch (IllegalArgumentException e) {
             assertTrue(e != null, "Exception de couleur");
+        }
+    }
+
+    @Test()
+    public void testCardDuplication () {
+        Hand h1 = builder.buildHandFromString("7Tr");
+
+        try {
+            Hand h2 = builder.buildHandFromString("7Tr");
+            fail("A duplication exception should be raised");
+        } catch (RuntimeException e) {
+            assertEquals("Card already existing", e.getMessage(),
+                    "Test interdiction de duplication ");
         }
     }
 }

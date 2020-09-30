@@ -62,7 +62,7 @@ public class Card implements Comparable<Card> {
     @Override
     public boolean equals(Object obj) {
         if(obj instanceof  Card) {
-            return ((Card) obj).getValue() == getValue() && ((Card) obj).getColor() == getColor();
+            return ((Card) obj).getValue() == getValue() && ((Card) obj).getColor().equals(getColor());
         } else return false;
     }
 
