@@ -8,9 +8,6 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * JUnit class test for <i>Card</i> class.
  *
- * @author
- * @author
- * @author
  * @author Gabriel Cogne
  *
  * @version 0.1
@@ -74,5 +71,7 @@ public class CardTest {
 
         assertEquals(Color.Ca, card1.getColor(), "Test color 1");
         assertEquals(Color.Pi, card2.getColor(), "Test color 2");
+
+        assertFalse(card1.getColor().equals(card2.getColor()));
     }
 }
