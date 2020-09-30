@@ -162,8 +162,6 @@ public class Hand extends ArrayList<Card> {
         // This will sort the list from the less to higher value
         this.sort(Card::compareTo);
 
-        System.out.println(this);
-
         int previousValue = this.get(0).getValue();
 
         for (int i = 1; i < this.size(); i++) {

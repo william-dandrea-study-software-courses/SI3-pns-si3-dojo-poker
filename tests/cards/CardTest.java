@@ -57,6 +57,14 @@ public class CardTest {
         assertTrue(card1.compareTo(card2) < 0, "Test compare to with greater card");
         assertTrue(card1.compareTo(card3) > 0, "Test compare to with a less card");
         assertEquals(0, card1.compareTo(card4), "Test compare to with an equals card");
+
+        try {
+            card1.compareTo(null);
+            fail ("Can't compare with null pointer");
+        } catch (NullPointerException e) {
+            assertEquals("compare can be done with a null object", e.getMessage(),
+                    "Test exception compareTo");
+        }
     }
 
     @Test
