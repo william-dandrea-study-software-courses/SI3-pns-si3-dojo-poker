@@ -11,7 +11,7 @@ import java.util.ArrayList;
  * @author Gabriel Cogne
  * @author D'Andrea William
  * @author Clodong Yann
- * @author
+ * @author Amine CHOUHABI
  */
 public class Hand extends ArrayList<Card> {
     // -- Variables --
@@ -199,3 +199,15 @@ public class Hand extends ArrayList<Card> {
         return f.toString();
     }
 }
+
+    /**
+     * This method will if the hand is a quite square.
+     */
+    public Card isSquare () {
+        ArrayList<Card> square = getCardWhichHaveNLessOneOtherSameValuedCard(4);
+        if(square.isEmpty()) {
+            return null;
+        }
+        return square.get(0);
+    }
+
