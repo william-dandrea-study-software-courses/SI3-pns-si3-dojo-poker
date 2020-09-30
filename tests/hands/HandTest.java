@@ -48,6 +48,20 @@ public class HandTest {
     }
 
     @Test
+    public void testGetDoublePairCards(){
+        pairHand = builder.buildHandFromString("7Pi 3Co 5Pi 2Ca 7Co");
+        doublePairHand = builder.buildHandFromString("7Ca 4Ca 3Tr 3Pi 7Tr");
+        brelanHand = builder.buildHandFromString("8Pi 8Co 6Pi 8Ca 9Co");
+        randomHand = builder.buildHandFromString("6Tr 4Co ACa RCa DTr");
+
+        //assertEquals(doublePairHand.getDoublePairCards(), doublePairHand.getDoublePairCards(), " ");
+        System.out.println(doublePairHand.getDoublePairCards());
+
+
+    }
+
+
+    @Test
     public void testNPairs() {
         pairHand = builder.buildHandFromString("7Pi 3Co 5Pi 2Ca 7Co");
         brelanHand = builder.buildHandFromString("8Pi 8Co 6Pi 8Ca 9Co");

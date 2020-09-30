@@ -77,6 +77,30 @@ public class Hand extends ArrayList<Card> {
     }
 
     /**
+     * This method will find if it have 2 pairs in a hand
+     * @return an array of the values of the 2 hands, null also
+     */
+
+    public ArrayList<Card> getDoublePairCards() {
+
+        ArrayList<Card> doublePair = new ArrayList<Card>();
+
+        for (int  i = 0; i < this.size() ; i++) {
+            for (int j = 0; j < this.size(); j++) {
+
+                if (i != j && this.get(i).getValue() == this.get(j).getValue()) {
+
+                    doublePair.add(this.get(j));
+
+                }
+
+            }
+        }
+
+        return doublePair;
+    }
+
+    /**
      * This method will check if there is a brolens in the Hand, if yes, it will return t
      * @return the higher pair card in the hand, null if there is no brolens in the hand
      */
