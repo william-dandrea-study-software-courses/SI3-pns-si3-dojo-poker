@@ -23,22 +23,21 @@ public class HandTest {
      * This method test the isEmpty(), add(obj), size() and get(index) method on <i>Hand</i> class
      */
 
-    private Hand pairHand, doublePairHand, brelanHand, carreHand, randomHand;
+    private Hand pairHand, doublePairHand, brelanHand, randomHand;
+    private HandBuilder builder;
 
 
     @BeforeEach
     public void initHands() {
-        HandBuilder builder = new HandBuilder();
-
-        pairHand = builder.buildHandFromString("7Pi 3Co 5Pi 2Ca 7Co");
-        doublePairHand = builder.buildHandFromString("7Pi 3Co 5Pi 3Ca 7Co");
-        brelanHand = builder.buildHandFromString("7Pi 7Co 5Pi 7Ca 9Co");
-        carreHand = builder.buildHandFromString("7Pi 7Co 5Ca 7Ca 7Tr");
-        randomHand = builder.buildHandFromString("6Pi 4Co 5Ca 7Ca 2Tr");
+        builder = new HandBuilder();
     }
 
     @Test
     public void testGetPairCards(){
+        pairHand = builder.buildHandFromString("7Pi 3Co 5Pi 2Ca 7Co");
+        doublePairHand = builder.buildHandFromString("7Ca 3Ca 5Tr 3Pi 7Tr");
+        brelanHand = builder.buildHandFromString("8Pi 8Co 6Pi 8Ca 9Co");
+        randomHand = builder.buildHandFromString("6Tr 4Co ACa RCa DTr");
 
         assertEquals(7, pairHand.getPairCards().getValue(), "Test for the same Hand (with pair)");
         assertTrue(pairHand.getPairCards().getValue() == (doublePairHand.getPairCards().getValue()), "Test if the return card is the same");
@@ -50,13 +49,16 @@ public class HandTest {
 
     @Test
     public void testNPairs() {
+        pairHand = builder.buildHandFromString("7Pi 3Co 5Pi 2Ca 7Co");
+        brelanHand = builder.buildHandFromString("8Pi 8Co 6Pi 8Ca 9Co");
+
         assertEquals(pairHand.getCardWhichHaveNLessOneOtherSameValuedCard(2).size(), 1, "Test for N=2 Size Pair Hand");
         assertEquals(pairHand.getCardWhichHaveNLessOneOtherSameValuedCard(2).get(0), new Card(7, Color.Pi), "Test for N=2 Value Pair Hand");
 
         assertEquals(pairHand.getCardWhichHaveNLessOneOtherSameValuedCard(3).size(), 0);
 
         assertEquals(brelanHand.getCardWhichHaveNLessOneOtherSameValuedCard(3).size(), 1);
-        assertEquals(brelanHand.getCardWhichHaveNLessOneOtherSameValuedCard(3).get(0), new Card(7, Color.Pi));
+        assertEquals(brelanHand.getCardWhichHaveNLessOneOtherSameValuedCard(3).get(0).getValue(), 8);
     }
 
     @Test
@@ -69,8 +71,8 @@ public class HandTest {
     public void testAddingGettingCard () {
         Hand hand1 = new Hand();
 
-        Card card1 = new Card(2);
-        Card card2 = new Card(13);
+        Card card1 = new Card(2, Color.Co);
+        Card card2 = new Card(13, Color.Ca);
 
         assertTrue (hand1.isEmpty(), "Test isEmpty hand == true");
 
@@ -121,7 +123,7 @@ public class HandTest {
 
         assertEquals(null, hand1.isColor(), "Test is not color 2");
 
-        hand1 = builder.buildHandFromString("7Tr 6Tr 8Tr 9Tr 5Tr");
+        hand1 = builder.buildHandFromString("7Pi 6Pi 8Pi 9Pi 5Pi");
 
         assertEquals(9, hand1.isColor().getValue(), "Test is color + return value");
     }
@@ -135,11 +137,11 @@ public class HandTest {
         assertEquals(null, hand1.isSuite(), "Test is not suite 1");
         assertEquals(null, hand1.isQuinteFlush(), "Test is not quinte flush 1");
 
-        hand1 = builder.buildHandFromString("7Tr 6Tr DCa 9Tr 8Co");
+        hand1 = builder.buildHandFromString("7Ca 6Ca DCa 9Ca 8Ca");
         assertEquals(null, hand1.isSuite(), "Test is not suite 2");
         assertEquals(null, hand1.isQuinteFlush(), "Test is not quinte flush 2");
 
-        hand1 = builder.buildHandFromString("7Tr 6Tr 8Ca 9Tr 5Co");
+        hand1 = builder.buildHandFromString("7Pi 6Pi 8Pi 9Pi 5Co");
         assertEquals(9, hand1.isSuite().getValue(), "Test is suite 1");
         assertEquals(null, hand1.isQuinteFlush(), "Test is not quinte flush 3");
 
