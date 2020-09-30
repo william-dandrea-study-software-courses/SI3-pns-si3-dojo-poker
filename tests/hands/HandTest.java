@@ -2,6 +2,8 @@ package hands;
 
 import cards.Card;
 
+import cards.Color;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -20,6 +22,49 @@ public class HandTest {
     /**
      * This method test the isEmpty(), add(obj), size() and get(index) method on <i>Hand</i> class
      */
+
+    private Hand pairHand, doublePairHand, brelanHand, carreHand, randomHand;
+
+
+    @BeforeEach
+    public void initHands() {
+        HandBuilder builder = new HandBuilder();
+
+        pairHand = builder.buildHandFromString("7Pi 3Co 5Pi 2Ca 7Co");
+        doublePairHand = builder.buildHandFromString("7Pi 3Co 5Pi 3Ca 7Co");
+        brelanHand = builder.buildHandFromString("7Pi 7Co 5Pi 7Ca 9Co");
+        carreHand = builder.buildHandFromString("7Pi 7Co 5Ca 7Ca 7Tr");
+        randomHand = builder.buildHandFromString("6Pi 4Co 5Ca 7Ca 2Tr");
+    }
+
+    @Test
+    public void testGetPairCards(){
+
+        assertEquals(7, pairHand.getPairCards().getValue(), "Test for the same Hand (with pair)");
+        assertTrue(pairHand.getPairCards().getValue() == (doublePairHand.getPairCards().getValue()), "Test if the return card is the same");
+        assertTrue(randomHand.getPairCards() == null);
+        assertFalse(brelanHand.getPairCards() == null);
+
+
+    }
+
+    @Test
+    public void testNPairs() {
+        assertEquals(pairHand.getCardWhichHaveNLessOneOtherSameValuedCard(2).size(), 1, "Test for N=2 Size Pair Hand");
+        assertEquals(pairHand.getCardWhichHaveNLessOneOtherSameValuedCard(2).get(0), new Card(7, Color.Pi), "Test for N=2 Value Pair Hand");
+
+        assertEquals(pairHand.getCardWhichHaveNLessOneOtherSameValuedCard(3).size(), 0);
+
+        assertEquals(brelanHand.getCardWhichHaveNLessOneOtherSameValuedCard(3).size(), 1);
+        assertEquals(brelanHand.getCardWhichHaveNLessOneOtherSameValuedCard(3).get(0), new Card(7, Color.Pi));
+    }
+
+    @Test
+    public  void testBrelans() {
+
+    }
+
+
     @Test
     public void testAddingGettingCard () {
         Hand hand1 = new Hand();
