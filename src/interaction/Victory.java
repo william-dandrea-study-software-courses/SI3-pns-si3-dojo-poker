@@ -1,3 +1,4 @@
+package interaction;
 import cards.Card;
 import interaction.Victorieu;
 import interaction.ResultType;

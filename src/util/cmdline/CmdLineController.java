@@ -3,6 +3,7 @@ package util.cmdline;
 import hands.Hand;
 import hands.HandComparator;
 import hands.HandBuilder;
+import interaction.Victory;
 
 /**
  * This class will control a simple cmd line lifetime.
@@ -45,13 +46,7 @@ public class CmdLineController {
             }
         }
 
-        Hand winner = comparator.compare(hand1, hand2);
-        if (winner == null) {
-            ui.print("Egalite");
-        } else if (winner.equals(hand1)){
-            ui.print("La main 1 gagne avec" + comparator.getExplication());
-        } else if (winner.equals(hand2)) {
-            ui.print("La main 2 gagne avec" + comparator.getExplication());
-        }
+        Victory victory = comparator.compare(hand1, hand2);
+        ui.print(victory);
     }
 }
