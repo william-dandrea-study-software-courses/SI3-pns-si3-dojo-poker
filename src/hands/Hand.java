@@ -15,7 +15,7 @@ import java.util.ArrayList;
  */
 public class Hand extends ArrayList<Card> {
     // -- Variables --
-    private int max_size = 5;
+    private final int max_size = 5;
 
     // Use default constructors
 

@@ -4,10 +4,7 @@ package cards;
  * This class is a blueprint for cards that only registered a value (for simplification, the value is an integer
  * between two and fourteen where a value greater than ten is a figure)
  *
- * @author
  * @author Gabriel Cogne
- * @author
- * @author
  *
  * @version 1.0
  */
