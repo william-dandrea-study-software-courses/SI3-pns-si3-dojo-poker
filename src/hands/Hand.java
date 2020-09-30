@@ -15,7 +15,7 @@ import java.util.ArrayList;
  */
 public class Hand extends ArrayList<Card> {
     // -- Variables --
-    private int max_size = 5;
+    private final int max_size = 5;
 
     // Use default constructors
 
@@ -63,8 +63,8 @@ public class Hand extends ArrayList<Card> {
         for (int i = 0; i <this.size(); i++) {
             for (int j = 0; j < this.size(); j++) {
 
-                if (this.get(i).getValue() == this.get(j).getValue()) {
-                    if (this.get(i).getValue() > cardMax.getValue()) {
+                if (i !=j && this.get(i).getValue() == this.get(j).getValue()) {
+                    if (cardMax == null || this.get(i).getValue() > cardMax.getValue()) {
                         cardMax = this.get(i);
                     }
                 }

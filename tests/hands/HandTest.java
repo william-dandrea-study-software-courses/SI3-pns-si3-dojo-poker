@@ -72,7 +72,7 @@ public class HandTest {
 
         assertEquals(null, hand1.isColor(), "Test is not color 1");
 
-        hand1 = builder.buildHandFromString("7Tr 6Tr 8Ca 9Tr 5Co");
+        hand1 = builder.buildHandFromString("7Tr 6Tr 8Ca 9Tr 5Tr");
 
         assertEquals(null, hand1.isColor(), "Test is not color 2");
 
@@ -90,7 +90,7 @@ public class HandTest {
         assertEquals(null, hand1.isSuite(), "Test is not suite 1");
         assertEquals(null, hand1.isQuinteFlush(), "Test is not quinte flush 1");
 
-        hand1 = builder.buildHandFromString("7Tr 6Tr DCa 9Tr 5Co");
+        hand1 = builder.buildHandFromString("7Tr 6Tr DCa 9Tr 8Co");
         assertEquals(null, hand1.isSuite(), "Test is not suite 2");
         assertEquals(null, hand1.isQuinteFlush(), "Test is not quinte flush 2");
 

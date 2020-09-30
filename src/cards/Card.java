@@ -4,10 +4,8 @@ package cards;
  * This class is a blueprint for cards that only registered a value (for simplification, the value is an integer
  * between two and fourteen where a value greater than ten is a figure)
  *
- * @author
  * @author Gabriel Cogne
- * @author
- * @author
+ * @author Yann CLODONG
  *
  * @version 1.0
  */
@@ -59,6 +57,13 @@ public class Card implements Comparable<Card> {
         }
 
         return Integer.compare(getValue(), o.getValue());
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj instanceof  Card) {
+            return ((Card) obj).getValue() == getValue() && ((Card) obj).getColor() == getColor();
+        } else return false;
     }
 
     @Override
