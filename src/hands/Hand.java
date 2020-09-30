@@ -198,7 +198,6 @@ public class Hand extends ArrayList<Card> {
         }
         return f.toString();
     }
-}
 
     /**
      * This method will if the hand is a quite square.
@@ -210,4 +209,4 @@ public class Hand extends ArrayList<Card> {
         }
         return square.get(0);
     }
-
+}
