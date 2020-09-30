@@ -4,6 +4,8 @@ import cards.Card;
 import cards.Color;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A class that represent a card game hand.
@@ -221,6 +223,20 @@ public class Hand extends ArrayList<Card> {
             f.append(c.toString() + " ");
         }
         return f.toString();
+    }
+
+    private Map<Integer,Integer> getNbOccurValue () {
+        Map<Integer, Integer> res = new HashMap<>();
+
+        for (Card c : this) {
+            if (res.containsKey(c.getValue())) {
+                res.put(c.getValue(), res.get(c.getValue()) + 1);
+            } else {
+                res.put(c.getValue(), 1);
+            }
+        }
+
+        return res;
     }
 
     /**
