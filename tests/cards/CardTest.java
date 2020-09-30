@@ -26,7 +26,7 @@ public class CardTest {
         int value2 = 14;
         int value3 = 10;
 
-        card1 = new Card(value1);
+        card1 = new Card(value1, Color.Co);
 
         card2 = new Card(value2);
 

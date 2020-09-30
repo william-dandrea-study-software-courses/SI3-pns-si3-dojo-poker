@@ -9,27 +9,17 @@ import hands.HandBuilder;
  *
  * @author Gabriel Cogne
  * @author Clodong Yann
- * @author
- * @author
  */
 
 public class CmdLineController {
     // -- Variables --
-    private CmdLineUserInterface ui;
-    private HandComparator comparator;
+    private final CmdLineUserInterface ui;
+    private final HandComparator comparator;
 
     // -- Comparator --
     public CmdLineController () {
         ui = new CmdLineUserInterface();
         comparator = new HandComparator();
-    }
-
-    public boolean isReady () {
-        return ui != null && comparator != null;
-    }
-
-    public void displayState () {
-        ui.print("(Controller) Ready ? " + isReady());
     }
 
     public Hand askPlayer(String question) {
@@ -44,8 +34,6 @@ public class CmdLineController {
     }
 
     public void run () {
-        HandComparator comparator = new HandComparator();
-
         Hand hand1 = null, hand2 = null;
 
         while(hand1 == null || hand2 == null) {

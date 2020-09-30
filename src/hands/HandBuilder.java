@@ -20,7 +20,7 @@ public class HandBuilder {
     private final static String[] names = {"2", "3", "4", "5", "6", "7", "8", "9", "10", "V", "D", "R", "A"};
 
     // -- fields --
-    private List<Card> knownCards;
+    private final List<Card> knownCards;
 
     // -- Constructor --
     public HandBuilder () {

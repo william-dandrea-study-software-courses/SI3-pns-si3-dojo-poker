@@ -13,8 +13,8 @@ import java.util.Scanner;
 
 public class CmdLineUserInterface {
     // -- Variables --
-    private PrintStream out;
-    private Scanner in;
+    private final PrintStream out;
+    private final Scanner in;
 
     // -- Constructors --
     public CmdLineUserInterface () {

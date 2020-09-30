@@ -8,5 +8,5 @@ package cards;
  */
 
 public enum Color {
-    Ca, Co, Pi, Tr;
+    Ca, Co, Pi, Tr
 }
