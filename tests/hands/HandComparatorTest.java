@@ -22,23 +22,25 @@ public class HandComparatorTest {
     private Hand PairHand, DoublePairHand, BrelanHand, CarreHand, RandomHand;
 
 
-    public static void main(String args[]) {
-    }
-
     @BeforeEach
     public void InitHands() {
         HandBuilder builder = new HandBuilder();
 
+        PairHand = builder.buildHandFromString("7Pi 3Co 5Pi 2Ca 7Co");
+        PairHand = builder.buildHandFromString("7Pi 3Co 5Pi 3Ca 7Co");
+        BrelanHand = builder.buildHandFromString("7Pi 7Co 5Pi 7Ca 9Co");
+        CarreHand = builder.buildHandFromString("7Pi 7Co 5Ca 7Ca 7Tr");
+        CarreHand = builder.buildHandFromString("6Pi 4Co 5Ca 7Ca 2Tr");
     }
 
 
     @Test
-    public void TestNPairs(String test, int n, int valueResult) {
+    public void TestNPairs() {
 
     }
 
     @Test
-    public  void TestBrelans(String test, int value) {
+    public  void TestBrelans() {
 
     }
 
