@@ -6,6 +6,8 @@ import cards.Color;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -23,7 +25,7 @@ public class HandTest {
      * This method test the isEmpty(), add(obj), size() and get(index) method on <i>Hand</i> class
      */
 
-    private Hand pairHand, doublePairHand, brelanHand, randomHand;
+    private Hand pairHand, doublePairHand, brelanHand, randomHand, pairHand2,doublePairHand2;
     private HandBuilder builder;
 
 
@@ -49,14 +51,26 @@ public class HandTest {
 
     @Test
     public void testGetDoublePairCards(){
-        pairHand = builder.buildHandFromString("7Pi 3Co 5Pi 2Ca 7Co");
-        doublePairHand = builder.buildHandFromString("7Ca 4Ca 3Tr 3Pi 7Tr");
+
         brelanHand = builder.buildHandFromString("8Pi 8Co 6Pi 8Ca 9Co");
-        randomHand = builder.buildHandFromString("6Tr 4Co ACa RCa DTr");
 
         //assertEquals(doublePairHand.getDoublePairCards(), doublePairHand.getDoublePairCards(), " ");
-        System.out.println(doublePairHand.getDoublePairCards());
+        //System.out.println(builder.buildHandFromString("5Tr 5Pi 7Pi 5Ca 7Co").getDoublePairCards());
 
+        ArrayList<Card> array1 = builder.buildHandFromString("5Tr 5Pi 7Pi 5Ca 7Co").getDoublePairCards();
+        //System.out.println(array1);
+
+        assertEquals(array1.get(0).getValue(), 7, "We have two pairs, 7 and 5");
+        assertEquals(array1.get(1).getValue(), 5, "We have two pairs, 7 and 5");
+
+        ArrayList<Card> array2 = builder.buildHandFromString("6Tr 4Co ACa RCa DTr").getDoublePairCards();
+        //System.out.println(array2);
+        assertTrue(array2.get(0) == null);
+        assertTrue(array2.get(1) == null);
+
+        //System.out.println(brelanHand.getDoublePairCards());
+        assertEquals(brelanHand.getDoublePairCards().get(0).getValue(), 8, "We have a brelan of 8");
+        assertEquals(brelanHand.getDoublePairCards().get(1), null, "We have a brelan of 8");
 
     }
 

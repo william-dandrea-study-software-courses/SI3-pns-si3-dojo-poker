@@ -80,24 +80,45 @@ public class Hand extends ArrayList<Card> {
 
     /**
      * This method will find if it have 2 pairs in a hand
-     * @return an array of the values of the 2 hands, null also
+     * @return an array of the values of the 2 hands if we have 2 pair, and one array with 1 pair and 1 null
+     * if we have a brelan or more, null also
      */
 
     public ArrayList<Card> getDoublePairCards() {
 
         ArrayList<Card> doublePair = new ArrayList<Card>();
 
+        Card pairCard1 = null;
+        Card pairCard2 = null;
+
+
         for (int  i = 0; i < this.size() ; i++) {
             for (int j = 0; j < this.size(); j++) {
 
                 if (i != j && this.get(i).getValue() == this.get(j).getValue()) {
 
-                    doublePair.add(this.get(j));
-
+                    if (pairCard1 == null || this.get(i).getValue() != pairCard2.getValue()) {
+                        pairCard1= this.get(i);
+                    }
+                    if (pairCard2 == null || this.get(i).getValue() != pairCard1.getValue()) {
+                        pairCard2= this.get(i);
+                    }
                 }
 
             }
         }
+
+
+        //On gère l'exception du brelan, car si brelan, alors pairCard1 = pairCard2
+        if (pairCard1 != null && pairCard2 != null && pairCard1.getValue() == pairCard2.getValue()) {
+            pairCard2 = null;
+        }
+
+        doublePair.add(pairCard1);
+        doublePair.add(pairCard2);
+
+
+
 
         return doublePair;
     }
