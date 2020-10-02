@@ -5,6 +5,7 @@ import cards.Color;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -269,5 +270,15 @@ public class Hand extends ArrayList<Card> {
             return null;
         }
         return square.get(0);
+    }
+
+    public void removeCardsOfValue (Card value) {
+        List<Card> toRemove = new ArrayList<>();
+
+        for (Card c : this)
+            if (c.getValue() == value.getValue())
+                toRemove.add(c);
+
+        this.removeAll(toRemove);
     }
 }
