@@ -1,7 +1,9 @@
 package hands;
 
-import cards.Card;
-import cards.Color;
+import interaction.ResultType;
+import interaction.Victorieu;
+import interaction.Victory;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -10,51 +12,85 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * Basic JUnit test on <i>HandComparator</i> class
  *
- * @author
- * @author
- * @author
- * @author
+ * @author Gabriel Cogne
  */
 
 public class HandComparatorTest {
 
     private HandBuilder builder;
-
+    private HandComparator comparator;
 
     @BeforeEach
     public void initHands() {
         builder = new HandBuilder();
+        comparator = new HandComparator();
     }
 
+    @Test
+    public void testCompareHighestCardJackAndQueen () {
+        Hand jackDiamond = builder.buildHandFromString("VCa");
+        Hand queenDiamond = builder.buildHandFromString("DCa");
+        Hand asDiamond = builder.buildHandFromString("ACa");
+        Hand queenSpade = builder.buildHandFromString("DPi");
 
+        Victory jackAndQueenVictory = comparator.compare(jackDiamond, queenDiamond);
+        assertEquals(Victorieu.main2, jackAndQueenVictory.getWinner());
+        assertEquals(ResultType.higherCard, jackAndQueenVictory.getWinType());
+
+        Victory asAndQueenVictory = comparator.compare(asDiamond, queenDiamond);
+        assertEquals(Victorieu.main1, asAndQueenVictory.getWinner());
+        assertEquals(ResultType.higherCard, asAndQueenVictory.getWinType());
+
+        Victory queenAndQueenVictory = comparator.compare(queenSpade, queenDiamond);
+        assertEquals(Victorieu.egalite, queenAndQueenVictory.getWinner());
+        assertEquals(ResultType.higherCard, queenAndQueenVictory.getWinType());
+    }
 
     @Test
-    public void testGetExplicationHighestCard () {
-        /*
-        HandComparator comparator = new HandComparator();
+    public void testComparePairAndPair () {
+        Hand jackPair = builder.buildHandFromString("VCa VPi");
+        Hand queenPair = builder.buildHandFromString("DCa DPi");
+        Hand kingPair = builder.buildHandFromString("RCa RPi");
+        Hand jackPair2 = builder.buildHandFromString("VCo VTr");
 
-        assertTrue(comparator.getExplication() == null);
+        Victory jackAndQueenVictory = comparator.compare(jackPair, queenPair);
+        assertEquals(Victorieu.main2, jackAndQueenVictory.getWinner(),
+                "Test compare jackPair with queenPair, who's the winner ?");
+        assertEquals(ResultType.pair, jackAndQueenVictory.getWinType(),
+                "Test compare jackPair with queenPair, why do he won ?");
 
-        Hand h1 = builder.buildHandFromString("5Tr 7Ca 10Pi DCa RCo");
-        Hand h2 = builder.buildHandFromString("5Ca 7Co 10Tr DCo ACo");
+        Victory kingAndQueenVictory = comparator.compare(kingPair, queenPair);
+        assertEquals(Victorieu.main1, kingAndQueenVictory.getWinner(),
+                "Test compare kingPair with queenPair, who's the winner ?");
+        assertEquals(ResultType.pair, kingAndQueenVictory.getWinType(),
+                "Test compare kingPair with queenPair, why do he won ?");
 
-        Hand winner = comparator.compare(h1, h2);
+        Victory jackAndJackVictory = comparator.compare(jackPair, jackPair2);
+        assertEquals(Victorieu.egalite, jackAndJackVictory.getWinner(),
+                "Test compare jackPair with jackPair, who's the winner ?");
+        assertEquals(ResultType.pair, jackAndJackVictory.getWinType(),
+                "Test compare jackPair with jackPair, why do he won ?");
+    }
 
-        assertEquals(h2, winner, "Test 1 winner by highest card");
-        assertEquals(" carte la plus élevée : ACo", comparator.getExplication(),
-                "Test 1 explication on winner by highest card");
+    @Test
+    public void testComparePairAndHighestCard () {
+        Hand queenPair = builder.buildHandFromString("DCa DPi");
+        Hand kingAndAs = builder.buildHandFromString("RCa APi");
 
-        winner = comparator.compare(h2, h1);
-        assertEquals(h2, winner, "Test 2 winner by highest card");
-        assertEquals(" carte la plus élevée : ACo", comparator.getExplication(),
-                "Test 2 explication on winner by highest card");
+        Victory kingAndAsCompareQueensVictory = comparator.compare(kingAndAs, queenPair);
+        assertEquals(Victorieu.main2, kingAndAsCompareQueensVictory.getWinner(),
+                "Test compare kingAndAs with queenPair, who's winner ?");
+        assertEquals(ResultType.pair, kingAndAsCompareQueensVictory.getWinType(),
+                "Test compare kingAndAs with queenPair, why do he won ?");
+        assertEquals(ResultType.higherCard, kingAndAsCompareQueensVictory.getLoseType(),
+                "Test compare kingAndAs with queenPair, why do he lose ?");
 
-        Hand h3 = builder.buildHandFromString("5Pi 7Tr 10Ca DPi ACa");
-
-        winner = comparator.compare(h2, h3);
-        assertEquals(null, winner, "Test 3 winner by highest card");
-        assertEquals("", comparator.getExplication(),
-                "Test 3 explication on winner by highest card");
-         */
+        Victory queensCompareKingAndAsVictory = comparator.compare(queenPair, kingAndAs);
+        assertEquals(Victorieu.main1, queensCompareKingAndAsVictory.getWinner(),
+                "Test compare queenPair with kingAndAs, who's winner ?");
+        assertEquals(ResultType.pair, queensCompareKingAndAsVictory.getWinType(),
+                "Test compare queenPair with kingAndAs, why do he won ?");
+        assertEquals(ResultType.higherCard, queensCompareKingAndAsVictory.getLoseType(),
+                "Test compare queenPair with kingAndAs, why do he lose ?");
     }
 }

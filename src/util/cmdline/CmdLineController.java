@@ -16,17 +16,18 @@ public class CmdLineController {
     // -- Variables --
     private final CmdLineUserInterface ui;
     private final HandComparator comparator;
+    private final HandBuilder builder;
 
     // -- Comparator --
     public CmdLineController () {
         ui = new CmdLineUserInterface();
         comparator = new HandComparator();
+        builder = new HandBuilder();
     }
 
     public Hand askPlayer(String question) {
         String line = ui.readLine(question);
 
-        HandBuilder builder = new HandBuilder();
         Hand hand = builder.buildHandFromString(line);
 
         ui.print("You enter : " + hand.toString());
