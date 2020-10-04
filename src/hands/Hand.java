@@ -4,6 +4,9 @@ import cards.Card;
 import cards.Color;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * A class that represent a card game hand.
@@ -14,8 +17,7 @@ import java.util.ArrayList;
  * @author Amine CHOUHABI
  */
 public class Hand extends ArrayList<Card> {
-    // -- Variables --
-    private final int max_size = 5;
+    // -- Attributes --
 
     // Use default constructors
 
@@ -30,7 +32,8 @@ public class Hand extends ArrayList<Card> {
      */
     @Override
     public boolean add(Card card) throws ArrayIndexOutOfBoundsException {
-        if (this.size() + 1 > max_size)
+        final int MAX_SIZE = 5;
+        if (this.size() + 1 > MAX_SIZE)
             throw new ArrayIndexOutOfBoundsException("Too many cards in the hand");
         return super.add(card);
     }
@@ -41,6 +44,9 @@ public class Hand extends ArrayList<Card> {
      * @return a card
      */
     public Card getHighestCard () {
+        if (isEmpty())
+            return null;
+
         Card highest = this.get(0);
 
         for (Card c : this) {
@@ -77,6 +83,52 @@ public class Hand extends ArrayList<Card> {
     }
 
     /**
+     * This method will find if it have 2 pairs in a hand
+     * @return an array of the values of the 2 hands if we have 2 pair, and one array with 1 pair and 1 null
+     * if we have a brelan or more, null also
+     */
+    public ArrayList<Card> getDoublePairCards() {
+
+        ArrayList<Card> doublePair = new ArrayList<>();
+
+        Card pairCard1 = null;
+        Card pairCard2 = null;
+
+
+        for (int  i = 0; i < this.size() ; i++) {
+            for (int j = 0; j < this.size(); j++) {
+
+                if (i != j && this.get(i).getValue() == this.get(j).getValue()) {
+
+                    if (pairCard1 == null || this.get(i).getValue() != pairCard2.getValue()) {
+                        pairCard1= this.get(i);
+                    }
+                    if (pairCard2 == null || this.get(i).getValue() != pairCard1.getValue()) {
+                        pairCard2= this.get(i);
+                    }
+                }
+
+            }
+        }
+
+
+        //On gère l'exception du brelan, car si brelan, alors pairCard1 = pairCard2
+        if (pairCard1 != null && pairCard2 != null && pairCard1.getValue() == pairCard2.getValue()) {
+            pairCard2 = null;
+        }
+
+        if (pairCard1 != null)
+            doublePair.add(pairCard1);
+        if (pairCard2 != null)
+            doublePair.add(pairCard2);
+
+        doublePair.sort(Card::compareTo);
+
+
+        return doublePair;
+    }
+
+    /**
      * This method will check if there is a brolens in the Hand, if yes, it will return t
      * @return the higher pair card in the hand, null if there is no brolens in the hand
      */
@@ -98,6 +150,10 @@ public class Hand extends ArrayList<Card> {
 
     /**
      * This method return the cards which have the n cousin (Same value) in the hand.
+     *
+     * I had an {@link java.lang.ArrayIndexOutOfBoundsException ArrayIndexOutOfException} when calling with getBrelan
+     * (Index 14 out of bounds for length 13)
+     *
      * @return an Array of card (can be empty)
      */
     ArrayList<Card> getCardWhichHaveNLessOneOtherSameValuedCard(int n) {
@@ -110,15 +166,15 @@ public class Hand extends ArrayList<Card> {
         int[] powerOfValues = new int[13];
 
 
-        for(int i = 0; i < this.size(); i++) {
-            int value = get(i).getValue();
+        for(int i = 0; i < hand.size(); i++) {
+            int value = hand.get(i).getValue() - 2;
             powerOfValues[value]++;
             if(instanceOfCardByValues[value] == null) {
-                instanceOfCardByValues[value] = get(i);
+                instanceOfCardByValues[value] = hand.get(i);
             }
         }
 
-        ArrayList<Card> results = new ArrayList<Card>();
+        ArrayList<Card> results = new ArrayList<>();
         for(int i = 0; i < 13; i++) {
             if(powerOfValues[i] == n) {
                 results.add(instanceOfCardByValues[i]);
@@ -154,7 +210,7 @@ public class Hand extends ArrayList<Card> {
      * 1 as difference between the values of 2 consecutive cards.
      * @return the highest card of the list if it's a suite, null otherwise
      */
-    public Card isSuite () {
+    public Card isStraight() {
         if (isEmpty()) {
             return null;
         }
@@ -180,8 +236,8 @@ public class Hand extends ArrayList<Card> {
      * return null, otherwise, this method return the highest card in the hand.
      * @return null if the hand is not quinte flush, the highest card otherwise
      */
-    public Card isQuinteFlush () {
-        Card suite = isSuite();
+    public Card isStraightFlush() {
+        Card suite = isStraight();
         Card color = isColor();
 
         if (suite == null || color == null) {
@@ -194,9 +250,24 @@ public class Hand extends ArrayList<Card> {
     public String toString (){
         StringBuilder f= new StringBuilder ();
         for (Card c : this) {
-            f.append(c.toString() + " ");
+            f.append(c.toString());
+            f.append(" ");
         }
         return f.toString();
+    }
+
+    private Map<Integer,Integer> getNbOccurOfValues () {
+        Map<Integer, Integer> res = new HashMap<>();
+
+        for (Card c : this) {
+            if (res.containsKey(c.getValue())) {
+                res.put(c.getValue(), res.get(c.getValue()) + 1);
+            } else {
+                res.put(c.getValue(), 1);
+            }
+        }
+
+        return res;
     }
 
     /**
@@ -208,5 +279,15 @@ public class Hand extends ArrayList<Card> {
             return null;
         }
         return square.get(0);
+    }
+
+    public void removeCardsOfValue (Card value) {
+        List<Card> toRemove = new ArrayList<>();
+
+        for (Card c : this)
+            if (c.getValue() == value.getValue())
+                toRemove.add(c);
+
+        this.removeAll(toRemove);
     }
 }

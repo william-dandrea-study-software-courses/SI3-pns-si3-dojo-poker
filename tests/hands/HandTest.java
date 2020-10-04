@@ -6,6 +6,8 @@ import cards.Color;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -23,7 +25,7 @@ public class HandTest {
      * This method test the isEmpty(), add(obj), size() and get(index) method on <i>Hand</i> class
      */
 
-    private Hand pairHand, doublePairHand, brelanHand, randomHand;
+    private Hand pairHand, doublePairHand, brelanHand, randomHand, pairHand2,doublePairHand2;
     private HandBuilder builder;
 
 
@@ -46,6 +48,32 @@ public class HandTest {
 
 
     }
+
+    @Test
+    public void testGetDoublePairCards(){
+
+        brelanHand = builder.buildHandFromString("8Pi 8Co 6Pi 8Ca 9Co");
+
+        //assertEquals(doublePairHand.getDoublePairCards(), doublePairHand.getDoublePairCards(), " ");
+        //System.out.println(builder.buildHandFromString("5Tr 5Pi 7Pi 5Ca 7Co").getDoublePairCards());
+
+        ArrayList<Card> array1 = builder.buildHandFromString("5Tr 5Pi 7Pi 5Ca 7Co").getDoublePairCards();
+        //System.out.println(array1);
+
+        assertEquals(array1.get(0).getValue(), 7, "We have two pairs, 7 and 5");
+        assertEquals(array1.get(1).getValue(), 5, "We have two pairs, 7 and 5");
+
+        ArrayList<Card> array2 = builder.buildHandFromString("6Tr 4Co ACa RCa DTr").getDoublePairCards();
+        //System.out.println(array2);
+        assertTrue(array2.get(0) == null);
+        assertTrue(array2.get(1) == null);
+
+        //System.out.println(brelanHand.getDoublePairCards());
+        assertEquals(brelanHand.getDoublePairCards().get(0).getValue(), 8, "We have a brelan of 8");
+        assertEquals(brelanHand.getDoublePairCards().get(1), null, "We have a brelan of 8");
+
+    }
+
 
     @Test
     public void testNPairs() {
@@ -134,19 +162,19 @@ public class HandTest {
 
         Hand hand1 = builder.buildHandFromString("");
 
-        assertEquals(null, hand1.isSuite(), "Test is not suite 1");
-        assertEquals(null, hand1.isQuinteFlush(), "Test is not quinte flush 1");
+        assertEquals(null, hand1.isStraight(), "Test is not suite 1");
+        assertEquals(null, hand1.isStraightFlush(), "Test is not quinte flush 1");
 
         hand1 = builder.buildHandFromString("7Ca 6Ca DCa 9Ca 8Ca");
-        assertEquals(null, hand1.isSuite(), "Test is not suite 2");
-        assertEquals(null, hand1.isQuinteFlush(), "Test is not quinte flush 2");
+        assertEquals(null, hand1.isStraight(), "Test is not suite 2");
+        assertEquals(null, hand1.isStraightFlush(), "Test is not quinte flush 2");
 
         hand1 = builder.buildHandFromString("7Pi 6Pi 8Pi 9Pi 5Co");
-        assertEquals(9, hand1.isSuite().getValue(), "Test is suite 1");
-        assertEquals(null, hand1.isQuinteFlush(), "Test is not quinte flush 3");
+        assertEquals(9, hand1.isStraight().getValue(), "Test is suite 1");
+        assertEquals(null, hand1.isStraightFlush(), "Test is not quinte flush 3");
 
         hand1 = builder.buildHandFromString("7Tr 6Tr 8Tr 9Tr 5Tr");
-        assertEquals(9, hand1.isSuite().getValue(), "Test is suite 2");
-        assertEquals(9, hand1.isQuinteFlush().getValue(), "Test is quinte flush");
+        assertEquals(9, hand1.isStraight().getValue(), "Test is suite 2");
+        assertEquals(9, hand1.isStraightFlush().getValue(), "Test is quinte flush");
     }
 }

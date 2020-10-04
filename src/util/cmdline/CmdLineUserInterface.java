@@ -1,5 +1,8 @@
 package util.cmdline;
 
+import hands.Hand;
+import hands.HandBuilder;
+
 import java.io.InputStream;
 import java.io.PrintStream;
 import java.util.Scanner;
@@ -12,18 +15,20 @@ import java.util.Scanner;
  */
 
 public class CmdLineUserInterface {
-    // -- Variables --
+    // -- Attributes --
     private final PrintStream out;
     private final Scanner in;
+    private final CmdLineController ctrl;
 
     // -- Constructors --
-    public CmdLineUserInterface () {
-        this (System.out, System.in);
+    public CmdLineUserInterface (CmdLineController ctrl) {
+        this (System.out, System.in, ctrl);
     }
 
-    public CmdLineUserInterface (PrintStream out, InputStream in) {
+    public CmdLineUserInterface (PrintStream out, InputStream in, CmdLineController ctrl) {
         this.out = out;
         this.in = new Scanner(in);
+        this.ctrl = ctrl;
     }
 
     // -- Methods --
@@ -51,5 +56,16 @@ public class CmdLineUserInterface {
     public String readLine (String prompt) {
         out.print(prompt);
         return readLine();
+    }
+
+    // -- Real business methods --
+    public Hand askPlayer(String question, HandBuilder builder) {
+        String line = readLine(question);
+
+        Hand hand = builder.buildHandFromString(line);
+
+        print("You enter : " + hand.toString());
+
+        return hand;
     }
 }
