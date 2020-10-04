@@ -179,4 +179,41 @@ public class HandComparatorTest {
         assertEquals(ResultType.carre, acesAndKingWithQueens.getWinType(),
                 "Test compare kingAndAces with quad queens, why do he won ?");
     }
+
+    @Test
+    public void testRefereeTwoPairWithTwoPair () throws Exception {
+        Hand jacksAndQueens = builder.buildHandFromString("VTr VPi DTr DPi");
+        Hand tensAndQueens = builder.buildHandFromString("10Tr 10Pi DCo DCa");
+        Hand acesAndKings = builder.buildHandFromString("ATr APi RCo RCa");
+        Hand acesAndKings2 = builder.buildHandFromString("ACo ACa RTr RPi");
+
+        Victory jackWithTenVictory = comparator.compare(jacksAndQueens, tensAndQueens);
+        assertEquals(Victorieu.main1, jackWithTenVictory.getWinner(),
+                "Test compare jacksAndQueens with tensAndQueens, who's the winner ?");
+        assertEquals(ResultType.doublePair, jackWithTenVictory.getWinType(),
+                "Test compare jacksAndQueens with tensAndQueens, why do he won ?");
+
+        Victory queensWithAcesVictory = comparator.compare(jacksAndQueens, acesAndKings);
+        assertEquals(Victorieu.main2, queensWithAcesVictory.getWinner(),
+                "Test compare jacksAndQueens with acesAndKings, who's the winner ?");
+        assertEquals(ResultType.doublePair, queensWithAcesVictory.getWinType(),
+                "Test compare jacksAndQueens with acesAndKings, why do he won ?");
+
+        Victory acesWithAcesVictory = comparator.compare(acesAndKings, acesAndKings2);
+        assertEquals(Victorieu.egalite, acesWithAcesVictory.getWinner(),
+                "Test compare acesAndKings with acesAndKings, who's the winner ?");
+    }
+
+    @Test
+    public void testRefereeTwoPairWithLess () throws Exception {
+        Hand jacksAndQueens = builder.buildHandFromString("VTr VPi DTr DPi");
+        Hand nothing = builder.buildHandFromString("ATr 10Tr 8Ca 2Co");
+
+        Victory jacksAndQueensWithNothing = comparator.compare(jacksAndQueens, nothing);
+        assertEquals(Victorieu.main1, jacksAndQueensWithNothing.getWinner(),
+                "Test compare jacksAndQueens with nothing special, who's winner ?");
+        assertEquals(ResultType.doublePair, jacksAndQueensWithNothing.getWinType(),
+                "Test compare jacksAndQueens with nothing special, why do he won ?");
+
+    }
 }

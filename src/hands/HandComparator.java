@@ -5,6 +5,8 @@ import interaction.ResultType;
 import interaction.Victorieu;
 import interaction.Victory;
 
+import java.util.List;
+
 /**
  * This class is used to compare several hands. She will determine which is the better and why.
  *
@@ -26,13 +28,17 @@ public class HandComparator {
         Card valueHand1;
         Card valueHand2 = null;
 
+        // Poker rules
         if (((valueHand1 = h1.isSquare()) != null) || ((valueHand2 = h2.isSquare()) != null))
             return refereeOnQuad(h1, h2, valueHand1, valueHand2);
         else if (((valueHand1 = h1.getBrelan()) != null) || ((valueHand2 = h2.getBrelan()) != null))
             return refereeOnTrip(h1, h2, valueHand1, valueHand2);
+        else if ((h1.getDoublePairCards().size() == 2) || (h2.getDoublePairCards().size() == 2))
+            return refereeOnTwoPairs(h1, h2);
         else if (((valueHand1 = h1.getPairCards()) != null) || ((valueHand2 = h2.getPairCards()) != null))
             return refereeOnPair(h1, h2, valueHand1, valueHand2);
-        return compareOnHighestCard(h1, h2);
+        else
+            return compareOnHighestCard(h1, h2);
     }
 
     /**
@@ -131,6 +137,34 @@ public class HandComparator {
         else
             return new Victory(Victorieu.main2, ResultType.carre, null,
                     valueHand2, hand1.getHighestCard());
+    }
+
+    private Victory refereeOnTwoPairs (Hand hand1, Hand hand2) {
+        List<Card> valueHand1 = hand1.getDoublePairCards();
+        List<Card> valueHand2 = hand2.getDoublePairCards();
+
+        if ((valueHand1.size() == 2) && (valueHand2.size() == 2)) {
+            Victorieu winner = compareCards(valueHand1.get(0), valueHand2.get(0));
+
+            if (winner.equals(Victorieu.egalite)) {
+                winner = compareCards(valueHand1.get(1), valueHand2.get(1));
+                if (winner.equals(Victorieu.egalite)) {
+                    hand1.removeCardsOfValue(valueHand1.get(0));
+                    hand1.removeCardsOfValue(valueHand1.get(1));
+                    hand2.removeCardsOfValue(valueHand2.get(0));
+                    hand2.removeCardsOfValue(valueHand2.get(1));
+                    return compareOnHighestCard(hand1, hand2);
+                }
+            }
+            return new Victory(winner, ResultType.doublePair, ResultType.doublePair,
+                    (winner.equals(Victorieu.main1) ? valueHand1.get(0) : valueHand2.get(0)),
+                    (winner.equals(Victorieu.main1) ? valueHand2.get(0) : valueHand1.get(0)));
+        } else if (valueHand1.size() == 2)
+            return new Victory(Victorieu.main1, ResultType.doublePair, null,
+                    valueHand1.get(0), null);
+        else
+            return new Victory(Victorieu.main2, ResultType.doublePair, null,
+                    valueHand2.get(0), null);
     }
 
     private Victorieu compareCards (Card valueHand1, Card valueHand2) {

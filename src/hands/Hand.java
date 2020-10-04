@@ -17,8 +17,7 @@ import java.util.Map;
  * @author Amine CHOUHABI
  */
 public class Hand extends ArrayList<Card> {
-    // -- Variables --
-    private final int max_size = 5;
+    // -- Attributes --
 
     // Use default constructors
 
@@ -33,7 +32,8 @@ public class Hand extends ArrayList<Card> {
      */
     @Override
     public boolean add(Card card) throws ArrayIndexOutOfBoundsException {
-        if (this.size() + 1 > max_size)
+        final int MAX_SIZE = 5;
+        if (this.size() + 1 > MAX_SIZE)
             throw new ArrayIndexOutOfBoundsException("Too many cards in the hand");
         return super.add(card);
     }
@@ -89,7 +89,7 @@ public class Hand extends ArrayList<Card> {
      */
     public ArrayList<Card> getDoublePairCards() {
 
-        ArrayList<Card> doublePair = new ArrayList<Card>();
+        ArrayList<Card> doublePair = new ArrayList<>();
 
         Card pairCard1 = null;
         Card pairCard2 = null;
@@ -117,10 +117,12 @@ public class Hand extends ArrayList<Card> {
             pairCard2 = null;
         }
 
-        doublePair.add(pairCard1);
-        doublePair.add(pairCard2);
+        if (pairCard1 != null)
+            doublePair.add(pairCard1);
+        if (pairCard2 != null)
+            doublePair.add(pairCard2);
 
-
+        doublePair.sort(Card::compareTo);
 
 
         return doublePair;
@@ -164,15 +166,15 @@ public class Hand extends ArrayList<Card> {
         int[] powerOfValues = new int[13];
 
 
-        for(int i = 0; i < this.size(); i++) {
-            int value = get(i).getValue() - 2;
+        for(int i = 0; i < hand.size(); i++) {
+            int value = hand.get(i).getValue() - 2;
             powerOfValues[value]++;
             if(instanceOfCardByValues[value] == null) {
-                instanceOfCardByValues[value] = get(i);
+                instanceOfCardByValues[value] = hand.get(i);
             }
         }
 
-        ArrayList<Card> results = new ArrayList<Card>();
+        ArrayList<Card> results = new ArrayList<>();
         for(int i = 0; i < 13; i++) {
             if(powerOfValues[i] == n) {
                 results.add(instanceOfCardByValues[i]);
@@ -248,7 +250,8 @@ public class Hand extends ArrayList<Card> {
     public String toString (){
         StringBuilder f= new StringBuilder ();
         for (Card c : this) {
-            f.append(c.toString() + " ");
+            f.append(c.toString());
+            f.append(" ");
         }
         return f.toString();
     }
