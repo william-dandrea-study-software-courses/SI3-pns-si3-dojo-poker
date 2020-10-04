@@ -87,7 +87,6 @@ public class Hand extends ArrayList<Card> {
      * @return an array of the values of the 2 hands if we have 2 pair, and one array with 1 pair and 1 null
      * if we have a brelan or more, null also
      */
-
     public ArrayList<Card> getDoublePairCards() {
 
         ArrayList<Card> doublePair = new ArrayList<Card>();
@@ -147,17 +146,6 @@ public class Hand extends ArrayList<Card> {
         return null;
     }
 
-    public int getTrips () {
-        final int NB_CARD_IN_TRIP = 3;
-        Map<Integer, Integer> nbOccurOfValues = getNbOccurOfValues();
-
-        for (int value : nbOccurOfValues.keySet())
-            if (nbOccurOfValues.get(value) == NB_CARD_IN_TRIP)
-                return value;
-
-        return -1;
-    }
-
     /**
      * This method return the cards which have the n cousin (Same value) in the hand.
      *
@@ -177,7 +165,7 @@ public class Hand extends ArrayList<Card> {
 
 
         for(int i = 0; i < this.size(); i++) {
-            int value = get(i).getValue();
+            int value = get(i).getValue() - 2;
             powerOfValues[value]++;
             if(instanceOfCardByValues[value] == null) {
                 instanceOfCardByValues[value] = get(i);
@@ -220,7 +208,7 @@ public class Hand extends ArrayList<Card> {
      * 1 as difference between the values of 2 consecutive cards.
      * @return the highest card of the list if it's a suite, null otherwise
      */
-    public Card isSuite () {
+    public Card isStraight() {
         if (isEmpty()) {
             return null;
         }
@@ -246,8 +234,8 @@ public class Hand extends ArrayList<Card> {
      * return null, otherwise, this method return the highest card in the hand.
      * @return null if the hand is not quinte flush, the highest card otherwise
      */
-    public Card isQuinteFlush () {
-        Card suite = isSuite();
+    public Card isStraightFlush() {
+        Card suite = isStraight();
         Card color = isColor();
 
         if (suite == null || color == null) {
@@ -295,16 +283,6 @@ public class Hand extends ArrayList<Card> {
 
         for (Card c : this)
             if (c.getValue() == value.getValue())
-                toRemove.add(c);
-
-        this.removeAll(toRemove);
-    }
-
-    public void removeCardsOfValue (int value) {
-        List<Card> toRemove = new ArrayList<>();
-
-        for (Card c : this)
-            if (c.getValue() == value)
                 toRemove.add(c);
 
         this.removeAll(toRemove);

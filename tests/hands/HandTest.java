@@ -162,19 +162,19 @@ public class HandTest {
 
         Hand hand1 = builder.buildHandFromString("");
 
-        assertEquals(null, hand1.isSuite(), "Test is not suite 1");
-        assertEquals(null, hand1.isQuinteFlush(), "Test is not quinte flush 1");
+        assertEquals(null, hand1.isStraight(), "Test is not suite 1");
+        assertEquals(null, hand1.isStraightFlush(), "Test is not quinte flush 1");
 
         hand1 = builder.buildHandFromString("7Ca 6Ca DCa 9Ca 8Ca");
-        assertEquals(null, hand1.isSuite(), "Test is not suite 2");
-        assertEquals(null, hand1.isQuinteFlush(), "Test is not quinte flush 2");
+        assertEquals(null, hand1.isStraight(), "Test is not suite 2");
+        assertEquals(null, hand1.isStraightFlush(), "Test is not quinte flush 2");
 
         hand1 = builder.buildHandFromString("7Pi 6Pi 8Pi 9Pi 5Co");
-        assertEquals(9, hand1.isSuite().getValue(), "Test is suite 1");
-        assertEquals(null, hand1.isQuinteFlush(), "Test is not quinte flush 3");
+        assertEquals(9, hand1.isStraight().getValue(), "Test is suite 1");
+        assertEquals(null, hand1.isStraightFlush(), "Test is not quinte flush 3");
 
         hand1 = builder.buildHandFromString("7Tr 6Tr 8Tr 9Tr 5Tr");
-        assertEquals(9, hand1.isSuite().getValue(), "Test is suite 2");
-        assertEquals(9, hand1.isQuinteFlush().getValue(), "Test is quinte flush");
+        assertEquals(9, hand1.isStraight().getValue(), "Test is suite 2");
+        assertEquals(9, hand1.isStraightFlush().getValue(), "Test is quinte flush");
     }
 }

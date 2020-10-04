@@ -104,17 +104,17 @@ public class HandComparatorTest {
         assertEquals(ResultType.brelan, twoWithQueenVictory.getWinType(),
                 "Test compare trip twos with trip queens, why do he won ?");
 
-        Victory AceWithQueenVictory = comparator.compare(aceSet, queenSet);
-        assertEquals(Victorieu.main1, AceWithQueenVictory.getWinner(),
+        Victory aceWithQueenVictory = comparator.compare(aceSet, queenSet);
+        assertEquals(Victorieu.main1, aceWithQueenVictory.getWinner(),
                 "Test compare trip aces with trip queens, who's the winner ?");
-        assertEquals(ResultType.brelan, AceWithQueenVictory.getWinType(),
+        assertEquals(ResultType.brelan, aceWithQueenVictory.getWinType(),
                 "Test compare trip aces with trip queens, why do he won ?");
 
         try {
-            Victory queenWithQueen = comparator.compare(queenSet, queenSet);
-            fail ("Must raise an exception because two trip in a four colors games is impossible");
+            comparator.compare(queenSet, queenSet);
+            fail ("Must raise an exception because two same value trips in a four colors games is impossible");
         } catch (Exception e) {
-            assertTrue(e != null, "Test raise exception when two trips have the same value");
+            assertTrue(true, "Test raise exception when two trips have the same value");
         }
     }
 
@@ -134,5 +134,49 @@ public class HandComparatorTest {
                 "Test compare kingAndAces with trip queens, who's winner ?");
         assertEquals(ResultType.brelan, acesAndKingWithQueens.getWinType(),
                 "Test compare kingAndAces with trip queens, why do he won ?");
+    }
+
+    @Test
+    public void testCompareQuadAndQuad () throws Exception {
+        Hand jackQuad = builder.buildHandFromString("VCa VPi VTr VCo");
+        Hand queenQuad = builder.buildHandFromString("DCa DPi DTr DCo");
+        Hand kingQuad = builder.buildHandFromString("RTr RCa RCo RPi");
+
+        Victory jackWithQueenVictory = comparator.compare(jackQuad, queenQuad);
+        assertEquals(Victorieu.main2, jackWithQueenVictory.getWinner(),
+                "Test compare quad jacks with quad queens, who's the winner ?");
+        assertEquals(ResultType.carre, jackWithQueenVictory.getWinType(),
+                "Test compare quad jacks with four of a kind, queens, why do he won ?");
+
+        Victory kingWithQueenVictory = comparator.compare(kingQuad, queenQuad);
+        assertEquals(Victorieu.main1, kingWithQueenVictory.getWinner(),
+                "Test compare quad kings with quad queens, who's the winner ?");
+        assertEquals(ResultType.carre, kingWithQueenVictory.getWinType(),
+                "Test compare quad kings with quad queens, why do he won ?");
+
+        try {
+            comparator.compare(queenQuad, queenQuad);
+            fail ("Must raise an exception because two same value quads in a four colors games is impossible");
+        } catch (Exception e) {
+            assertTrue(true, "Test raise exception when two trips have the same value");
+        }
+    }
+
+    @Test
+    public void testCompareQuadAndLess () throws Exception {
+        Hand queenQuad = builder.buildHandFromString("DCa DPi DTr DCo");
+        Hand acesAndKing = builder.buildHandFromString("ATr ACa RCo APi");
+
+        Victory queenWithAcesAndKing = comparator.compare(queenQuad, acesAndKing);
+        assertEquals(Victorieu.main1, queenWithAcesAndKing.getWinner(),
+                "Test compare quad queens with kingAndAces, who's winner ?");
+        assertEquals(ResultType.carre, queenWithAcesAndKing.getWinType(),
+                "Test compare quad queens with kingAndAces, why do he won ?");
+
+        Victory acesAndKingWithQueens = comparator.compare(acesAndKing, queenQuad);
+        assertEquals(Victorieu.main2, acesAndKingWithQueens.getWinner(),
+                "Test compare kingAndAces with quad queens, who's winner ?");
+        assertEquals(ResultType.carre, acesAndKingWithQueens.getWinType(),
+                "Test compare kingAndAces with quad queens, why do he won ?");
     }
 }
