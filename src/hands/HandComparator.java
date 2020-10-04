@@ -19,8 +19,13 @@ public class HandComparator {
      * @param h2 the second hand in
      * @return a {@link Victory victory object} that describe who win and why
      */
-    public Victory compare (Hand h1, Hand h2) {
-        if ((h1.getPairCards() != null) || (h2.getPairCards() != null))
+    public Victory compare (Hand h1, Hand h2) throws Exception {
+        if ((h1 == null) || (h2 == null))
+            throw new NullPointerException("All hands must be initialized !!");
+
+        if ((h1.getTrips() != -1) || (h2.getTrips() != -1))
+            return refereeOnTrip(h1, h2);
+        else if ((h1.getPairCards() != null) || (h2.getPairCards() != null))
             return compareOnPair(h1, h2);
         return compareOnHighestCard(h1, h2);
     }
@@ -32,6 +37,10 @@ public class HandComparator {
      * @return a {@link Victory victory object} that describe who win and why
      */
     private Victory compareOnHighestCard (Hand hand1, Hand hand2) {
+        if (hand1.isEmpty() || hand2.isEmpty())
+            return new Victory(Victorieu.egalite, ResultType.higherCard, ResultType.higherCard,
+                    null, null);
+
         Card highest1 = hand1.getHighestCard();
         Card highest2 = hand2.getHighestCard();
 
@@ -66,7 +75,7 @@ public class HandComparator {
                 hand2.removeCardsOfValue(pairValueHand2);
                 return compareOnHighestCard(hand1, hand2);
             }
-            return new Victory(winner, ResultType.pair, ResultType.higherCard,
+            return new Victory(winner, ResultType.pair, ResultType.pair,
                     (winner.equals(Victorieu.main1) ? pairValueHand1 : pairValueHand2),
                     (winner.equals(Victorieu.main1) ? pairValueHand2 : pairValueHand1));
         } else if (pairValueHand1 != null)
@@ -77,10 +86,41 @@ public class HandComparator {
                     pairValueHand2, hand1.getHighestCard());
     }
 
+    private Victory refereeOnTrip (Hand hand1, Hand hand2) throws Exception {
+        int valueHand1 = hand1.getTrips();
+        int valueHand2 = hand2.getTrips();
+
+        if ((valueHand1 != -1) && (valueHand2 != -1)) {
+            Victorieu winner = compareCards(valueHand1, valueHand2);
+
+            if (winner.equals(Victorieu.egalite)) {
+                throw new Exception("two same value trip in a four colors games is impossible");
+            }
+            return new Victory(winner, ResultType.brelan, ResultType.brelan,
+                    (winner.equals(Victorieu.main1) ? new Card(valueHand1) : new Card(valueHand2)),
+                    (winner.equals(Victorieu.main1) ? new Card(valueHand2) : new Card(valueHand1)));
+        } else if (valueHand1 != -1)
+            return new Victory(Victorieu.main1, ResultType.brelan, null,
+                    new Card(valueHand1), hand2.getHighestCard());
+        else
+            return new Victory(Victorieu.main2, ResultType.brelan, null,
+                    new Card(valueHand2), hand1.getHighestCard());
+    }
+
     private Victorieu compareCards (Card valueHand1, Card valueHand2) {
         if (valueHand1.compareTo(valueHand2) > 0)
             return Victorieu.main1;
         else if (valueHand1.compareTo(valueHand2) < 0)
+            return Victorieu.main2;
+        else {
+            return Victorieu.egalite;
+        }
+    }
+
+    private Victorieu compareCards (int valueHand1, int valueHand2) {
+        if (valueHand1 > valueHand2)
+            return Victorieu.main1;
+        else if (valueHand1 < valueHand2)
             return Victorieu.main2;
         else {
             return Victorieu.egalite;

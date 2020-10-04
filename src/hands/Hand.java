@@ -44,6 +44,9 @@ public class Hand extends ArrayList<Card> {
      * @return a card
      */
     public Card getHighestCard () {
+        if (isEmpty())
+            return null;
+
         Card highest = this.get(0);
 
         for (Card c : this) {
@@ -144,8 +147,23 @@ public class Hand extends ArrayList<Card> {
         return null;
     }
 
+    public int getTrips () {
+        final int NB_CARD_IN_TRIP = 3;
+        Map<Integer, Integer> nbOccurOfValues = getNbOccurOfValues();
+
+        for (int value : nbOccurOfValues.keySet())
+            if (nbOccurOfValues.get(value) == NB_CARD_IN_TRIP)
+                return value;
+
+        return -1;
+    }
+
     /**
      * This method return the cards which have the n cousin (Same value) in the hand.
+     *
+     * I had an {@link java.lang.ArrayIndexOutOfBoundsException ArrayIndexOutOfException} when calling with getBrelan
+     * (Index 14 out of bounds for length 13)
+     *
      * @return an Array of card (can be empty)
      */
     ArrayList<Card> getCardWhichHaveNLessOneOtherSameValuedCard(int n) {
@@ -247,7 +265,7 @@ public class Hand extends ArrayList<Card> {
         return f.toString();
     }
 
-    private Map<Integer,Integer> getNbOccurValue () {
+    private Map<Integer,Integer> getNbOccurOfValues () {
         Map<Integer, Integer> res = new HashMap<>();
 
         for (Card c : this) {
@@ -277,6 +295,16 @@ public class Hand extends ArrayList<Card> {
 
         for (Card c : this)
             if (c.getValue() == value.getValue())
+                toRemove.add(c);
+
+        this.removeAll(toRemove);
+    }
+
+    public void removeCardsOfValue (int value) {
+        List<Card> toRemove = new ArrayList<>();
+
+        for (Card c : this)
+            if (c.getValue() == value)
                 toRemove.add(c);
 
         this.removeAll(toRemove);

@@ -27,7 +27,7 @@ public class HandComparatorTest {
     }
 
     @Test
-    public void testCompareHighestCardJackAndQueen () {
+    public void testCompareHighestCardJackAndQueen () throws Exception {
         Hand jackDiamond = builder.buildHandFromString("VCa");
         Hand queenDiamond = builder.buildHandFromString("DCa");
         Hand asDiamond = builder.buildHandFromString("ACa");
@@ -47,7 +47,7 @@ public class HandComparatorTest {
     }
 
     @Test
-    public void testComparePairAndPair () {
+    public void testComparePairAndPair () throws Exception {
         Hand jackPair = builder.buildHandFromString("VCa VPi");
         Hand queenPair = builder.buildHandFromString("DCa DPi");
         Hand kingPair = builder.buildHandFromString("RCa RPi");
@@ -68,12 +68,10 @@ public class HandComparatorTest {
         Victory jackAndJackVictory = comparator.compare(jackPair, jackPair2);
         assertEquals(Victorieu.egalite, jackAndJackVictory.getWinner(),
                 "Test compare jackPair with jackPair, who's the winner ?");
-        assertEquals(ResultType.pair, jackAndJackVictory.getWinType(),
-                "Test compare jackPair with jackPair, why do he won ?");
     }
 
     @Test
-    public void testComparePairAndHighestCard () {
+    public void testComparePairAndHighestCard () throws Exception {
         Hand queenPair = builder.buildHandFromString("DCa DPi");
         Hand kingAndAs = builder.buildHandFromString("RCa APi");
 
@@ -92,5 +90,49 @@ public class HandComparatorTest {
                 "Test compare queenPair with kingAndAs, why do he won ?");
         assertEquals(ResultType.higherCard, queensCompareKingAndAsVictory.getLoseType(),
                 "Test compare queenPair with kingAndAs, why do he lose ?");
+    }
+
+    @Test
+    public void testCompareTripsAndTrip () throws Exception {
+        Hand twoSet = builder.buildHandFromString("2Ca 2Pi 2Tr");
+        Hand queenSet = builder.buildHandFromString("DCa DPi DTr");
+        Hand aceSet = builder.buildHandFromString("ATr ACa ACo");
+
+        Victory twoWithQueenVictory = comparator.compare(twoSet, queenSet);
+        assertEquals(Victorieu.main2, twoWithQueenVictory.getWinner(),
+                "Test compare trip twos with trip queens, who's the winner ?");
+        assertEquals(ResultType.brelan, twoWithQueenVictory.getWinType(),
+                "Test compare trip twos with trip queens, why do he won ?");
+
+        Victory AceWithQueenVictory = comparator.compare(aceSet, queenSet);
+        assertEquals(Victorieu.main1, AceWithQueenVictory.getWinner(),
+                "Test compare trip aces with trip queens, who's the winner ?");
+        assertEquals(ResultType.brelan, AceWithQueenVictory.getWinType(),
+                "Test compare trip aces with trip queens, why do he won ?");
+
+        try {
+            Victory queenWithQueen = comparator.compare(queenSet, queenSet);
+            fail ("Must raise an exception because two trip in a four colors games is impossible");
+        } catch (Exception e) {
+            assertTrue(e != null, "Test raise exception when two trips have the same value");
+        }
+    }
+
+    @Test
+    public void testCompareTripsAndLess () throws Exception {
+        Hand queenSet = builder.buildHandFromString("DCa DPi DTr");
+        Hand acesAndKing = builder.buildHandFromString("ATr ACo RCo");
+
+        Victory queenWithAcesAndKing = comparator.compare(queenSet, acesAndKing);
+        assertEquals(Victorieu.main1, queenWithAcesAndKing.getWinner(),
+                "Test compare trip queens with kingAndAces, who's winner ?");
+        assertEquals(ResultType.brelan, queenWithAcesAndKing.getWinType(),
+                "Test compare trip queens with kingAndAces, why do he won ?");
+
+        Victory acesAndKingWithQueens = comparator.compare(acesAndKing, queenSet);
+        assertEquals(Victorieu.main2, acesAndKingWithQueens.getWinner(),
+                "Test compare kingAndAces with trip queens, who's winner ?");
+        assertEquals(ResultType.brelan, acesAndKingWithQueens.getWinType(),
+                "Test compare kingAndAces with trip queens, why do he won ?");
     }
 }
