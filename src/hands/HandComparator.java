@@ -31,6 +31,8 @@ public class HandComparator {
         // Poker rules
         if (((valueHand1 = h1.isSquare()) != null) || ((valueHand2 = h2.isSquare()) != null))
             return refereeOnQuad(h1, h2, valueHand1, valueHand2);
+        else if (((valueHand1 = h1.isStraight()) != null) || ((valueHand2 = h2.isStraight()) != null))
+            return refereeOnStraight(h1, h2, valueHand1, valueHand2);
         else if (((valueHand1 = h1.getBrelan()) != null) || ((valueHand2 = h2.getBrelan()) != null))
             return refereeOnTrip(h1, h2, valueHand1, valueHand2);
         else if ((h1.getDoublePairCards().size() == 2) || (h2.getDoublePairCards().size() == 2))
@@ -165,6 +167,21 @@ public class HandComparator {
         else
             return new Victory(Victorieu.main2, ResultType.doublePair, null,
                     valueHand2.get(0), null);
+    }
+
+    private Victory refereeOnStraight (Hand hand1, Hand hand2, Card valueHand1, Card valueHand2) throws Exception {
+        if (valueHand2 == null)
+            valueHand2 = hand2.isStraight();
+
+        if ((valueHand1 != null) && (valueHand2 != null)) {
+            Victorieu winner = compareCards(valueHand1, valueHand2);
+            return new Victory(winner, ResultType.suite, ResultType.suite,
+                    (winner.equals(Victorieu.main1) ? valueHand1 : valueHand2),
+                    (winner.equals(Victorieu.main1) ? valueHand2 : valueHand1));
+        } else if (valueHand1 != null)
+            return new Victory(Victorieu.main1, ResultType.suite, null, valueHand1, null);
+        else
+            return new Victory(Victorieu.main2, ResultType.suite, null, valueHand2, null);
     }
 
     private Victorieu compareCards (Card valueHand1, Card valueHand2) {

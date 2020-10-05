@@ -216,4 +216,36 @@ public class HandComparatorTest {
                 "Test compare jacksAndQueens with nothing special, why do he won ?");
 
     }
+
+    @Test
+    public void testRefereeStraightWithStraight () throws Exception {
+        Hand kingHighStraight = builder.buildHandFromString("RCo DCo VCo 10Ca 9Co");
+        Hand aceHighStraight = builder.buildHandFromString("ACo RCa DCa VCa 10Tr");
+        Hand kingHighStraight2 = builder.buildHandFromString("RPi DTr VTr 10Pi 9Ca");
+
+        Victory kingWithAce = comparator.compare(kingHighStraight, aceHighStraight);
+        assertEquals(Victorieu.main2, kingWithAce.getWinner(),
+                "Winner between a king-high straight and a ace-high straight");
+        assertEquals(ResultType.suite, kingWithAce.getWinType(),
+                "Why that winner between a king-high straight and a ace-high straight");
+
+        Victory kingWithKing = comparator.compare(kingHighStraight, kingHighStraight2);
+        assertEquals(Victorieu.egalite, kingWithKing.getWinner(),
+                "Winner between a king-high straight and another king-high straight");
+
+        Victory aceWithKing = comparator.compare(aceHighStraight, kingHighStraight2);
+        assertEquals(Victorieu.main1, aceWithKing.getWinner(),
+                "Winner between a ace-high straight and a king-high straight");
+        assertEquals(ResultType.suite, aceWithKing.getWinType(),
+                "Why that winner between a ace-high straight and a king-high straight");
+    }
+
+    @Test
+    public void testRefereeStraightWithLess () throws Exception {
+        Hand kingHighStraight = builder.buildHandFromString("RCo DCo VCo 10Ca 9Co");
+        Hand twoSet = builder.buildHandFromString("2Ca 2Pi 2Tr 3Tr 4Ca");
+
+        assertEquals(Victorieu.main1, comparator.compare(kingHighStraight, twoSet).getWinner(),
+                "Straight vs trip");
+    }
 }

@@ -145,15 +145,15 @@ public class HandTest {
 
         Hand hand1 = builder.buildHandFromString("");
 
-        assertEquals(null, hand1.isColor(), "Test is not color 1");
+        assertEquals(null, hand1.isFlush(), "Test is not color 1");
 
         hand1 = builder.buildHandFromString("7Tr 6Tr 8Ca 9Tr 5Tr");
 
-        assertEquals(null, hand1.isColor(), "Test is not color 2");
+        assertEquals(null, hand1.isFlush(), "Test is not color 2");
 
         hand1 = builder.buildHandFromString("7Pi 6Pi 8Pi 9Pi 5Pi");
 
-        assertEquals(9, hand1.isColor().getValue(), "Test is color + return value");
+        assertEquals(9, hand1.isFlush().getValue(), "Test is color + return value");
     }
 
     @Test

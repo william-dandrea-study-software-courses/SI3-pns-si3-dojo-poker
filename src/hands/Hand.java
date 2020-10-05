@@ -18,6 +18,7 @@ import java.util.Map;
  */
 public class Hand extends ArrayList<Card> {
     // -- Attributes --
+    private static final int MAX_SIZE = 5;
 
     // Use default constructors
 
@@ -32,7 +33,6 @@ public class Hand extends ArrayList<Card> {
      */
     @Override
     public boolean add(Card card) throws ArrayIndexOutOfBoundsException {
-        final int MAX_SIZE = 5;
         if (this.size() + 1 > MAX_SIZE)
             throw new ArrayIndexOutOfBoundsException("Too many cards in the hand");
         return super.add(card);
@@ -189,8 +189,8 @@ public class Hand extends ArrayList<Card> {
      * in the hand, otherwise it will return null.
      * @return The highest card because a color state value is the greatest value in the hand
      */
-    public Card isColor () {
-        if (isEmpty())
+    public Card isFlush() {
+        if (isEmpty() || size() < MAX_SIZE)
             return null;
 
         Color firstColor = this.get(0).getColor();
@@ -211,7 +211,7 @@ public class Hand extends ArrayList<Card> {
      * @return the highest card of the list if it's a suite, null otherwise
      */
     public Card isStraight() {
-        if (isEmpty()) {
+        if (isEmpty() || size() < MAX_SIZE) {
             return null;
         }
 
@@ -234,11 +234,11 @@ public class Hand extends ArrayList<Card> {
      * This method will if the hand is a quite flush. That mean, it will test color and suite
      * on this hand. If one of the two previously named methods return null then this method will
      * return null, otherwise, this method return the highest card in the hand.
-     * @return null if the hand is not quinte flush, the highest card otherwise
+     * @return null if the hand is not straight flush, the highest card otherwise
      */
     public Card isStraightFlush() {
         Card suite = isStraight();
-        Card color = isColor();
+        Card color = isFlush();
 
         if (suite == null || color == null) {
             return null;
