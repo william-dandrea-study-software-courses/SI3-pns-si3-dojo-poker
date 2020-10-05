@@ -117,13 +117,8 @@ public class Hand extends ArrayList<Card> {
             pairCard2 = null;
         }
 
-        if (pairCard1 != null)
-            doublePair.add(pairCard1);
-        if (pairCard2 != null)
-            doublePair.add(pairCard2);
-
-        doublePair.sort(Card::compareTo);
-
+        doublePair.add(pairCard1);
+        doublePair.add(pairCard2);
 
         return doublePair;
     }

@@ -32,10 +32,10 @@ public class HandComparator {
         if (((valueHand1 = h1.isSquare()) != null) || ((valueHand2 = h2.isSquare()) != null))
             return refereeOnQuad(h1, h2, valueHand1, valueHand2);
         else if (((valueHand1 = h1.isStraight()) != null) || ((valueHand2 = h2.isStraight()) != null))
-            return refereeOnStraight(h1, h2, valueHand1, valueHand2);
+            return refereeOnStraight(h2, valueHand1, valueHand2);
         else if (((valueHand1 = h1.getBrelan()) != null) || ((valueHand2 = h2.getBrelan()) != null))
             return refereeOnTrip(h1, h2, valueHand1, valueHand2);
-        else if ((h1.getDoublePairCards().size() == 2) || (h2.getDoublePairCards().size() == 2))
+        else if ((isTwoPair(h1.getDoublePairCards())) || (isTwoPair(h2.getDoublePairCards())))
             return refereeOnTwoPairs(h1, h2);
         else if (((valueHand1 = h1.getPairCards()) != null) || ((valueHand2 = h2.getPairCards()) != null))
             return refereeOnPair(h1, h2, valueHand1, valueHand2);
@@ -143,7 +143,15 @@ public class HandComparator {
 
     private Victory refereeOnTwoPairs (Hand hand1, Hand hand2) {
         List<Card> valueHand1 = hand1.getDoublePairCards();
+        for (Card c : valueHand1)
+            if (c == null)
+                valueHand1.remove(null);
+        valueHand1.sort(Card::compareTo);
         List<Card> valueHand2 = hand2.getDoublePairCards();
+        for (Card c : valueHand2)
+            if (c == null)
+                valueHand2.remove(null);
+        valueHand2.sort(Card::compareTo);
 
         if ((valueHand1.size() == 2) && (valueHand2.size() == 2)) {
             Victorieu winner = compareCards(valueHand1.get(0), valueHand2.get(0));
@@ -169,7 +177,7 @@ public class HandComparator {
                     valueHand2.get(0), null);
     }
 
-    private Victory refereeOnStraight (Hand hand1, Hand hand2, Card valueHand1, Card valueHand2) throws Exception {
+    private Victory refereeOnStraight (Hand hand2, Card valueHand1, Card valueHand2) throws Exception {
         if (valueHand2 == null)
             valueHand2 = hand2.isStraight();
 
@@ -192,5 +200,12 @@ public class HandComparator {
         else {
             return Victorieu.egalite;
         }
+    }
+
+    private boolean isTwoPair (List<Card> values) {
+        for (Card c : values)
+            if (c == null)
+                return false;
+        return true;
     }
 }
