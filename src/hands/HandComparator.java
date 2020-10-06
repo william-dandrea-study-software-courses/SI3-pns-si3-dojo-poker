@@ -30,16 +30,31 @@ public class HandComparator {
 
         // Poker rules
         if (((valueHand1 = h1.isSquare()) != null) || ((valueHand2 = h2.isSquare()) != null))
+            // We have at least one quad
             return refereeOnQuad(h1, h2, valueHand1, valueHand2);
+
+        else if (((valueHand1 = h1.isFlush()) != null) || ((valueHand2 = h2.isFlush()) != null))
+            // We have at least one flush
+            return refereeOnFlush(h1, h2, valueHand1, valueHand2);
+
         else if (((valueHand1 = h1.isStraight()) != null) || ((valueHand2 = h2.isStraight()) != null))
+            // We have at least one straight
             return refereeOnStraight(h2, valueHand1, valueHand2);
+
         else if (((valueHand1 = h1.getBrelan()) != null) || ((valueHand2 = h2.getBrelan()) != null))
+            // We have at least one trip
             return refereeOnTrip(h1, h2, valueHand1, valueHand2);
+
         else if ((isTwoPair(h1.getDoublePairCards())) || (isTwoPair(h2.getDoublePairCards())))
+            // We have at least one two pair
             return refereeOnTwoPairs(h1, h2);
+
         else if (((valueHand1 = h1.getPairCards()) != null) || ((valueHand2 = h2.getPairCards()) != null))
+            // We have at least one pair in a hand
             return refereeOnPair(h1, h2, valueHand1, valueHand2);
+
         else
+            // We have nothing and we use the default referee rule
             return compareOnHighestCard(h1, h2);
     }
 
@@ -177,7 +192,7 @@ public class HandComparator {
                     valueHand2.get(0), null);
     }
 
-    private Victory refereeOnStraight (Hand hand2, Card valueHand1, Card valueHand2) throws Exception {
+    private Victory refereeOnStraight (Hand hand2, Card valueHand1, Card valueHand2) {
         if (valueHand2 == null)
             valueHand2 = hand2.isStraight();
 
@@ -190,6 +205,32 @@ public class HandComparator {
             return new Victory(Victorieu.main1, ResultType.suite, null, valueHand1, null);
         else
             return new Victory(Victorieu.main2, ResultType.suite, null, valueHand2, null);
+    }
+
+    private Victory refereeOnFlush (Hand hand1, Hand hand2, Card valueHand1, Card valueHand2) {
+        if (valueHand2 == null)
+            valueHand2 = hand2.isFlush();
+
+        if (hand1.isEmpty() && hand2.isEmpty())
+            return new Victory(Victorieu.egalite, ResultType.couleur, ResultType.couleur,
+                    null, null);
+        else if ((valueHand1 != null) && (valueHand2 != null)) {
+            Victorieu winner = compareCards(valueHand1, valueHand2);
+
+            if (winner.equals(Victorieu.egalite)) {
+                hand1.removeCardsOfValue(valueHand1);
+                hand2.removeCardsOfValue(valueHand2);
+
+                return refereeOnFlush(hand1, hand2, hand1.getHighestCard(), hand2.getHighestCard());
+            }
+
+            return new Victory(winner, ResultType.couleur, ResultType.couleur,
+                    (winner.equals(Victorieu.main1) ? valueHand1 : valueHand2),
+                    (winner.equals(Victorieu.main1) ? valueHand2 : valueHand1));
+        } else if (valueHand1 != null)
+            return new Victory(Victorieu.main1, ResultType.couleur, null, valueHand1, null);
+        else
+            return new Victory(Victorieu.main2, ResultType.couleur, null, valueHand2, null);
     }
 
     private Victorieu compareCards (Card valueHand1, Card valueHand2) {
