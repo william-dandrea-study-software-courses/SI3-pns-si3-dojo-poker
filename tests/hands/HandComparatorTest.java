@@ -284,7 +284,63 @@ public class HandComparatorTest {
     }
 
     @Test
+    public void testRefereeFlushWithLess () {
+        Hand eightHighFlush = builder.buildHandFromString("3Tr 4Tr 5Tr 6Tr 8Tr");
+        Hand aceAndKing = builder.buildHandFromString("RCo RCa ACo ACa 2Co");
+
+        try {
+            assertEquals(Victorieu.main1, referee.compare(
+                    eightHighFlush,
+                    aceAndKing
+            ).getWinner());
+        } catch (Exception e) {
+            fail ("No exception should be raised");
+        }
+    }
+
+    @Test
     public void testRefereeStraightFlush () {
-        fail("Not yet implemented");
+        Hand kingHighStraightFlush = builder.buildHandFromString("DTr 10Tr RTr 9Tr VTr");
+        Hand aceHighStraightFlush = builder.buildHandFromString("RCo DCo ACo 10Co VCo");
+        Hand kingHighStraightFlush2 = builder.buildHandFromString("9Ca 10Ca RCa DCa VCa");
+
+        Victory kingWithAce = null;
+        Victory aceWithKing2 = null;
+        Victory kingWithKing2 = null;
+
+        try {
+            kingWithAce = referee.compare(kingHighStraightFlush, aceHighStraightFlush);
+            aceWithKing2 = referee.compare(aceHighStraightFlush, kingHighStraightFlush2);
+            kingWithKing2 = referee.compare(kingHighStraightFlush, kingHighStraightFlush2);
+        } catch (Exception e) {
+            fail ("An exception shouldn't be raised");
+        }
+
+        assertEquals(Victorieu.main1, aceWithKing2.getWinner(),
+                "Test straight flush with ace (heart) and king2 (diamond)");
+        assertEquals(Victorieu.main2, kingWithAce.getWinner(),
+                "Test straight flush with king (club) and ace (club)");
+        assertEquals(Victorieu.egalite, kingWithKing2.getWinner(),
+                "Test straight flush with king (club) and king2 (diamond)");
+
+        assertEquals(ResultType.quinteFlush, aceWithKing2.getWinType(),
+                "Test win type on ace-high straight flush");
+        assertEquals(ResultType.quinteFlush, kingWithAce.getWinType(),
+                "Test win type on ace-high straight flush 2");
+    }
+
+    @Test
+    public void testRefereeStraightFlushWithLess () {
+        Hand kingHighStraightFlush = builder.buildHandFromString("DTr 10Tr RTr 9Tr VTr");
+        Hand aceQuad = builder.buildHandFromString("ACa APi ATr ACo 2Co");
+
+        try {
+            assertEquals(Victorieu.main1, referee.compare(
+                    kingHighStraightFlush,
+                    aceQuad
+            ).getWinner());
+        } catch (Exception e) {
+            fail ("No exception should be raised");
+        }
     }
 }
