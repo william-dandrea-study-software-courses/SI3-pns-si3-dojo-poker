@@ -29,6 +29,10 @@ public class HandComparator {
         Card valueHand2 = null;
 
         // Poker rules
+        if (((valueHand1 = h1.isStraightFlush()) != null) || ((valueHand2 = h2.isStraightFlush()) != null))
+            // We have at least one straightFlush
+            return refereeOnStraightFlush(h2, valueHand1, valueHand2);
+
         if (((valueHand1 = h1.isSquare()) != null) || ((valueHand2 = h2.isSquare()) != null))
             // We have at least one quad
             return refereeOnQuad(h1, h2, valueHand1, valueHand2);
@@ -114,6 +118,15 @@ public class HandComparator {
                     valueHand2, hand1.getHighestCard());
     }
 
+    /**
+     * This is a method to referee two hand on trip rule
+     * @param hand1 the first hand in input
+     * @param hand2 the second hand in input
+     * @param valueHand1 the value of the trip in hand1, if exist (to buy some time)
+     * @param valueHand2 the value of the trip in hand2, if exist (to buy some time)
+     * @return a explication on win result
+     * @throws Exception two trip can't have the same value in 52-card deck
+     */
     private Victory refereeOnTrip (Hand hand1, Hand hand2, Card valueHand1, Card valueHand2) throws Exception {
         if (valueHand2 == null)
             valueHand2 = hand2.getBrelan();
@@ -135,6 +148,15 @@ public class HandComparator {
                     valueHand2, hand1.getHighestCard());
     }
 
+    /**
+     * This is a method to referee two hand on quad rule
+     * @param hand1 the first hand in input
+     * @param hand2 the second hand in input
+     * @param valueHand1 the value of the quad in hand1, if exist (to buy some time)
+     * @param valueHand2 the value of the quad in hand2, if exist (to buy some time)
+     * @return a explication on win result
+     * @throws Exception two quad can't have the same value in 52-card deck
+     */
     private Victory refereeOnQuad (Hand hand1, Hand hand2, Card valueHand1, Card valueHand2) throws Exception {
         if (valueHand2 == null)
             valueHand2 = hand2.isSquare();
@@ -156,6 +178,12 @@ public class HandComparator {
                     valueHand2, hand1.getHighestCard());
     }
 
+    /**
+     * This is a method to referee two hand on two pair rule
+     * @param hand1 the first hand in input
+     * @param hand2 the second hand in input
+     * @return a explication on win result
+     */
     private Victory refereeOnTwoPairs (Hand hand1, Hand hand2) {
         List<Card> valueHand1 = hand1.getDoublePairCards();
         for (Card c : valueHand1)
@@ -192,6 +220,15 @@ public class HandComparator {
                     valueHand2.get(0), null);
     }
 
+    /**
+     * This is a method to referee two hand on straight rule.<br>
+     * Here the first hand is only describe by it's greatest value
+     *
+     * @param hand2 the second hand in input
+     * @param valueHand1 the value of the straight in hand1, if exist (to buy some time)
+     * @param valueHand2 the value of the straight in hand2, if exist (to buy some time)
+     * @return a explication on win result
+     */
     private Victory refereeOnStraight (Hand hand2, Card valueHand1, Card valueHand2) {
         if (valueHand2 == null)
             valueHand2 = hand2.isStraight();
@@ -207,6 +244,15 @@ public class HandComparator {
             return new Victory(Victorieu.main2, ResultType.suite, null, valueHand2, null);
     }
 
+    /**
+     * This is a method to referee two hand on flush rule
+     *
+     * @param hand1 the first hand in input
+     * @param hand2 the second hand in input
+     * @param valueHand1 the value of the flush in hand1, if exist (to buy some time)
+     * @param valueHand2 the value of the flush in hand2, if exist (to buy some time)
+     * @return a explication on win result
+     */
     private Victory refereeOnFlush (Hand hand1, Hand hand2, Card valueHand1, Card valueHand2) {
         if (valueHand2 == null)
             valueHand2 = hand2.isFlush();
@@ -233,6 +279,37 @@ public class HandComparator {
             return new Victory(Victorieu.main2, ResultType.couleur, null, valueHand2, null);
     }
 
+    /**
+     * This is a method to referee two hand on straight flush rule.<br>
+     * Here the first hand is only describe by it's greatest value
+     *
+     * @param hand2 the second hand in input
+     * @param valueHand1 the value of the straight flush in hand1, if exist (to buy some time)
+     * @param valueHand2 the value of the straight flush in hand2, if exist (to buy some time)
+     * @return a explication on win result
+     */
+    private Victory refereeOnStraightFlush (Hand hand2, Card valueHand1, Card valueHand2) {
+        if (valueHand2 == null)
+            valueHand2 = hand2.isStraightFlush();
+
+        if ((valueHand1 != null) && (valueHand2 != null)) {
+            Victorieu winner = compareCards(valueHand1, valueHand2);
+            return new Victory(winner, ResultType.quinteFlush, ResultType.quinteFlush,
+                    (winner.equals(Victorieu.main1) ? valueHand1 : valueHand2),
+                    (winner.equals(Victorieu.main1) ? valueHand2 : valueHand1));
+        } else if (valueHand1 != null)
+            return new Victory(Victorieu.main1, ResultType.quinteFlush, null, valueHand1, null);
+        else
+            return new Victory(Victorieu.main2, ResultType.quinteFlush, null, valueHand2, null);
+    }
+
+    /**
+     * Compare two hand value and return who win if only the card value is took
+     *
+     * @param valueHand1 a card of the first hand
+     * @param valueHand2 a card of the second hand
+     * @return a winner, return draw if necessary
+     */
     private Victorieu compareCards (Card valueHand1, Card valueHand2) {
         if (valueHand1.compareTo(valueHand2) > 0)
             return Victorieu.main1;
@@ -243,6 +320,12 @@ public class HandComparator {
         }
     }
 
+    /**
+     * Tell if the list given in describe or not a two pair hand
+     *
+     * @param values the values found for a two pair hand
+     * @return true if value contain two not null values, false otherwise
+     */
     private boolean isTwoPair (List<Card> values) {
         for (Card c : values)
             if (c == null)
