@@ -143,6 +143,21 @@ public class Hand extends ArrayList<Card> {
         return null;
     }
 
+    public int[] getFull(){
+        Map<Integer, Integer> nbOccur = getNbOccurOfValues();
+        int brelan = -1 , pair = -1;
+        for (int v : nbOccur.keySet()) {
+            if (nbOccur.get(v) == 3 && brelan < v) {
+                brelan = v;
+            }
+            if (nbOccur.get(v) == 2 && pair < v){
+                pair = v;
+            }
+        }
+        if (brelan == -1 || pair == -1) return null;
+        return new int[]{brelan, pair};
+    }
+
 
     /**
      * This method return the cards which have the n cousin (Same value) in the hand.
