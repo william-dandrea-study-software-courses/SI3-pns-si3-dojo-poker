@@ -1,12 +1,9 @@
 package hands;
 
 import cards.Card;
-import interaction.ResultType;
-import interaction.Victorieu;
-import interaction.Victory;
+import interaction.*;
 
 import java.util.AbstractMap;
-import java.util.List;
 
 /**
  * This class is used to compare several hands. She will determine which is the better and why.
@@ -77,20 +74,20 @@ public class HandComparator {
      */
     private Victory compareOnHighestCard (Hand hand1, Hand hand2) {
         if (hand1.isEmpty() || hand2.isEmpty())
-            return new Victory(Victorieu.egalite, ResultType.higherCard, null);
+            return new Victory(Victorieu.egalite, ResultType.higherCard, 0);
 
         Card highest1 = hand1.getHighestCard();
         Card highest2 = hand2.getHighestCard();
 
         if (highest1.compareTo(highest2) > 0) {
-            return new Victory(Victorieu.main1, ResultType.higherCard, highest1);
+            return new Victory(Victorieu.main1, ResultType.higherCard, highest1.getValue());
         } else if (highest1.compareTo(highest2) < 0) {
-            return new Victory(Victorieu.main2, ResultType.higherCard, highest2);
+            return new Victory(Victorieu.main2, ResultType.higherCard, highest2.getValue());
         }
         hand1.remove(highest1);
         hand2.remove(highest2);
         if (hand1.isEmpty() || hand2.isEmpty())
-            return new Victory(Victorieu.egalite, ResultType.higherCard, highest1);
+            return new Victory(Victorieu.egalite, ResultType.higherCard, highest1.getValue());
         else
             return compareOnHighestCard(hand1, hand2);
     }
@@ -114,11 +111,11 @@ public class HandComparator {
                 return compareOnHighestCard(hand1, hand2);
             }
             return new Victory(winner, ResultType.pair,
-                    (winner.equals(Victorieu.main1) ? valueHand1 : valueHand2));
+                    (winner.equals(Victorieu.main1) ? valueHand1.getValue() : valueHand2.getValue()));
         } else if (valueHand1 != null)
-            return new Victory(Victorieu.main1, ResultType.pair, valueHand1);
+            return new Victory(Victorieu.main1, ResultType.pair, valueHand1.getValue());
         else
-            return new Victory(Victorieu.main2, ResultType.pair, valueHand2);
+            return new Victory(Victorieu.main2, ResultType.pair, valueHand2.getValue());
     }
 
     /**
@@ -139,11 +136,12 @@ public class HandComparator {
             if (winner.equals(Victorieu.egalite)) {
                 throw new Exception("two same value trips in a four colors games is impossible");
             }
-            return new Victory(winner, ResultType.brelan, winner.equals(Victorieu.main1) ? valueHand1 : valueHand2);
+            return new Victory(winner, ResultType.brelan,
+                    winner.equals(Victorieu.main1) ? valueHand1.getValue() : valueHand2.getValue());
         } else if (valueHand1 != null)
-            return new Victory(Victorieu.main1, ResultType.brelan, valueHand1);
+            return new Victory(Victorieu.main1, ResultType.brelan, valueHand1.getValue());
         else
-            return new Victory(Victorieu.main2, ResultType.brelan, valueHand2);
+            return new Victory(Victorieu.main2, ResultType.brelan, valueHand2.getValue());
     }
 
     /**
@@ -164,11 +162,12 @@ public class HandComparator {
             if (winner.equals(Victorieu.egalite)) {
                 throw new Exception("two same value quads in a four colors games is impossible");
             }
-            return new Victory(winner, ResultType.carre, (winner.equals(Victorieu.main1) ? valueHand1 : valueHand2));
+            return new Victory(winner, ResultType.carre,
+                    (winner.equals(Victorieu.main1) ? valueHand1.getValue() : valueHand2.getValue()));
         } else if (valueHand1 != null)
-            return new Victory(Victorieu.main1, ResultType.carre, valueHand1);
+            return new Victory(Victorieu.main1, ResultType.carre, valueHand1.getValue());
         else
-            return new Victory(Victorieu.main2, ResultType.carre, valueHand2);
+            return new Victory(Victorieu.main2, ResultType.carre, valueHand2.getValue());
     }
 
     /**
@@ -194,12 +193,15 @@ public class HandComparator {
                     return compareOnHighestCard(hand1, hand2);
                 }
             }
-            return new Victory(winner, ResultType.doublePair,
-                    (winner.equals(Victorieu.main1) ? valueHand1.getKey() : valueHand2.getKey()));
+            return new TwoCardVictory(winner, ResultType.doublePair,
+                    (winner.equals(Victorieu.main1) ? valueHand1.getKey().getValue() : valueHand2.getKey().getValue()),
+                    (winner.equals(Victorieu.main1) ? valueHand1.getValue().getValue() : valueHand2.getValue().getValue()));
         } else if (valueHand1 != null)
-            return new Victory(Victorieu.main1, ResultType.doublePair, valueHand1.getKey());
+            return new TwoCardVictory(Victorieu.main1, ResultType.doublePair,
+                    valueHand1.getKey().getValue(), valueHand1.getValue().getValue());
         else
-            return new Victory(Victorieu.main2, ResultType.doublePair, valueHand2.getKey());
+            return new TwoCardVictory(Victorieu.main2, ResultType.doublePair,
+                    valueHand2.getKey().getValue(), valueHand2.getKey().getValue());
     }
 
     /**
@@ -218,11 +220,11 @@ public class HandComparator {
         if ((valueHand1 != null) && (valueHand2 != null)) {
             Victorieu winner = compareCards(valueHand1, valueHand2);
             return new Victory(winner, ResultType.suite,
-                    (winner.equals(Victorieu.main1) ? valueHand1 : valueHand2));
+                    (winner.equals(Victorieu.main1) ? valueHand1.getValue() : valueHand2.getValue()));
         } else if (valueHand1 != null)
-            return new Victory(Victorieu.main1, ResultType.suite, valueHand1);
+            return new Victory(Victorieu.main1, ResultType.suite, valueHand1.getValue());
         else
-            return new Victory(Victorieu.main2, ResultType.suite, valueHand2);
+            return new Victory(Victorieu.main2, ResultType.suite, valueHand2.getValue());
     }
 
     /**
@@ -239,7 +241,7 @@ public class HandComparator {
             valueHand2 = hand2.isFlush();
 
         if (hand1.isEmpty() && hand2.isEmpty())
-            return new Victory(Victorieu.egalite, ResultType.couleur, null);
+            return new Victory(Victorieu.egalite, ResultType.couleur, 0);
         else if ((valueHand1 != null) && (valueHand2 != null)) {
             Victorieu winner = compareCards(valueHand1, valueHand2);
 
@@ -250,12 +252,15 @@ public class HandComparator {
                 return refereeOnFlush(hand1, hand2, hand1.getHighestCard(), hand2.getHighestCard());
             }
 
-            return new Victory(winner, ResultType.couleur,
-                    (winner.equals(Victorieu.main1) ? valueHand1 : valueHand2));
+            return new ColorVictory(winner, ResultType.couleur,
+                    (winner.equals(Victorieu.main1) ? valueHand1.getValue() : valueHand2.getValue()),
+                    (winner.equals(Victorieu.main1) ? valueHand1.getColor() : valueHand2.getColor()));
         } else if (valueHand1 != null)
-            return new Victory(Victorieu.main1, ResultType.couleur, valueHand1);
+            return new ColorVictory(Victorieu.main1, ResultType.couleur,
+                    valueHand1.getValue(), valueHand1.getColor());
         else
-            return new Victory(Victorieu.main2, ResultType.couleur, valueHand2);
+            return new ColorVictory(Victorieu.main2, ResultType.couleur, valueHand2.getValue(),
+                    valueHand2.getColor());
     }
 
     /**
@@ -273,12 +278,15 @@ public class HandComparator {
 
         if ((valueHand1 != null) && (valueHand2 != null)) {
             Victorieu winner = compareCards(valueHand1, valueHand2);
-            return new Victory(winner, ResultType.quinteFlush,
-                    (winner.equals(Victorieu.main1) ? valueHand1 : valueHand2));
+            return new ColorVictory(winner, ResultType.quinteFlush,
+                    (winner.equals(Victorieu.main1) ? valueHand1.getValue() : valueHand2.getValue()),
+                    (winner.equals(Victorieu.main1) ? valueHand1.getColor() : valueHand2.getColor()));
         } else if (valueHand1 != null)
-            return new Victory(Victorieu.main1, ResultType.quinteFlush, valueHand1);
+            return new ColorVictory(Victorieu.main1, ResultType.quinteFlush, valueHand1.getValue(),
+                    valueHand1.getColor());
         else
-            return new Victory(Victorieu.main2, ResultType.quinteFlush, valueHand2);
+            return new ColorVictory(Victorieu.main2, ResultType.quinteFlush, valueHand2.getValue(),
+                    valueHand2.getColor());
     }
 
     /**
@@ -309,20 +317,24 @@ public class HandComparator {
             }
             if (valueHand1[0] > valueHand2[0]){
                 //la main 1 gagne
-                return new Victory(Victorieu.main1,ResultType.full,null);
+                return new TwoCardVictory(Victorieu.main1,ResultType.full,
+                        valueHand1[0],valueHand1[1]);
             }
 
             //la main 2 gagne
-            return new Victory(Victorieu.main2,ResultType.full,null);
+            return new TwoCardVictory(Victorieu.main2,ResultType.full,
+                    valueHand2[0],valueHand2[1]);
 
         }
         else if (valueHand1 != null) {
             // la main 1 gagne
-            return new Victory(Victorieu.main1,ResultType.full,null);
+            return new TwoCardVictory(Victorieu.main1,ResultType.full,
+                    valueHand1[0],valueHand1[1]);
         }
         else if (valueHand2 != null){
             //la main 2 gagne
-            return new Victory(Victorieu.main2,ResultType.full,null);
+            return new TwoCardVictory(Victorieu.main2,ResultType.full,
+                    valueHand2[0],valueHand2[1]);
         }
         return null;
     }

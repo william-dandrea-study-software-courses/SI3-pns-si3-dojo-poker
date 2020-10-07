@@ -1,12 +1,9 @@
 package interaction;
-import cards.Card;
-import interaction.Victorieu;
-import interaction.ResultType;
 
 import java.util.HashMap;
 
 public class Victory {
-    private HashMap<ResultType,String> types = new HashMap<ResultType,String>(){{
+    protected final HashMap<ResultType,String> types = new HashMap<>(){{
         put(ResultType.brelan,"Brelan");
         put(ResultType.carre,"carré");
         put(ResultType.couleur,"couleur");
@@ -17,14 +14,14 @@ public class Victory {
         put(ResultType.quinteFlush,"Quinte Flush");
         put(ResultType.suite,"Suite");
     }};
-    private Victorieu victorieu;
-    private ResultType handWinType;
-    private Card cardWinner;
+    private final Victorieu victorieu;
+    private final ResultType handWinType;
+    private final int valueWinner;
 
-    public Victory(Victorieu victorieu, ResultType handWinType,  Card cardWinner){
+    public Victory(Victorieu victorieu, ResultType handWinType,  int valueWinner){
         this.victorieu = victorieu;
         this.handWinType = handWinType;
-        this.cardWinner = cardWinner;
+        this.valueWinner = valueWinner;
 
     }
 
@@ -35,19 +32,22 @@ public class Victory {
         return handWinType;
     }
 
+    public int getValueWinner() {
+        return valueWinner;
+    }
 
     @Override
     public String toString() {
         if (victorieu == Victorieu.egalite){
-            return "Egalite "+ types.get(handWinType) + " " + cardWinner.toString() ;
+            return "Egalite "+ types.get(handWinType) + " " + getValueWinner();
         }
         else {
             if (victorieu == Victorieu.main1)
             {
-                return "La main 1 gagne par " + types.get(handWinType) + ":" + cardWinner.toString();
+                return "La main 1 gagne par " + types.get(handWinType) + ":" + getValueWinner();
             }
             else {
-                return "La main 2 gagne par " + types.get(handWinType) + ":" + cardWinner.toString();
+                return "La main 2 gagne par " + types.get(handWinType) + ":" + getValueWinner();
             }
         }
     }
