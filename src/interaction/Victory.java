@@ -1,6 +1,9 @@
 package interaction;
 
+import cards.Value;
+
 import java.util.HashMap;
+import java.util.ResourceBundle;
 
 public class Victory {
     protected final HashMap<ResultType,String> types = new HashMap<>(){{
@@ -16,9 +19,9 @@ public class Victory {
     }};
     private final Victorieu victorieu;
     private final ResultType handWinType;
-    private final int valueWinner;
+    private final Value valueWinner;
 
-    public Victory(Victorieu victorieu, ResultType handWinType,  int valueWinner){
+    public Victory(Victorieu victorieu, ResultType handWinType,  Value valueWinner){
         this.victorieu = victorieu;
         this.handWinType = handWinType;
         this.valueWinner = valueWinner;
@@ -32,7 +35,7 @@ public class Victory {
         return handWinType;
     }
 
-    public int getValueWinner() {
+    public Value getValueWinner() {
         return valueWinner;
     }
 
@@ -52,4 +55,16 @@ public class Victory {
         }
     }
 
+    public String describe (ResourceBundle r) {
+        if (getWinner().equals(Victorieu.egalite))
+            return r.getString("draw");
+
+        String res = r.getString(getWinner().name()) + " ";
+
+        res += r.getString(getWinType().name());
+        res += " ";
+        res += r.getString(getValueWinner().name());
+
+        return res;
+    }
 }

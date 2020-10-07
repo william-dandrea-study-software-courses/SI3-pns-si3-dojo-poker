@@ -22,9 +22,9 @@ public class CardTest {
      */
     @Test
     public void testValueGetter () {
-        int value1 = 2;
-        int value2 = 14;
-        int value3 = 10;
+        Value value1 = Value.two;
+        Value value2 = Value.ace;
+        Value value3 = Value.ten;
 
         card1 = new Card(value1, Color.Co);
 
@@ -36,9 +36,9 @@ public class CardTest {
         assertEquals (value2, card2.getValue(), "Test getter on card 2");
         assertEquals (value3, card3.getValue(), "Test getter on card 3");
 
-        assertEquals ("2", card1.getDisplayableValue(), "Test display getter on card 1");
-        assertEquals ("A", card2.getDisplayableValue(), "Test display getter on card 2");
-        assertEquals ("10", card3.getDisplayableValue(), "Test display getter on card 3");
+        assertEquals ("two", card1.getDisplayableValue(), "Test display getter on card 1");
+        assertEquals ("ace", card2.getDisplayableValue(), "Test display getter on card 2");
+        assertEquals ("ten", card3.getDisplayableValue(), "Test display getter on card 3");
     }
 
     /**
@@ -46,10 +46,10 @@ public class CardTest {
      */
     @Test
     public void testCompareTo () {
-        card1 = new Card(10);
-        card2 = new Card(13);
-        card3 = new Card(6);
-        Card card4 = new Card(10);
+        card1 = new Card(Value.ten);
+        card2 = new Card(Value.king);
+        card3 = new Card(Value.six);
+        Card card4 = new Card(Value.ten);
 
         assertTrue(card1.compareTo(card2) < 0, "Test compare to with greater card");
         assertTrue(card1.compareTo(card3) > 0, "Test compare to with a less card");
@@ -66,8 +66,8 @@ public class CardTest {
 
     @Test
     public void testColorGetter () {
-        card1 = new Card (13, Color.Ca);
-        card2 = new Card (13, Color.valueOf("Pi"));
+        card1 = new Card (Value.king, Color.Ca);
+        card2 = new Card (Value.king, Color.valueOf("Pi"));
 
         assertEquals(Color.Ca, card1.getColor(), "Test color 1");
         assertEquals(Color.Pi, card2.getColor(), "Test color 2");

@@ -3,6 +3,7 @@ package hands;
 import cards.Card;
 
 import cards.Color;
+import cards.Value;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -40,7 +41,7 @@ public class HandTest {
         brelanHand = builder.buildHandFromString("8Pi 8Co 6Pi 8Ca 9Co");
         Hand randomHand = builder.buildHandFromString("6Tr 4Co ACa RCa DTr");
 
-        assertEquals(7, pairHand.getPairCards().getValue(), "Test for the same Hand (with pair)");
+        assertEquals(Value.seven, pairHand.getPairCards().getValue(), "Test for the same Hand (with pair)");
         assertEquals((doublePairHand.getPairCards().getValue()), pairHand.getPairCards().getValue(), "Test if the return card is the same");
         assertNull(randomHand.getPairCards());
         assertNotNull(brelanHand.getPairCards());
@@ -59,8 +60,8 @@ public class HandTest {
         AbstractMap.SimpleEntry<Card, Card> array1 = builder.buildHandFromString("5Tr 5Pi 7Pi 5Ca 7Co").getDoublePairCards();
         //System.out.println(array1);
 
-        assertEquals(array1.getKey().getValue(), 7, "We have two pairs, 7 and 5");
-        assertEquals(array1.getValue().getValue(), 5, "We have two pairs, 7 and 5");
+        assertEquals(array1.getKey().getValue(), Value.seven, "We have two pairs, 7 and 5");
+        assertEquals(array1.getValue().getValue(), Value.five, "We have two pairs, 7 and 5");
 
         AbstractMap.SimpleEntry<Card, Card> array2 = builder.buildHandFromString("6Tr 4Co ACa RCa DTr").getDoublePairCards();
         //System.out.println(array2);
@@ -74,17 +75,17 @@ public class HandTest {
         brelanHand = builder.buildHandFromString("8Pi 8Co 6Pi 8Ca 9Co");
 
         assertEquals(pairHand.getCardWhichHaveNLessOneOtherSameValuedCard(2).size(), 1, "Test for N=2 Size Pair Hand");
-        assertEquals(pairHand.getCardWhichHaveNLessOneOtherSameValuedCard(2).get(0), new Card(7, Color.Pi), "Test for N=2 Value Pair Hand");
+        assertEquals(pairHand.getCardWhichHaveNLessOneOtherSameValuedCard(2).get(0), new Card(Value.seven, Color.Pi), "Test for N=2 Value Pair Hand");
 
         assertEquals(pairHand.getCardWhichHaveNLessOneOtherSameValuedCard(3).size(), 0);
 
         assertEquals(brelanHand.getCardWhichHaveNLessOneOtherSameValuedCard(3).size(), 1);
-        assertEquals(brelanHand.getCardWhichHaveNLessOneOtherSameValuedCard(3).get(0).getValue(), 8);
+        assertEquals(brelanHand.getCardWhichHaveNLessOneOtherSameValuedCard(3).get(0).getValue(), Value.eight);
     }
 
     @Test
     public  void testBrelans() {
-
+        //
     }
 
 
@@ -92,10 +93,8 @@ public class HandTest {
     public void testAddingGettingCard () {
         Hand hand1 = new Hand();
 
-        Card card1 = new Card(2, Color.Co);
-        Card card2 = new Card(13, Color.Ca);
-
-        assertTrue (hand1.isEmpty(), "Test isEmpty hand == true");
+        Card card1 = new Card(Value.two, Color.Co);
+        Card card2 = new Card(Value.king, Color.Ca);
 
         hand1.add(card1);
         hand1.add(card2);
@@ -106,10 +105,10 @@ public class HandTest {
 
         assertFalse(hand1.isEmpty(), "Test isEmpty hand == false");
 
-        Card card3 = new Card(2);
-        Card card4 = new Card(13);
-        Card card5 = new Card(2);
-        Card card6 = new Card(13);
+        Card card3 = new Card(Value.two);
+        Card card4 = new Card(Value.king);
+        Card card5 = new Card(Value.two);
+        Card card6 = new Card(Value.king);
 
         hand1.add(card3);
         hand1.add(card4);
@@ -129,7 +128,7 @@ public class HandTest {
 
         Hand hand1 = builder.buildHandFromString("2Tr RCa");
 
-        assertEquals(13, hand1.getHighestCard().getValue(), "Get highest value");
+        assertEquals(Value.king, hand1.getHighestCard().getValue(), "Get highest value");
     }
 
     @Test
@@ -146,7 +145,7 @@ public class HandTest {
 
         hand1 = builder.buildHandFromString("7Pi 6Pi 8Pi 9Pi 5Pi");
 
-        assertEquals(9, hand1.isFlush().getValue(), "Test is color + return value");
+        assertEquals(Value.nine, hand1.isFlush().getValue(), "Test is color + return value");
     }
 
     @Test
@@ -163,11 +162,11 @@ public class HandTest {
         assertNull(hand1.isStraightFlush(), "Test is not quinte flush 2");
 
         hand1 = builder.buildHandFromString("7Pi 6Pi 8Pi 9Pi 5Co");
-        assertEquals(9, hand1.isStraight().getValue(), "Test is suite 1");
+        assertEquals(Value.nine, hand1.isStraight().getValue(), "Test is suite 1");
         assertNull(hand1.isStraightFlush(), "Test is not quinte flush 3");
 
         hand1 = builder.buildHandFromString("7Tr 6Tr 8Tr 9Tr 5Tr");
-        assertEquals(9, hand1.isStraight().getValue(), "Test is suite 2");
-        assertEquals(9, hand1.isStraightFlush().getValue(), "Test is quinte flush");
+        assertEquals(Value.nine, hand1.isStraight().getValue(), "Test is suite 2");
+        assertEquals(Value.nine, hand1.isStraightFlush().getValue(), "Test is quinte flush");
     }
 }

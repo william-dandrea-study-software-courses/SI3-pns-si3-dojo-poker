@@ -2,6 +2,7 @@ package hands;
 
 import cards.Card;
 import cards.Color;
+import cards.Value;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,7 +65,7 @@ public class HandBuilder {
 
         Color color = Color.valueOf(card.substring(card.length() - COLOR_LENGTH));
 
-        Card res = new Card(value, color);
+        Card res = new Card(Value.values()[value], color);
 
         if (knownCards.contains(res)) {
             // This mean that a card with same value and color has been already created
@@ -84,7 +85,7 @@ public class HandBuilder {
     private int getCardValueFromString(String value) {
         for (int i = 0; i < names.length; i++) {
             if (value.equals(names[i])) {
-                return i + 2; // + 2 because the value start with 2 and this As have value 14
+                return i; // + 2 because the value start with 2 and this As have value 14
             }
         }
         return -1;

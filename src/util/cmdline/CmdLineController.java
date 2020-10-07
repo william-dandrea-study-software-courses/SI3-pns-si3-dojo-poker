@@ -57,6 +57,7 @@ public class CmdLineController {
         } catch (Exception e) {
             ui.print(e.getMessage());
         }
-        ui.print(victory);
+        // ui.print(victory);
+        ui.printVictory(victory);
     }
 }

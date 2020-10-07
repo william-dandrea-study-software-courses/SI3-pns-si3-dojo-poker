@@ -2,6 +2,7 @@ package hands;
 
 import cards.Card;
 import cards.Color;
+import cards.Value;
 
 import java.util.*;
 
@@ -66,7 +67,7 @@ public class Hand extends ArrayList<Card> {
             for (int j = 0; j < this.size(); j++) {
 
                 if (i !=j && this.get(i).getValue() == this.get(j).getValue()) {
-                    if (cardMax == null || this.get(i).getValue() > cardMax.getValue()) {
+                    if (cardMax == null || this.get(i).compareTo(cardMax) > 0) {
                         cardMax = this.get(i);
                     }
                 }
@@ -137,19 +138,19 @@ public class Hand extends ArrayList<Card> {
         return null;
     }
 
-    public int[] getFull(){
-        Map<Integer, Integer> nbOccur = getNbOccurOfValues();
-        int brelan = -1 , pair = -1;
-        for (int v : nbOccur.keySet()) {
-            if (nbOccur.get(v) == 3 && brelan < v) {
+    public Value[] getFull(){
+        Map<Value, Integer> nbOccur = getNbOccurOfValues();
+        Value brelan = null , pair = null;
+        for (Value v : nbOccur.keySet()) {
+            if (nbOccur.get(v) == 3 && brelan == null) {
                 brelan = v;
             }
-            if (nbOccur.get(v) == 2 && pair < v){
+            if (nbOccur.get(v) == 2 && pair == null){
                 pair = v;
             }
         }
-        if (brelan == -1 || pair == -1) return null;
-        return new int[]{brelan, pair};
+        if (brelan == null || pair == null) return null;
+        return new Value[]{brelan, pair};
     }
 
 
@@ -172,7 +173,7 @@ public class Hand extends ArrayList<Card> {
 
 
         for (Card card : hand) {
-            int value = card.getValue() - 2;
+            int value = card.getValue().ordinal();
             powerOfValues[value]++;
             if (instanceOfCardByValues[value] == null) {
                 instanceOfCardByValues[value] = card;
@@ -223,13 +224,13 @@ public class Hand extends ArrayList<Card> {
         // This will sort the list from the less to higher value
         this.sort(Card::compareTo);
 
-        int previousValue = this.get(0).getValue();
+        int previousValue = this.get(0).getValue().ordinal();
 
         for (int i = 1; i < this.size(); i++) {
-            if (Math.abs(previousValue - this.get(i).getValue()) != 1) {
+            if (Math.abs(previousValue - this.get(i).getValue().ordinal()) != 1) {
                 return null;
             }
-            previousValue = this.get(i).getValue();
+            previousValue = this.get(i).getValue().ordinal();
         }
 
         return this.get(this.size() - 1);
@@ -261,8 +262,8 @@ public class Hand extends ArrayList<Card> {
         return f.toString();
     }
 
-    private Map<Integer,Integer> getNbOccurOfValues () {
-        Map<Integer, Integer> res = new HashMap<>();
+    private Map<Value,Integer> getNbOccurOfValues () {
+        Map<Value, Integer> res = new HashMap<>();
 
         for (Card c : this) {
             if (res.containsKey(c.getValue())) {

@@ -13,23 +13,23 @@ package cards;
 public class Card implements Comparable<Card> {
     // -- final statics variables --
     private final static String[] names = {"2", "3", "4", "5", "6", "7", "8", "9", "10", "V", "D", "R", "A"};
-    private Color color;
 
     // -- Variables --
-    private final int value;
+    private final Value value;
+    private Color color;
 
     // -- Constructors --
-    public Card (int value) {
+    public Card (Value value) {
         this.value = value;
     }
 
-    public Card (int value, Color color) {
+    public Card (Value value, Color color) {
         this (value);
         this.color = color;
     }
 
     // -- Getters --
-    public int getValue () {
+    public Value getValue () {
         return value;
     }
 
@@ -56,7 +56,7 @@ public class Card implements Comparable<Card> {
             throw new NullPointerException("compare can be done with a null object");
         }
 
-        return Integer.compare(getValue(), o.getValue());
+        return getValue().compareTo(o.getValue());
     }
 
     @Override
@@ -78,6 +78,6 @@ public class Card implements Comparable<Card> {
      * @return 2, 3, 4, 5, 6, 7, 8, 9, 10, V, D, R or A following the card value
      */
     public String getDisplayableValue () {
-        return names[getValue() - 2];
+        return getValue().name();
     }
 }

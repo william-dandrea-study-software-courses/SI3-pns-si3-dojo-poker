@@ -2,6 +2,7 @@ package util.cmdline;
 
 import hands.Hand;
 import hands.HandBuilder;
+import interaction.Victory;
 
 import java.io.InputStream;
 import java.io.PrintStream;
@@ -64,8 +65,12 @@ public class CmdLineUserInterface {
 
         Hand hand = builder.buildHandFromString(line);
 
-        print("You enter : " + hand.toString());
+        // print("You enter : " + hand.toString());
 
         return hand;
+    }
+
+    public void printVictory (Victory victory) {
+        print(victory.describe(ctrl.getR()));
     }
 }

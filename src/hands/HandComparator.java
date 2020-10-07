@@ -1,6 +1,7 @@
 package hands;
 
 import cards.Card;
+import cards.Value;
 import interaction.*;
 
 import java.util.AbstractMap;
@@ -25,8 +26,8 @@ public class HandComparator {
 
         Card valueHand1;
         Card valueHand2 = null;
-        int[] value_Hand1;
-        int[] value_Hand2 = null;
+        Value[] value_Hand1;
+        Value[] value_Hand2 = null;
 
         // Poker rules
         if (((valueHand1 = h1.isStraightFlush()) != null) || ((valueHand2 = h2.isStraightFlush()) != null))
@@ -74,7 +75,7 @@ public class HandComparator {
      */
     private Victory compareOnHighestCard (Hand hand1, Hand hand2) {
         if (hand1.isEmpty() || hand2.isEmpty())
-            return new Victory(Victorieu.egalite, ResultType.higherCard, 0);
+            return new Victory(Victorieu.egalite, ResultType.higherCard, null);
 
         Card highest1 = hand1.getHighestCard();
         Card highest2 = hand2.getHighestCard();
@@ -241,7 +242,7 @@ public class HandComparator {
             valueHand2 = hand2.isFlush();
 
         if (hand1.isEmpty() && hand2.isEmpty())
-            return new Victory(Victorieu.egalite, ResultType.couleur, 0);
+            return new Victory(Victorieu.egalite, ResultType.couleur, null);
         else if ((valueHand1 != null) && (valueHand2 != null)) {
             Victorieu winner = compareCards(valueHand1, valueHand2);
 
@@ -306,7 +307,7 @@ public class HandComparator {
         }
     }
 
-    private Victory refereeOnFull(Hand hand2, int[] valueHand1, int[] valueHand2) throws Exception {
+    private Victory refereeOnFull(Hand hand2, Value[] valueHand1, Value[] valueHand2) throws Exception {
         if (valueHand2 == null){
             valueHand2 = hand2.getFull();
         }
@@ -315,7 +316,7 @@ public class HandComparator {
                 //on a egalite
                 throw new Exception("error");
             }
-            if (valueHand1[0] > valueHand2[0]){
+            if (valueHand1[0].compareTo(valueHand2[0]) > 0) {
                 //la main 1 gagne
                 return new TwoCardVictory(Victorieu.main1,ResultType.full,
                         valueHand1[0],valueHand1[1]);

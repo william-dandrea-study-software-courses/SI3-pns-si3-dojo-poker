@@ -341,7 +341,7 @@ public class HandComparatorTest {
     }
 
     @Test
-    public void testReferreFull () {
+    public void testRefereeFull() {
 
         Hand fullHouseKingOverFours = builder.buildHandFromString("RTr RCa RPi 4Ca 4Co");
         Hand fullHouseQueenOverFive = builder.buildHandFromString("DTr DCa DPi 5Ca 5Co");

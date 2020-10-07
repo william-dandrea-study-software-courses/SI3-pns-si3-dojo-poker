@@ -1,6 +1,7 @@
 package hands;
 
 import cards.Color;
+import cards.Value;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -19,16 +20,14 @@ public class HandBuilderTest {
         Hand hand = builder.buildHandFromString("7Tr 6Pi");
 
         assertFalse(hand.isEmpty(), "Test the hand isn't empty");
-        assertEquals(7, hand.get(0).getValue(), "Test card value 1");
+        assertEquals(Value.seven, hand.get(0).getValue(), "Test card value 1");
         assertEquals(Color.Tr, hand.get(0).getColor(), "Test card color 1");
-        assertEquals(6, hand.get(1).getValue(), "Test card value 2");
+        assertEquals(Value.six, hand.get(1).getValue(), "Test card value 2");
         assertEquals(Color.Pi, hand.get(1).getColor(), "Test card color 2");
     }
 
     @Test
     public void testMistakeInCardGrammar () {
-
-
         try {
             builder.buildHandFromString("1Tr");
             fail ("An As is built with A not 1 so there should be an exception raised");
@@ -47,10 +46,9 @@ public class HandBuilderTest {
 
     @Test()
     public void testCardDuplication () {
-        Hand h1 = builder.buildHandFromString("7Tr");
-
+        builder.buildHandFromString("7Tr");
         try {
-            Hand h2 = builder.buildHandFromString("7Tr");
+            builder.buildHandFromString("7Tr");
             fail("A duplication exception should be raised");
         } catch (RuntimeException e) {
             assertEquals("Card already existing", e.getMessage(),
