@@ -80,16 +80,12 @@ public class HandComparatorTest {
                 "Test compare kingAndAs with queenPair, who's winner ?");
         assertEquals(ResultType.pair, kingAndAsCompareQueensVictory.getWinType(),
                 "Test compare kingAndAs with queenPair, why do he won ?");
-        assertEquals(ResultType.higherCard, kingAndAsCompareQueensVictory.getLoseType(),
-                "Test compare kingAndAs with queenPair, why do he lose ?");
 
         Victory queensCompareKingAndAsVictory = referee.compare(queenPair, kingAndAs);
         assertEquals(Victorieu.main1, queensCompareKingAndAsVictory.getWinner(),
                 "Test compare queenPair with kingAndAs, who's winner ?");
         assertEquals(ResultType.pair, queensCompareKingAndAsVictory.getWinType(),
                 "Test compare queenPair with kingAndAs, why do he won ?");
-        assertEquals(ResultType.higherCard, queensCompareKingAndAsVictory.getLoseType(),
-                "Test compare queenPair with kingAndAs, why do he lose ?");
     }
 
     @Test
