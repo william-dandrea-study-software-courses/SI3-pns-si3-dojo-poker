@@ -171,11 +171,11 @@ public class Hand extends ArrayList<Card> {
         int[] powerOfValues = new int[13];
 
 
-        for(int i = 0; i < hand.size(); i++) {
-            int value = hand.get(i).getValue() - 2;
+        for (Card card : hand) {
+            int value = card.getValue() - 2;
             powerOfValues[value]++;
-            if(instanceOfCardByValues[value] == null) {
-                instanceOfCardByValues[value] = hand.get(i);
+            if (instanceOfCardByValues[value] == null) {
+                instanceOfCardByValues[value] = card;
             }
         }
 

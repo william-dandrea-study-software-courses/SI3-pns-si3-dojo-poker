@@ -27,10 +27,10 @@ public class HandBuilderTest {
 
     @Test
     public void testMistakeInCardGrammar () {
-        Hand hand = null;
+
 
         try {
-            hand = builder.buildHandFromString("1Tr");
+            builder.buildHandFromString("1Tr");
             fail ("An As is built with A not 1 so there should be an exception raised");
         } catch (IllegalArgumentException e) {
             assertEquals("The card value must be in {2, 3, 4, 5, 6, 7, 8, 9, V, D, R, A}",
@@ -38,10 +38,10 @@ public class HandBuilderTest {
         }
 
         try {
-            hand = builder.buildHandFromString("API");
+            builder.buildHandFromString("API");
             fail ("An Pique is built with Pi not PI so there should be an exception raised");
         } catch (IllegalArgumentException e) {
-            assertTrue(e != null, "Exception de couleur");
+            assertNotNull(e, "Exception de couleur");
         }
     }
 

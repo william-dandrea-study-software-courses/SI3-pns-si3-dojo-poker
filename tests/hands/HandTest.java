@@ -7,7 +7,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.AbstractMap;
-import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -15,9 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * Basic JUnit test on <i>Hand</i> class
  *
  * @author Gabriel Cogne
- * @author
- * @author
- * @author
+ * @author D'Andrea William
  */
 
 public class HandTest {
@@ -26,7 +23,8 @@ public class HandTest {
      * This method test the isEmpty(), add(obj), size() and get(index) method on <i>Hand</i> class
      */
 
-    private Hand pairHand, doublePairHand, brelanHand, randomHand, pairHand2,doublePairHand2;
+    private Hand pairHand;
+    private Hand brelanHand;
     private HandBuilder builder;
 
 
@@ -38,14 +36,14 @@ public class HandTest {
     @Test
     public void testGetPairCards(){
         pairHand = builder.buildHandFromString("7Pi 3Co 5Pi 2Ca 7Co");
-        doublePairHand = builder.buildHandFromString("7Ca 3Ca 5Tr 3Pi 7Tr");
+        Hand doublePairHand = builder.buildHandFromString("7Ca 3Ca 5Tr 3Pi 7Tr");
         brelanHand = builder.buildHandFromString("8Pi 8Co 6Pi 8Ca 9Co");
-        randomHand = builder.buildHandFromString("6Tr 4Co ACa RCa DTr");
+        Hand randomHand = builder.buildHandFromString("6Tr 4Co ACa RCa DTr");
 
         assertEquals(7, pairHand.getPairCards().getValue(), "Test for the same Hand (with pair)");
-        assertTrue(pairHand.getPairCards().getValue() == (doublePairHand.getPairCards().getValue()), "Test if the return card is the same");
-        assertTrue(randomHand.getPairCards() == null);
-        assertFalse(brelanHand.getPairCards() == null);
+        assertEquals((doublePairHand.getPairCards().getValue()), pairHand.getPairCards().getValue(), "Test if the return card is the same");
+        assertNull(randomHand.getPairCards());
+        assertNotNull(brelanHand.getPairCards());
 
 
     }
@@ -66,7 +64,7 @@ public class HandTest {
 
         AbstractMap.SimpleEntry<Card, Card> array2 = builder.buildHandFromString("6Tr 4Co ACa RCa DTr").getDoublePairCards();
         //System.out.println(array2);
-        assertTrue(array2 == null);
+        assertNull(array2);
     }
 
 
@@ -106,7 +104,7 @@ public class HandTest {
 
         assertEquals(card2, hand1.get(1), "Test on getter for second card");
 
-        assertTrue (!hand1.isEmpty(), "Test isEmpty hand == false");
+        assertFalse(hand1.isEmpty(), "Test isEmpty hand == false");
 
         Card card3 = new Card(2);
         Card card4 = new Card(13);
@@ -140,11 +138,11 @@ public class HandTest {
 
         Hand hand1 = builder.buildHandFromString("");
 
-        assertEquals(null, hand1.isFlush(), "Test is not color 1");
+        assertNull(hand1.isFlush(), "Test is not color 1");
 
         hand1 = builder.buildHandFromString("7Tr 6Tr 8Ca 9Tr 5Tr");
 
-        assertEquals(null, hand1.isFlush(), "Test is not color 2");
+        assertNull(hand1.isFlush(), "Test is not color 2");
 
         hand1 = builder.buildHandFromString("7Pi 6Pi 8Pi 9Pi 5Pi");
 
@@ -157,16 +155,16 @@ public class HandTest {
 
         Hand hand1 = builder.buildHandFromString("");
 
-        assertEquals(null, hand1.isStraight(), "Test is not suite 1");
-        assertEquals(null, hand1.isStraightFlush(), "Test is not quinte flush 1");
+        assertNull(hand1.isStraight(), "Test is not suite 1");
+        assertNull(hand1.isStraightFlush(), "Test is not quinte flush 1");
 
         hand1 = builder.buildHandFromString("7Ca 6Ca DCa 9Ca 8Ca");
-        assertEquals(null, hand1.isStraight(), "Test is not suite 2");
-        assertEquals(null, hand1.isStraightFlush(), "Test is not quinte flush 2");
+        assertNull(hand1.isStraight(), "Test is not suite 2");
+        assertNull(hand1.isStraightFlush(), "Test is not quinte flush 2");
 
         hand1 = builder.buildHandFromString("7Pi 6Pi 8Pi 9Pi 5Co");
         assertEquals(9, hand1.isStraight().getValue(), "Test is suite 1");
-        assertEquals(null, hand1.isStraightFlush(), "Test is not quinte flush 3");
+        assertNull(hand1.isStraightFlush(), "Test is not quinte flush 3");
 
         hand1 = builder.buildHandFromString("7Tr 6Tr 8Tr 9Tr 5Tr");
         assertEquals(9, hand1.isStraight().getValue(), "Test is suite 2");
