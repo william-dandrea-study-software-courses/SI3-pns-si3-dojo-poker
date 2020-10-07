@@ -27,15 +27,21 @@ public class HandComparator {
 
         Card valueHand1;
         Card valueHand2 = null;
+        int[] value_Hand1;
+        int[] value_Hand2 = null;
 
         // Poker rules
         if (((valueHand1 = h1.isStraightFlush()) != null) || ((valueHand2 = h2.isStraightFlush()) != null))
             // We have at least one straightFlush
             return refereeOnStraightFlush(h2, valueHand1, valueHand2);
 
-        if (((valueHand1 = h1.isSquare()) != null) || ((valueHand2 = h2.isSquare()) != null))
+        else if (((valueHand1 = h1.isSquare()) != null) || ((valueHand2 = h2.isSquare()) != null))
             // We have at least one quad
             return refereeOnQuad(h2, valueHand1, valueHand2);
+
+        else if (((value_Hand1 = h1.getFull()) != null) || ((value_Hand2 = h2.getFull()) != null))
+            // We have Full
+            return refereeOnFull(h2, value_Hand1, value_Hand2);
 
         else if (((valueHand1 = h1.isFlush()) != null) || ((valueHand2 = h2.isFlush()) != null))
             // We have at least one flush
@@ -310,5 +316,33 @@ public class HandComparator {
             if (c == null)
                 return false;
         return true;
+    }
+    private Victory refereeOnFull(Hand hand2, int[] valueHand1, int[] valueHand2){
+        if (valueHand2 == null){
+            valueHand2 = hand2.getFull();
+        }
+        if (valueHand1 != null && valueHand2 != null){
+            if (valueHand1[0] == valueHand2[0]){
+                //on a egalite
+                return new Victory(Victorieu.egalite,ResultType.full,null);
+            }
+            if (valueHand1[0] > valueHand2[0]){
+                //la main 1 gagne
+                return new Victory(Victorieu.main1,ResultType.full,null);
+            }
+            if (valueHand1[0] < valueHand2[0]){
+                //la main 2 gagne
+                return new Victory(Victorieu.main2,ResultType.full,null);
+            }
+        }
+        else if (valueHand1 != null) {
+            // la main 1 gagne
+            return new Victory(Victorieu.main1,ResultType.full,null);
+        }
+        else if (valueHand2 != null){
+            //la main 2 gagne
+            return new Victory(Victorieu.main2,ResultType.full,null);
+        }
+        return null;
     }
 }
