@@ -6,6 +6,7 @@ import cards.Color;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.AbstractMap;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -57,21 +58,15 @@ public class HandTest {
         //assertEquals(doublePairHand.getDoublePairCards(), doublePairHand.getDoublePairCards(), " ");
         //System.out.println(builder.buildHandFromString("5Tr 5Pi 7Pi 5Ca 7Co").getDoublePairCards());
 
-        ArrayList<Card> array1 = builder.buildHandFromString("5Tr 5Pi 7Pi 5Ca 7Co").getDoublePairCards();
+        AbstractMap.SimpleEntry<Card, Card> array1 = builder.buildHandFromString("5Tr 5Pi 7Pi 5Ca 7Co").getDoublePairCards();
         //System.out.println(array1);
 
-        assertEquals(array1.get(0).getValue(), 7, "We have two pairs, 7 and 5");
-        assertEquals(array1.get(1).getValue(), 5, "We have two pairs, 7 and 5");
+        assertEquals(array1.getKey().getValue(), 7, "We have two pairs, 7 and 5");
+        assertEquals(array1.getValue().getValue(), 5, "We have two pairs, 7 and 5");
 
-        ArrayList<Card> array2 = builder.buildHandFromString("6Tr 4Co ACa RCa DTr").getDoublePairCards();
+        AbstractMap.SimpleEntry<Card, Card> array2 = builder.buildHandFromString("6Tr 4Co ACa RCa DTr").getDoublePairCards();
         //System.out.println(array2);
-        assertTrue(array2.get(0) == null);
-        assertTrue(array2.get(1) == null);
-
-        //System.out.println(brelanHand.getDoublePairCards());
-        assertEquals(brelanHand.getDoublePairCards().get(0).getValue(), 8, "We have a brelan of 8");
-        assertEquals(brelanHand.getDoublePairCards().get(1), null, "We have a brelan of 8");
-
+        assertTrue(array2 == null);
     }
 
 

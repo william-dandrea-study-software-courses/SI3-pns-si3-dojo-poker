@@ -5,6 +5,7 @@ import interaction.ResultType;
 import interaction.Victorieu;
 import interaction.Victory;
 
+import java.util.AbstractMap;
 import java.util.List;
 
 /**
@@ -55,7 +56,7 @@ public class HandComparator {
             // We have at least one trip
             return refereeOnTrip(h2, valueHand1, valueHand2);
 
-        else if ((isTwoPair(h1.getDoublePairCards())) || (isTwoPair(h2.getDoublePairCards())))
+        else if ((h1.getDoublePairCards() != null) || (h2.getDoublePairCards() != null))
             // We have at least one two pair
             return refereeOnTwoPairs(h1, h2);
 
@@ -177,36 +178,28 @@ public class HandComparator {
      * @return a explication on win result
      */
     private Victory refereeOnTwoPairs (Hand hand1, Hand hand2) {
-        List<Card> valueHand1 = hand1.getDoublePairCards();
-        for (Card c : valueHand1)
-            if (c == null)
-                valueHand1.remove(null);
-        valueHand1.sort(Card::compareTo);
-        List<Card> valueHand2 = hand2.getDoublePairCards();
-        for (Card c : valueHand2)
-            if (c == null)
-                valueHand2.remove(null);
-        valueHand2.sort(Card::compareTo);
+        AbstractMap.SimpleEntry<Card, Card> valueHand1 = hand1.getDoublePairCards();
+        AbstractMap.SimpleEntry<Card, Card> valueHand2 = hand2.getDoublePairCards();
 
-        if ((valueHand1.size() == 2) && (valueHand2.size() == 2)) {
-            Victorieu winner = compareCards(valueHand1.get(0), valueHand2.get(0));
+        if ((valueHand1 != null) && (valueHand2 != null)) {
+            Victorieu winner = compareCards(valueHand1.getKey(), valueHand2.getKey());
 
             if (winner.equals(Victorieu.egalite)) {
-                winner = compareCards(valueHand1.get(1), valueHand2.get(1));
+                winner = compareCards(valueHand1.getValue(), valueHand2.getValue());
                 if (winner.equals(Victorieu.egalite)) {
-                    hand1.removeCardsOfValue(valueHand1.get(0));
-                    hand1.removeCardsOfValue(valueHand1.get(1));
-                    hand2.removeCardsOfValue(valueHand2.get(0));
-                    hand2.removeCardsOfValue(valueHand2.get(1));
+                    hand1.removeCardsOfValue(valueHand1.getKey());
+                    hand1.removeCardsOfValue(valueHand1.getValue());
+                    hand2.removeCardsOfValue(valueHand2.getKey());
+                    hand2.removeCardsOfValue(valueHand2.getValue());
                     return compareOnHighestCard(hand1, hand2);
                 }
             }
             return new Victory(winner, ResultType.doublePair,
-                    (winner.equals(Victorieu.main1) ? valueHand1.get(0) : valueHand2.get(0)));
-        } else if (valueHand1.size() == 2)
-            return new Victory(Victorieu.main1, ResultType.doublePair, valueHand1.get(0));
+                    (winner.equals(Victorieu.main1) ? valueHand1.getKey() : valueHand2.getKey()));
+        } else if (valueHand1 != null)
+            return new Victory(Victorieu.main1, ResultType.doublePair, valueHand1.getKey());
         else
-            return new Victory(Victorieu.main2, ResultType.doublePair, valueHand2.get(0));
+            return new Victory(Victorieu.main2, ResultType.doublePair, valueHand2.getKey());
     }
 
     /**
@@ -305,18 +298,6 @@ public class HandComparator {
         }
     }
 
-    /**
-     * Tell if the list given in describe or not a two pair hand
-     *
-     * @param values the values found for a two pair hand
-     * @return true if value contain two not null values, false otherwise
-     */
-    private boolean isTwoPair (List<Card> values) {
-        for (Card c : values)
-            if (c == null)
-                return false;
-        return true;
-    }
     private Victory refereeOnFull(Hand hand2, int[] valueHand1, int[] valueHand2) throws Exception {
         if (valueHand2 == null){
             valueHand2 = hand2.getFull();

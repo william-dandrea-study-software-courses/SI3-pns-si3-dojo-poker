@@ -3,10 +3,7 @@ package hands;
 import cards.Card;
 import cards.Color;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * A class that represent a card game hand.
@@ -65,7 +62,6 @@ public class Hand extends ArrayList<Card> {
      */
     public Card getPairCards () {
         Card cardMax = null;
-        // TODO guys I think there is a better way to this. maybe try "for (int i = 0; i < this.size(); i++) for (int j = i + 1; j < this.size(); j++);
         for (int i = 0; i <this.size(); i++) {
             for (int j = 0; j < this.size(); j++) {
 
@@ -87,9 +83,7 @@ public class Hand extends ArrayList<Card> {
      * @return an array of the values of the 2 hands if we have 2 pair, and one array with 1 pair and 1 null
      * if we have a brelan or more, null also
      */
-    public ArrayList<Card> getDoublePairCards() {
-
-        ArrayList<Card> doublePair = new ArrayList<>();
+    public AbstractMap.SimpleEntry<Card, Card> getDoublePairCards() {
 
         Card pairCard1 = null;
         Card pairCard2 = null;
@@ -117,10 +111,10 @@ public class Hand extends ArrayList<Card> {
             pairCard2 = null;
         }
 
-        doublePair.add(pairCard1);
-        doublePair.add(pairCard2);
+        if (pairCard1 != null && pairCard2 != null)
+            return new AbstractMap.SimpleEntry<>(pairCard1, pairCard2);
 
-        return doublePair;
+        return null;
     }
 
     /**
