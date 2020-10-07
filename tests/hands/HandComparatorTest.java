@@ -18,12 +18,12 @@ import static org.junit.jupiter.api.Assertions.*;
 public class HandComparatorTest {
 
     private HandBuilder builder;
-    private HandComparator comparator;
+    private HandComparator referee;
 
     @BeforeEach
     public void initHands() {
         builder = new HandBuilder();
-        comparator = new HandComparator();
+        referee = new HandComparator();
     }
 
     @Test
@@ -33,15 +33,15 @@ public class HandComparatorTest {
         Hand asDiamond = builder.buildHandFromString("ACa");
         Hand queenSpade = builder.buildHandFromString("DPi");
 
-        Victory jackAndQueenVictory = comparator.compare(jackDiamond, queenDiamond);
+        Victory jackAndQueenVictory = referee.compare(jackDiamond, queenDiamond);
         assertEquals(Victorieu.main2, jackAndQueenVictory.getWinner());
         assertEquals(ResultType.higherCard, jackAndQueenVictory.getWinType());
 
-        Victory asAndQueenVictory = comparator.compare(asDiamond, queenDiamond);
+        Victory asAndQueenVictory = referee.compare(asDiamond, queenDiamond);
         assertEquals(Victorieu.main1, asAndQueenVictory.getWinner());
         assertEquals(ResultType.higherCard, asAndQueenVictory.getWinType());
 
-        Victory queenAndQueenVictory = comparator.compare(queenSpade, queenDiamond);
+        Victory queenAndQueenVictory = referee.compare(queenSpade, queenDiamond);
         assertEquals(Victorieu.egalite, queenAndQueenVictory.getWinner());
         assertEquals(ResultType.higherCard, queenAndQueenVictory.getWinType());
     }
@@ -53,19 +53,19 @@ public class HandComparatorTest {
         Hand kingPair = builder.buildHandFromString("RCa RPi");
         Hand jackPair2 = builder.buildHandFromString("VCo VTr");
 
-        Victory jackAndQueenVictory = comparator.compare(jackPair, queenPair);
+        Victory jackAndQueenVictory = referee.compare(jackPair, queenPair);
         assertEquals(Victorieu.main2, jackAndQueenVictory.getWinner(),
                 "Test compare jackPair with queenPair, who's the winner ?");
         assertEquals(ResultType.pair, jackAndQueenVictory.getWinType(),
                 "Test compare jackPair with queenPair, why do he won ?");
 
-        Victory kingAndQueenVictory = comparator.compare(kingPair, queenPair);
+        Victory kingAndQueenVictory = referee.compare(kingPair, queenPair);
         assertEquals(Victorieu.main1, kingAndQueenVictory.getWinner(),
                 "Test compare kingPair with queenPair, who's the winner ?");
         assertEquals(ResultType.pair, kingAndQueenVictory.getWinType(),
                 "Test compare kingPair with queenPair, why do he won ?");
 
-        Victory jackAndJackVictory = comparator.compare(jackPair, jackPair2);
+        Victory jackAndJackVictory = referee.compare(jackPair, jackPair2);
         assertEquals(Victorieu.egalite, jackAndJackVictory.getWinner(),
                 "Test compare jackPair with jackPair, who's the winner ?");
     }
@@ -75,7 +75,7 @@ public class HandComparatorTest {
         Hand queenPair = builder.buildHandFromString("DCa DPi");
         Hand kingAndAs = builder.buildHandFromString("RCa APi");
 
-        Victory kingAndAsCompareQueensVictory = comparator.compare(kingAndAs, queenPair);
+        Victory kingAndAsCompareQueensVictory = referee.compare(kingAndAs, queenPair);
         assertEquals(Victorieu.main2, kingAndAsCompareQueensVictory.getWinner(),
                 "Test compare kingAndAs with queenPair, who's winner ?");
         assertEquals(ResultType.pair, kingAndAsCompareQueensVictory.getWinType(),
@@ -83,7 +83,7 @@ public class HandComparatorTest {
         assertEquals(ResultType.higherCard, kingAndAsCompareQueensVictory.getLoseType(),
                 "Test compare kingAndAs with queenPair, why do he lose ?");
 
-        Victory queensCompareKingAndAsVictory = comparator.compare(queenPair, kingAndAs);
+        Victory queensCompareKingAndAsVictory = referee.compare(queenPair, kingAndAs);
         assertEquals(Victorieu.main1, queensCompareKingAndAsVictory.getWinner(),
                 "Test compare queenPair with kingAndAs, who's winner ?");
         assertEquals(ResultType.pair, queensCompareKingAndAsVictory.getWinType(),
@@ -98,20 +98,20 @@ public class HandComparatorTest {
         Hand queenSet = builder.buildHandFromString("DCa DPi DTr");
         Hand aceSet = builder.buildHandFromString("ATr ACa ACo");
 
-        Victory twoWithQueenVictory = comparator.compare(twoSet, queenSet);
+        Victory twoWithQueenVictory = referee.compare(twoSet, queenSet);
         assertEquals(Victorieu.main2, twoWithQueenVictory.getWinner(),
                 "Test compare trip twos with trip queens, who's the winner ?");
         assertEquals(ResultType.brelan, twoWithQueenVictory.getWinType(),
                 "Test compare trip twos with trip queens, why do he won ?");
 
-        Victory aceWithQueenVictory = comparator.compare(aceSet, queenSet);
+        Victory aceWithQueenVictory = referee.compare(aceSet, queenSet);
         assertEquals(Victorieu.main1, aceWithQueenVictory.getWinner(),
                 "Test compare trip aces with trip queens, who's the winner ?");
         assertEquals(ResultType.brelan, aceWithQueenVictory.getWinType(),
                 "Test compare trip aces with trip queens, why do he won ?");
 
         try {
-            comparator.compare(queenSet, queenSet);
+            referee.compare(queenSet, queenSet);
             fail ("Must raise an exception because two same value trips in a four colors games is impossible");
         } catch (Exception e) {
             assertTrue(true, "Test raise exception when two trips have the same value");
@@ -123,13 +123,13 @@ public class HandComparatorTest {
         Hand queenSet = builder.buildHandFromString("DCa DPi DTr");
         Hand acesAndKing = builder.buildHandFromString("ATr ACo RCo");
 
-        Victory queenWithAcesAndKing = comparator.compare(queenSet, acesAndKing);
+        Victory queenWithAcesAndKing = referee.compare(queenSet, acesAndKing);
         assertEquals(Victorieu.main1, queenWithAcesAndKing.getWinner(),
                 "Test compare trip queens with kingAndAces, who's winner ?");
         assertEquals(ResultType.brelan, queenWithAcesAndKing.getWinType(),
                 "Test compare trip queens with kingAndAces, why do he won ?");
 
-        Victory acesAndKingWithQueens = comparator.compare(acesAndKing, queenSet);
+        Victory acesAndKingWithQueens = referee.compare(acesAndKing, queenSet);
         assertEquals(Victorieu.main2, acesAndKingWithQueens.getWinner(),
                 "Test compare kingAndAces with trip queens, who's winner ?");
         assertEquals(ResultType.brelan, acesAndKingWithQueens.getWinType(),
@@ -142,20 +142,20 @@ public class HandComparatorTest {
         Hand queenQuad = builder.buildHandFromString("DCa DPi DTr DCo");
         Hand kingQuad = builder.buildHandFromString("RTr RCa RCo RPi");
 
-        Victory jackWithQueenVictory = comparator.compare(jackQuad, queenQuad);
+        Victory jackWithQueenVictory = referee.compare(jackQuad, queenQuad);
         assertEquals(Victorieu.main2, jackWithQueenVictory.getWinner(),
                 "Test compare quad jacks with quad queens, who's the winner ?");
         assertEquals(ResultType.carre, jackWithQueenVictory.getWinType(),
                 "Test compare quad jacks with four of a kind, queens, why do he won ?");
 
-        Victory kingWithQueenVictory = comparator.compare(kingQuad, queenQuad);
+        Victory kingWithQueenVictory = referee.compare(kingQuad, queenQuad);
         assertEquals(Victorieu.main1, kingWithQueenVictory.getWinner(),
                 "Test compare quad kings with quad queens, who's the winner ?");
         assertEquals(ResultType.carre, kingWithQueenVictory.getWinType(),
                 "Test compare quad kings with quad queens, why do he won ?");
 
         try {
-            comparator.compare(queenQuad, queenQuad);
+            referee.compare(queenQuad, queenQuad);
             fail ("Must raise an exception because two same value quads in a four colors games is impossible");
         } catch (Exception e) {
             assertTrue(true, "Test raise exception when two trips have the same value");
@@ -167,13 +167,13 @@ public class HandComparatorTest {
         Hand queenQuad = builder.buildHandFromString("DCa DPi DTr DCo");
         Hand acesAndKing = builder.buildHandFromString("ATr ACa RCo APi");
 
-        Victory queenWithAcesAndKing = comparator.compare(queenQuad, acesAndKing);
+        Victory queenWithAcesAndKing = referee.compare(queenQuad, acesAndKing);
         assertEquals(Victorieu.main1, queenWithAcesAndKing.getWinner(),
                 "Test compare quad queens with kingAndAces, who's winner ?");
         assertEquals(ResultType.carre, queenWithAcesAndKing.getWinType(),
                 "Test compare quad queens with kingAndAces, why do he won ?");
 
-        Victory acesAndKingWithQueens = comparator.compare(acesAndKing, queenQuad);
+        Victory acesAndKingWithQueens = referee.compare(acesAndKing, queenQuad);
         assertEquals(Victorieu.main2, acesAndKingWithQueens.getWinner(),
                 "Test compare kingAndAces with quad queens, who's winner ?");
         assertEquals(ResultType.carre, acesAndKingWithQueens.getWinType(),
@@ -187,19 +187,19 @@ public class HandComparatorTest {
         Hand acesAndKings = builder.buildHandFromString("ATr APi RCo RCa");
         Hand acesAndKings2 = builder.buildHandFromString("ACo ACa RTr RPi");
 
-        Victory jackWithTenVictory = comparator.compare(jacksAndQueens, tensAndQueens);
+        Victory jackWithTenVictory = referee.compare(jacksAndQueens, tensAndQueens);
         assertEquals(Victorieu.main1, jackWithTenVictory.getWinner(),
                 "Test compare jacksAndQueens with tensAndQueens, who's the winner ?");
         assertEquals(ResultType.doublePair, jackWithTenVictory.getWinType(),
                 "Test compare jacksAndQueens with tensAndQueens, why do he won ?");
 
-        Victory queensWithAcesVictory = comparator.compare(jacksAndQueens, acesAndKings);
+        Victory queensWithAcesVictory = referee.compare(jacksAndQueens, acesAndKings);
         assertEquals(Victorieu.main2, queensWithAcesVictory.getWinner(),
                 "Test compare jacksAndQueens with acesAndKings, who's the winner ?");
         assertEquals(ResultType.doublePair, queensWithAcesVictory.getWinType(),
                 "Test compare jacksAndQueens with acesAndKings, why do he won ?");
 
-        Victory acesWithAcesVictory = comparator.compare(acesAndKings, acesAndKings2);
+        Victory acesWithAcesVictory = referee.compare(acesAndKings, acesAndKings2);
         assertEquals(Victorieu.egalite, acesWithAcesVictory.getWinner(),
                 "Test compare acesAndKings with acesAndKings, who's the winner ?");
     }
@@ -209,11 +209,138 @@ public class HandComparatorTest {
         Hand jacksAndQueens = builder.buildHandFromString("VTr VPi DTr DPi");
         Hand nothing = builder.buildHandFromString("ATr 10Tr 8Ca 2Co");
 
-        Victory jacksAndQueensWithNothing = comparator.compare(jacksAndQueens, nothing);
+        Victory jacksAndQueensWithNothing = referee.compare(jacksAndQueens, nothing);
         assertEquals(Victorieu.main1, jacksAndQueensWithNothing.getWinner(),
                 "Test compare jacksAndQueens with nothing special, who's winner ?");
         assertEquals(ResultType.doublePair, jacksAndQueensWithNothing.getWinType(),
                 "Test compare jacksAndQueens with nothing special, why do he won ?");
 
+    }
+
+    @Test
+    public void testRefereeStraightWithStraight () throws Exception {
+        Hand kingHighStraight = builder.buildHandFromString("RCo DCo VCo 10Ca 9Co");
+        Hand aceHighStraight = builder.buildHandFromString("ACo RCa DCa VCa 10Tr");
+        Hand kingHighStraight2 = builder.buildHandFromString("RPi DTr VTr 10Pi 9Ca");
+
+        Victory kingWithAce = referee.compare(kingHighStraight, aceHighStraight);
+        assertEquals(Victorieu.main2, kingWithAce.getWinner(),
+                "Winner between a king-high straight and a ace-high straight");
+        assertEquals(ResultType.suite, kingWithAce.getWinType(),
+                "Why that winner between a king-high straight and a ace-high straight");
+
+        Victory kingWithKing = referee.compare(kingHighStraight, kingHighStraight2);
+        assertEquals(Victorieu.egalite, kingWithKing.getWinner(),
+                "Winner between a king-high straight and another king-high straight");
+
+        Victory aceWithKing = referee.compare(aceHighStraight, kingHighStraight2);
+        assertEquals(Victorieu.main1, aceWithKing.getWinner(),
+                "Winner between a ace-high straight and a king-high straight");
+        assertEquals(ResultType.suite, aceWithKing.getWinType(),
+                "Why that winner between a ace-high straight and a king-high straight");
+    }
+
+    @Test
+    public void testRefereeStraightWithLess () throws Exception {
+        Hand kingHighStraight = builder.buildHandFromString("RCo DCo VCo 10Ca 9Co");
+        Hand twoSet = builder.buildHandFromString("2Ca 2Pi 2Tr 3Tr 4Ca");
+
+        assertEquals(Victorieu.main1, referee.compare(kingHighStraight, twoSet).getWinner(),
+                "Straight vs trip");
+    }
+
+    @Test
+    public void testRefereeFlush () {
+        Hand eightHighFlush = builder.buildHandFromString("3Tr 4Tr 5Tr 6Tr 8Tr");
+        Hand eightHighFlush2 = builder.buildHandFromString("2Co 4Co 5Co 6Co 8Co");
+        Hand nineHighFlush = builder.buildHandFromString("2Ca 4Ca 5Ca 6Ca 9Ca");
+
+        Victory eightByEightFlush = null;
+        Victory eightByNineFlush = null;
+        try {
+            eightByEightFlush = referee.compare(eightHighFlush, eightHighFlush2);
+            eightByNineFlush = referee.compare(eightHighFlush2, nineHighFlush);
+
+        } catch (Exception e) {
+            fail("No exception should be raised");
+        }
+
+        assertEquals(Victorieu.main1, eightByEightFlush.getWinner(),
+                "Winner when two flush have same values except the less one");
+        assertEquals(Victorieu.main2, eightByNineFlush.getWinner(),
+                "Winner when the greatest values are not the same for two flush");
+
+        assertEquals(ResultType.couleur, eightByEightFlush.getWinType());
+        assertEquals(ResultType.couleur, eightByNineFlush.getWinType());
+
+        try {
+            assertEquals(Victorieu.egalite, referee.compare(
+                    builder.buildHandFromString("ATr RTr DTr VTr 9Tr"),
+                    builder.buildHandFromString("APi RPi DPi VPi 9Pi")
+            ).getWinner());
+        } catch (Exception e) {
+            fail("No exception should be raised");
+        }
+    }
+
+    @Test
+    public void testRefereeFlushWithLess () {
+        Hand eightHighFlush = builder.buildHandFromString("3Tr 4Tr 5Tr 6Tr 8Tr");
+        Hand aceAndKing = builder.buildHandFromString("RCo RCa ACo ACa 2Co");
+
+        try {
+            assertEquals(Victorieu.main1, referee.compare(
+                    eightHighFlush,
+                    aceAndKing
+            ).getWinner());
+        } catch (Exception e) {
+            fail ("No exception should be raised");
+        }
+    }
+
+    @Test
+    public void testRefereeStraightFlush () {
+        Hand kingHighStraightFlush = builder.buildHandFromString("DTr 10Tr RTr 9Tr VTr");
+        Hand aceHighStraightFlush = builder.buildHandFromString("RCo DCo ACo 10Co VCo");
+        Hand kingHighStraightFlush2 = builder.buildHandFromString("9Ca 10Ca RCa DCa VCa");
+
+        Victory kingWithAce = null;
+        Victory aceWithKing2 = null;
+        Victory kingWithKing2 = null;
+
+        try {
+            kingWithAce = referee.compare(kingHighStraightFlush, aceHighStraightFlush);
+            aceWithKing2 = referee.compare(aceHighStraightFlush, kingHighStraightFlush2);
+            kingWithKing2 = referee.compare(kingHighStraightFlush, kingHighStraightFlush2);
+        } catch (Exception e) {
+            fail ("An exception shouldn't be raised");
+        }
+
+        assertEquals(Victorieu.main1, aceWithKing2.getWinner(),
+                "Test straight flush with ace (heart) and king2 (diamond)");
+        assertEquals(Victorieu.main2, kingWithAce.getWinner(),
+                "Test straight flush with king (club) and ace (club)");
+        assertEquals(Victorieu.egalite, kingWithKing2.getWinner(),
+                "Test straight flush with king (club) and king2 (diamond)");
+
+        assertEquals(ResultType.quinteFlush, aceWithKing2.getWinType(),
+                "Test win type on ace-high straight flush");
+        assertEquals(ResultType.quinteFlush, kingWithAce.getWinType(),
+                "Test win type on ace-high straight flush 2");
+    }
+
+    @Test
+    public void testRefereeStraightFlushWithLess () {
+        Hand kingHighStraightFlush = builder.buildHandFromString("DTr 10Tr RTr 9Tr VTr");
+        Hand aceQuad = builder.buildHandFromString("ACa APi ATr ACo 2Co");
+
+        try {
+            assertEquals(Victorieu.main1, referee.compare(
+                    kingHighStraightFlush,
+                    aceQuad
+            ).getWinner());
+        } catch (Exception e) {
+            fail ("No exception should be raised");
+        }
     }
 }
