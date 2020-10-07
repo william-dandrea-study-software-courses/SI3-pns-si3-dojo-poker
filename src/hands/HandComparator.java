@@ -317,14 +317,14 @@ public class HandComparator {
                 return false;
         return true;
     }
-    private Victory refereeOnFull(Hand hand2, int[] valueHand1, int[] valueHand2){
+    private Victory refereeOnFull(Hand hand2, int[] valueHand1, int[] valueHand2) throws Exception {
         if (valueHand2 == null){
             valueHand2 = hand2.getFull();
         }
         if (valueHand1 != null && valueHand2 != null){
             if (valueHand1[0] == valueHand2[0]){
                 //on a egalite
-                return new Victory(Victorieu.egalite,ResultType.full,null);
+                throw new Exception("error");
             }
             if (valueHand1[0] > valueHand2[0]){
                 //la main 1 gagne
