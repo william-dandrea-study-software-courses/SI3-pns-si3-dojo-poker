@@ -339,4 +339,36 @@ public class HandComparatorTest {
             fail ("No exception should be raised");
         }
     }
+
+    @Test
+    public void testReferreFull () {
+
+        Hand fullHouseKingOverFours = builder.buildHandFromString("RTr RCa RPi 4Ca 4Co");
+        Hand fullHouseQueenOverFive = builder.buildHandFromString("DTr DCa DPi 5Ca 5Co");
+
+        Victory KingWithFour = null;
+        Victory QueenWithFive = null;
+        try {
+            KingWithFour = referee.compare(fullHouseKingOverFours, fullHouseQueenOverFive);
+            QueenWithFive = referee.compare(fullHouseQueenOverFive, fullHouseKingOverFours);
+
+        } catch (Exception e) {
+            fail("No exception should be raised");
+        }
+
+        assertEquals(Victorieu.main1, KingWithFour.getWinner(),
+                "Winner with a King");
+        assertEquals(Victorieu.main2, QueenWithFive.getWinner());
+
+        assertEquals(ResultType.full, KingWithFour.getWinType());
+        assertEquals(ResultType.full, QueenWithFive.getWinType());
+
+        try {
+            referee.compare(fullHouseKingOverFours, fullHouseKingOverFours);
+            fail("Exception to be raised by referee on two equals full");
+        } catch (Exception e) {
+            assertTrue(true);
+        }
+
+    }
 }
