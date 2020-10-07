@@ -143,6 +143,7 @@ public class Hand extends ArrayList<Card> {
         return null;
     }
 
+
     /**
      * This method return the cards which have the n cousin (Same value) in the hand.
      *
