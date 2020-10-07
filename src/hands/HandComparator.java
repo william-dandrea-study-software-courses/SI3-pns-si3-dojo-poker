@@ -330,10 +330,10 @@ public class HandComparator {
                 //la main 1 gagne
                 return new Victory(Victorieu.main1,ResultType.full,null);
             }
-            if (valueHand1[0] < valueHand2[0]){
-                //la main 2 gagne
-                return new Victory(Victorieu.main2,ResultType.full,null);
-            }
+
+            //la main 2 gagne
+            return new Victory(Victorieu.main2,ResultType.full,null);
+
         }
         else if (valueHand1 != null) {
             // la main 1 gagne
