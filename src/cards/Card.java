@@ -50,6 +50,7 @@ public class Card implements Comparable<Card> {
      *
      * @throws NullPointerException - if the specified object is null
      */
+
     @Override
     public int compareTo(Card o) throws NullPointerException {
         if (o == null) {

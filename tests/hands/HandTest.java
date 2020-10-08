@@ -17,6 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  *
  * @author Gabriel Cogne
  * @author D'Andrea William
+ * @author CLODONG Yann
  */
 
 public class HandTest {

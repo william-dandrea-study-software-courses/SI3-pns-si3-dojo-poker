@@ -5,6 +5,10 @@ import cards.Value;
 import java.util.HashMap;
 import java.util.ResourceBundle;
 
+/**
+ * This class represent the victory message
+ * @Author Amine CHOUHABI
+ */
 public class Victory {
     protected final HashMap<ResultType,String> types = new HashMap<>(){{
         put(ResultType.brelan,"Brelan");

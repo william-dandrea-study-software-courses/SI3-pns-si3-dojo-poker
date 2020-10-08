@@ -10,6 +10,8 @@ import java.util.AbstractMap;
  * This class is used to compare several hands. She will determine which is the better and why.
  *
  * @author Gabriel Cogne
+ * @author Amine CHOUHABI
+ * @author Yann CLODONG
  */
 
 public class HandComparator {
@@ -41,6 +43,7 @@ public class HandComparator {
         else if (((value_Hand1 = h1.getFull()) != null) || ((value_Hand2 = h2.getFull()) != null))
             // We have Full
             return refereeOnFull(h2, value_Hand1, value_Hand2);
+
 
         else if (((valueHand1 = h1.isFlush()) != null) || ((valueHand2 = h2.isFlush()) != null))
             // We have at least one flush
