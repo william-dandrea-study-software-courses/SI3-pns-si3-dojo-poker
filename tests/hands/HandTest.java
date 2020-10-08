@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import java.util.AbstractMap;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Basic JUnit test on <i>Hand</i> class
@@ -99,6 +100,21 @@ public class HandTest {
         assertTrue(nothing.getBrelan() == null, "This need to not be Brelan, because it's haven't anything repeating");
     }
 
+    @Test
+    public void testFull() {
+        HandBuilder builder = new HandBuilder();
+        Hand full = builder.buildHandFromString("9Pi 9Tr 9Co APi ACo");
+        Hand square = builder.buildHandFromString("7Pi 7Ca 7Co 7Tr 4Co");
+        Hand pair = builder.buildHandFromString("2Pi 8Tr 5Co 5Tr 2Tr");
+        Hand brelan = builder.buildHandFromString("6Pi 6Tr 6Co 5Ca 4Tr");
+        Hand nothing = builder.buildHandFromString("RPi DCo 10Pi ATr");
+
+        assertTrue(full.getFull() != null, "This need to be full");
+        assertTrue(brelan.getFull() == null, "This need to not be Full, because it's brelan");
+        assertTrue(pair.getFull() == null, "This need to not be Full, because it's a pair");
+        assertTrue(square.getFull() == null, "This need to not be Full, because it's square");
+        assertTrue(nothing.getFull() == null, "This need to not be Full, because it's haven't anything repeating");
+    }
 
     @Test
     public void testAddingGettingCard () {
