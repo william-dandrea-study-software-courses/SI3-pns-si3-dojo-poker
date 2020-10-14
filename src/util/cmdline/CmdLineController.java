@@ -21,7 +21,9 @@ public class CmdLineController {
     private final HandComparator comparator;
     private final HandBuilder builder;
 
-    private final ResourceBundle r;
+    private ResourceBundle r;
+
+    private boolean highway2toString = false;
 
     // -- Comparator --
     public CmdLineController () {
@@ -29,7 +31,12 @@ public class CmdLineController {
         comparator = new HandComparator();
         builder = new HandBuilder();
 
-        r = ResourceBundle.getBundle("values.strings", Locale.getDefault());
+        try {
+            r = ResourceBundle.getBundle("values.strings", Locale.getDefault());
+        } catch (Exception e) {
+            r = null;
+            highway2toString = true;
+        }
     }
 
     // -- Getters --
@@ -57,7 +64,10 @@ public class CmdLineController {
         } catch (Exception e) {
             ui.print(e.getMessage());
         }
-        // ui.print(victory);
-        ui.printVictory(victory);
+        
+        if (highway2toString)
+            ui.print(victory);
+        else
+            ui.printVictory(victory);
     }
 }
