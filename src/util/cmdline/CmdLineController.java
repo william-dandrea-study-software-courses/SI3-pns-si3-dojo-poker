@@ -57,7 +57,7 @@ public class CmdLineController {
                     hand1 = ui.askPlayer(r.getString("hand") + " 1 : ", builder);
                     hand2 = ui.askPlayer(r.getString("hand") + " 2 : ", builder);
                 }
-            } catch (IllegalArgumentException e) {
+            } catch (Exception e) {
                 if (highway2toString)
                     ui.print("Une erreur de saisie à été détecté.");
                 else

@@ -37,13 +37,23 @@ public class HandBuilder {
      * @return a hand that will contain as many cards as in the string content and as the system
      *         allow in a hand
      */
-    public Hand buildHandFromString(String hand) {
+    public Hand buildHandFromString(String hand) throws Exception {
         Hand res = new Hand();
 
         for (String card : hand.split(" ")) {
             if (card.isBlank())
                 continue;
-            res.add(buildCardFromString(card));
+            try {
+                res.add(buildCardFromString(card));
+            } catch (IllegalArgumentException e) {
+                knownCards.removeAll(res);
+                throw e;
+            }
+        }
+
+        if (res.size() != 5) {
+            knownCards.removeAll(res);
+            throw new Exception("One hand is composed of 5 cards");
         }
 
         return res;
@@ -57,6 +67,8 @@ public class HandBuilder {
      */
     private Card buildCardFromString(String card) throws IllegalArgumentException {
         final int COLOR_LENGTH = 2;
+
+        if (card.length() < 3) throw new IllegalArgumentException("The characters are not Cards");
 
         int value = getCardValueFromString(card.substring(0, card.length() - COLOR_LENGTH));
         if (value == -1) {

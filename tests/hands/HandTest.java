@@ -37,7 +37,7 @@ public class HandTest {
     }
 
     @Test
-    public void testGetPairCards(){
+    public void testGetPairCards() throws Exception {
         pairHand = builder.buildHandFromString("7Pi 3Co 5Pi 2Ca 7Co");
         Hand doublePairHand = builder.buildHandFromString("7Ca 3Ca 5Tr 3Pi 7Tr");
         brelanHand = builder.buildHandFromString("8Pi 8Co 6Pi 8Ca 9Co");
@@ -52,7 +52,7 @@ public class HandTest {
     }
 
     @Test
-    public void testGetDoublePairCards(){
+    public void testGetDoublePairCards() throws Exception {
 
         brelanHand = builder.buildHandFromString("8Pi 8Co 6Pi 8Ca 9Co");
 
@@ -72,7 +72,7 @@ public class HandTest {
 
 
     @Test
-    public void testNPairs() {
+    public void testNPairs() throws Exception {
         pairHand = builder.buildHandFromString("7Pi 3Co 5Pi 2Ca 7Co");
         brelanHand = builder.buildHandFromString("8Pi 8Co 6Pi 8Ca 9Co");
 
@@ -86,14 +86,14 @@ public class HandTest {
     }
 
     @Test
-    public  void testBrelans() {
+    public  void testBrelans() throws Exception {
         //
 
         HandBuilder builder = new HandBuilder();
         Hand square = builder.buildHandFromString("7Pi 7Ca 7Co 7Tr 4Co");
         Hand pair = builder.buildHandFromString("2Pi 8Tr 5Co 5Tr 2Tr");
         Hand brelan = builder.buildHandFromString("6Pi 6Tr 6Co 5Ca 4Tr");
-        Hand nothing = builder.buildHandFromString("RPi DCo 10Pi ATr");
+        Hand nothing = builder.buildHandFromString("RPi DCo 10Pi ATr 9Tr");
 
         assertTrue(brelan.getBrelan() != null, "This need to be Brelan");
         assertTrue(pair.getBrelan() == null, "This need to not be Brelan, because it's a pair");
@@ -102,13 +102,13 @@ public class HandTest {
     }
 
     @Test
-    public void testFull() {
+    public void testFull() throws Exception {
         HandBuilder builder = new HandBuilder();
         Hand full = builder.buildHandFromString("9Pi 9Tr 9Co APi ACo");
         Hand square = builder.buildHandFromString("7Pi 7Ca 7Co 7Tr 4Co");
         Hand pair = builder.buildHandFromString("2Pi 8Tr 5Co 5Tr 2Tr");
         Hand brelan = builder.buildHandFromString("6Pi 6Tr 6Co 5Ca 4Tr");
-        Hand nothing = builder.buildHandFromString("RPi DCo 10Pi ATr");
+        Hand nothing = builder.buildHandFromString("RPi DCo 10Pi ATr 10Ca");
 
         assertTrue(full.getFull() != null, "This need to be full");
         assertTrue(brelan.getFull() == null, "This need to not be Full, because it's brelan");
@@ -151,19 +151,19 @@ public class HandTest {
     }
 
     @Test
-    public void testGetHighestCard () {
+    public void testGetHighestCard () throws Exception {
         HandBuilder builder = new HandBuilder();
 
-        Hand hand1 = builder.buildHandFromString("2Tr RCa");
+        Hand hand1 = builder.buildHandFromString("2Tr RCa 5Ca 3Tr 4Tr");
 
         assertEquals(Value.king, hand1.getHighestCard().getValue(), "Get highest value");
     }
 
     @Test
-    public void testIsColor () {
+    public void testIsColor () throws Exception {
         HandBuilder builder = new HandBuilder();
 
-        Hand hand1 = builder.buildHandFromString("");
+        Hand hand1 = builder.buildHandFromString("2Tr RCa 5Ca 3Tr 4Tr");
 
         assertNull(hand1.isFlush(), "Test is not color 1");
 
@@ -177,10 +177,10 @@ public class HandTest {
     }
 
     @Test
-    public void testSuites () {
+    public void testSuites () throws Exception {
         HandBuilder builder = new HandBuilder();
 
-        Hand hand1 = builder.buildHandFromString("");
+        Hand hand1 = builder.buildHandFromString("2Tr RCa 5Ca 3Tr 4Tr");
 
         assertNull(hand1.isStraight(), "Test is not suite 1");
         assertNull(hand1.isStraightFlush(), "Test is not quinte flush 1");

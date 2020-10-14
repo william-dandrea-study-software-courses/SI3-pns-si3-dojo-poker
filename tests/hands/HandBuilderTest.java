@@ -17,8 +17,8 @@ public class HandBuilderTest {
     }
 
     @Test
-    public void testBuildSuccess () {
-        Hand hand = builder.buildHandFromString("7Tr 6Pi");
+    public void testBuildSuccess () throws Exception {
+        Hand hand = builder.buildHandFromString("7Tr 6Pi 5Pi 5Tr 5Ca");
 
         assertFalse(hand.isEmpty(), "Test the hand isn't empty");
         assertEquals(Value.seven, hand.get(0).getValue(), "Test card value 1");
@@ -28,7 +28,7 @@ public class HandBuilderTest {
     }
 
     @Test
-    public void testMistakeInCardGrammar () {
+    public void testMistakeInCardGrammar () throws Exception {
         try {
             builder.buildHandFromString("1Tr");
             fail ("An As is built with A not 1 so there should be an exception raised");
@@ -46,8 +46,8 @@ public class HandBuilderTest {
     }
 
     @Test()
-    public void testCardDuplication () {
-        builder.buildHandFromString("7Tr");
+    public void testCardDuplication () throws Exception {
+        builder.buildHandFromString("7Tr 3Pi 3Tr 3Ca 3Co");
         try {
             builder.buildHandFromString("7Tr");
             fail("A duplication exception should be raised");

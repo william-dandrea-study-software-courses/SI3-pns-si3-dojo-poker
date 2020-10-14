@@ -60,7 +60,7 @@ public class CmdLineUserInterface {
     }
 
     // -- Real business methods --
-    public Hand askPlayer(String question, HandBuilder builder) {
+    public Hand askPlayer(String question, HandBuilder builder) throws Exception {
         String line = readLine(question);
 
         Hand hand = builder.buildHandFromString(line);

@@ -29,10 +29,10 @@ public class HandComparatorTest {
 
     @Test
     public void testCompareHighestCardJackAndQueen () throws Exception {
-        Hand jackDiamond = builder.buildHandFromString("VCa");
-        Hand queenDiamond = builder.buildHandFromString("DCa");
-        Hand asDiamond = builder.buildHandFromString("ACa");
-        Hand queenSpade = builder.buildHandFromString("DPi");
+        Hand jackDiamond = builder.buildHandFromString("VCa 2Tr 3Tr 4Tr 5Pi");
+        Hand queenDiamond = builder.buildHandFromString("DCa 2Ca 3Ca 4Ca 5Tr");
+        Hand asDiamond = builder.buildHandFromString("ACa 2Co 3Co 4Co 5Ca");
+        Hand queenSpade = builder.buildHandFromString("DPi 2Pi 3Pi 4Pi 5Co");
 
         Victory jackAndQueenVictory = referee.compare(jackDiamond, queenDiamond);
         assertEquals(Victorieu.main2, jackAndQueenVictory.getWinner());
@@ -49,10 +49,10 @@ public class HandComparatorTest {
 
     @Test
     public void testComparePairAndPair () throws Exception {
-        Hand jackPair = builder.buildHandFromString("VCa VPi");
-        Hand queenPair = builder.buildHandFromString("DCa DPi");
-        Hand kingPair = builder.buildHandFromString("RCa RPi");
-        Hand jackPair2 = builder.buildHandFromString("VCo VTr");
+        Hand jackPair = builder.buildHandFromString("VCa VPi 3Tr 7Ca 6Co");
+        Hand queenPair = builder.buildHandFromString("DCa DPi 7Pi 4Ca 5Co");
+        Hand kingPair = builder.buildHandFromString("RCa RPi 4Pi 9Ca 8Co");
+        Hand jackPair2 = builder.buildHandFromString("VCo VTr 3Pi 6Ca 7Co");
 
         Victory jackAndQueenVictory = referee.compare(jackPair, queenPair);
         assertEquals(Victorieu.main2, jackAndQueenVictory.getWinner(),
@@ -73,8 +73,8 @@ public class HandComparatorTest {
 
     @Test
     public void testComparePairAndHighestCard () throws Exception {
-        Hand queenPair = builder.buildHandFromString("DCa DPi");
-        Hand kingAndAs = builder.buildHandFromString("RCa APi");
+        Hand queenPair = builder.buildHandFromString("DCa DPi 2Pi 3Pi 4Pi");
+        Hand kingAndAs = builder.buildHandFromString("RCa APi 2Ca 3Ca 4Ca");
 
         Victory kingAndAsCompareQueensVictory = referee.compare(kingAndAs, queenPair);
         assertEquals(Victorieu.main2, kingAndAsCompareQueensVictory.getWinner(),
@@ -91,9 +91,9 @@ public class HandComparatorTest {
 
     @Test
     public void testCompareTripsAndTrip () throws Exception {
-        Hand twoSet = builder.buildHandFromString("2Ca 2Pi 2Tr");
-        Hand queenSet = builder.buildHandFromString("DCa DPi DTr");
-        Hand aceSet = builder.buildHandFromString("ATr ACa ACo");
+        Hand twoSet = builder.buildHandFromString("2Ca 2Pi 2Tr 3Pi 4Co");
+        Hand queenSet = builder.buildHandFromString("DCa DPi DTr 3Ca 4Tr");
+        Hand aceSet = builder.buildHandFromString("ATr ACa ACo 5Tr 4Ca");
 
         Victory twoWithQueenVictory = referee.compare(twoSet, queenSet);
         assertEquals(Victorieu.main2, twoWithQueenVictory.getWinner(),
@@ -117,8 +117,8 @@ public class HandComparatorTest {
 
     @Test
     public void testCompareTripsAndLess () throws Exception {
-        Hand queenSet = builder.buildHandFromString("DCa DPi DTr");
-        Hand acesAndKing = builder.buildHandFromString("ATr ACo RCo");
+        Hand queenSet = builder.buildHandFromString("DCa DPi DTr 3Pi 4Co");
+        Hand acesAndKing = builder.buildHandFromString("ATr ACo RCo 3Ca 4Tr");
 
         Victory queenWithAcesAndKing = referee.compare(queenSet, acesAndKing);
         assertEquals(Victorieu.main1, queenWithAcesAndKing.getWinner(),
@@ -135,9 +135,9 @@ public class HandComparatorTest {
 
     @Test
     public void testCompareQuadAndQuad () throws Exception {
-        Hand jackQuad = builder.buildHandFromString("VCa VPi VTr VCo");
-        Hand queenQuad = builder.buildHandFromString("DCa DPi DTr DCo");
-        Hand kingQuad = builder.buildHandFromString("RTr RCa RCo RPi");
+        Hand jackQuad = builder.buildHandFromString("VCa VPi VTr VCo 3Pi");
+        Hand queenQuad = builder.buildHandFromString("DCa DPi DTr DCo 3Ca");
+        Hand kingQuad = builder.buildHandFromString("RTr RCa RCo RPi 3Co");
 
         Victory jackWithQueenVictory = referee.compare(jackQuad, queenQuad);
         assertEquals(Victorieu.main2, jackWithQueenVictory.getWinner(),
@@ -161,8 +161,8 @@ public class HandComparatorTest {
 
     @Test
     public void testCompareQuadAndLess () throws Exception {
-        Hand queenQuad = builder.buildHandFromString("DCa DPi DTr DCo");
-        Hand acesAndKing = builder.buildHandFromString("ATr ACa RCo APi");
+        Hand queenQuad = builder.buildHandFromString("DCa DPi DTr DCo 3Tr");
+        Hand acesAndKing = builder.buildHandFromString("ATr ACa RCo APi 3Pi");
 
         Victory queenWithAcesAndKing = referee.compare(queenQuad, acesAndKing);
         assertEquals(Victorieu.main1, queenWithAcesAndKing.getWinner(),
@@ -179,10 +179,10 @@ public class HandComparatorTest {
 
     @Test
     public void testRefereeTwoPairWithTwoPair () throws Exception {
-        Hand jacksAndQueens = builder.buildHandFromString("VTr VPi DTr DPi");
-        Hand tensAndQueens = builder.buildHandFromString("10Tr 10Pi DCo DCa");
-        Hand acesAndKings = builder.buildHandFromString("ATr APi RCo RCa");
-        Hand acesAndKings2 = builder.buildHandFromString("ACo ACa RTr RPi");
+        Hand jacksAndQueens = builder.buildHandFromString("VTr VPi DTr DPi 3Pi");
+        Hand tensAndQueens = builder.buildHandFromString("10Tr 10Pi DCo DCa 3Ca");
+        Hand acesAndKings = builder.buildHandFromString("ATr APi RCo RCa 3Co");
+        Hand acesAndKings2 = builder.buildHandFromString("ACo ACa RTr RPi 3Tr");
 
         Victory jackWithTenVictory = referee.compare(jacksAndQueens, tensAndQueens);
         assertEquals(Victorieu.main1, jackWithTenVictory.getWinner(),
@@ -203,8 +203,8 @@ public class HandComparatorTest {
 
     @Test
     public void testRefereeTwoPairWithLess () throws Exception {
-        Hand jacksAndQueens = builder.buildHandFromString("VTr VPi DTr DPi");
-        Hand nothing = builder.buildHandFromString("ATr 10Tr 8Ca 2Co");
+        Hand jacksAndQueens = builder.buildHandFromString("VTr VPi DTr DPi 3Pi");
+        Hand nothing = builder.buildHandFromString("ATr 10Tr 8Ca 2Co 3Ca");
 
         Victory jacksAndQueensWithNothing = referee.compare(jacksAndQueens, nothing);
         assertEquals(Victorieu.main1, jacksAndQueensWithNothing.getWinner(),
@@ -247,7 +247,7 @@ public class HandComparatorTest {
     }
 
     @Test
-    public void testRefereeFlush () {
+    public void testRefereeFlush () throws Exception {
         Hand eightHighFlush = builder.buildHandFromString("3Tr 4Tr 5Tr 6Tr 8Tr");
         Hand eightHighFlush2 = builder.buildHandFromString("2Co 4Co 5Co 6Co 8Co");
         Hand nineHighFlush = builder.buildHandFromString("2Ca 4Ca 5Ca 6Ca 9Ca");
@@ -281,7 +281,7 @@ public class HandComparatorTest {
     }
 
     @Test
-    public void testRefereeFlushWithLess () {
+    public void testRefereeFlushWithLess () throws Exception {
         Hand eightHighFlush = builder.buildHandFromString("3Tr 4Tr 5Tr 6Tr 8Tr");
         Hand aceAndKing = builder.buildHandFromString("RCo RCa ACo ACa 2Co");
 
@@ -296,7 +296,7 @@ public class HandComparatorTest {
     }
 
     @Test
-    public void testRefereeStraightFlush () {
+    public void testRefereeStraightFlush () throws Exception {
         Hand kingHighStraightFlush = builder.buildHandFromString("DTr 10Tr RTr 9Tr VTr");
         Hand aceHighStraightFlush = builder.buildHandFromString("RCo DCo ACo 10Co VCo");
         Hand kingHighStraightFlush2 = builder.buildHandFromString("9Ca 10Ca RCa DCa VCa");
@@ -327,7 +327,7 @@ public class HandComparatorTest {
     }
 
     @Test
-    public void testRefereeStraightFlushWithLess () {
+    public void testRefereeStraightFlushWithLess () throws Exception {
         Hand kingHighStraightFlush = builder.buildHandFromString("DTr 10Tr RTr 9Tr VTr");
         Hand aceQuad = builder.buildHandFromString("ACa APi ATr ACo 2Co");
 
@@ -342,7 +342,7 @@ public class HandComparatorTest {
     }
 
     @Test
-    public void testRefereeFull() {
+    public void testRefereeFull() throws Exception {
 
         Hand fullHouseKingOverFours = builder.buildHandFromString("RTr RCa RPi 4Ca 4Co");
         Hand fullHouseQueenOverFive = builder.buildHandFromString("DTr DCa DPi 5Ca 5Co");
