@@ -5,8 +5,6 @@ import cards.Value;
 
 import java.util.ResourceBundle;
 
-//Le commentaire du futur
-
 public class ColorVictory extends Victory {
     private final Color winColor;
 
