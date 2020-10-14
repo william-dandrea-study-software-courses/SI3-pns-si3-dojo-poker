@@ -16,6 +16,7 @@ import java.util.AbstractMap;
 
 public class HandComparator {
 
+
     /**
      * This will determine who win following the known poker rules
      * @param h1 the first hand in
@@ -112,7 +113,7 @@ public class HandComparator {
             if (winner.equals(Victorieu.egalite)) {
                 hand1.removeCardsOfValue(valueHand1);
                 hand2.removeCardsOfValue(valueHand1);
-                return compareOnHighestCard(hand1, hand2);
+                winner = compareOnHighestCard(hand1, hand2).getWinner();
             }
             return new Victory(winner, ResultType.pair,
                     (winner.equals(Victorieu.main1) ? valueHand1.getValue() : valueHand2.getValue()));
@@ -194,7 +195,7 @@ public class HandComparator {
                     hand1.removeCardsOfValue(valueHand1.getValue());
                     hand2.removeCardsOfValue(valueHand2.getKey());
                     hand2.removeCardsOfValue(valueHand2.getValue());
-                    return compareOnHighestCard(hand1, hand2);
+                    winner = compareOnHighestCard(hand1, hand2).getWinner();
                 }
             }
             return new TwoCardVictory(winner, ResultType.doublePair,
