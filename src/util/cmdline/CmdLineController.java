@@ -50,11 +50,18 @@ public class CmdLineController {
 
         while(hand1 == null || hand2 == null) {
             try {
-                hand1 = ui.askPlayer(r.getString("hand") + " 1 : ", builder);
-                hand2 = ui.askPlayer(r.getString("hand") + " 2 : ", builder);
+                if (highway2toString) {
+                    hand1 = ui.askPlayer("Main 1 : ", builder);
+                    hand2 = ui.askPlayer("Main 2 : ", builder);
+                } else {
+                    hand1 = ui.askPlayer(r.getString("hand") + " 1 : ", builder);
+                    hand2 = ui.askPlayer(r.getString("hand") + " 2 : ", builder);
+                }
             } catch (IllegalArgumentException e) {
-                // ui.print("Une erreur de saisie à été détecté.");
-                ui.print(r.getString("hand_creation_error"));
+                if (highway2toString)
+                    ui.print("Une erreur de saisie à été détecté.");
+                else
+                    ui.print(r.getString("hand_creation_error"));
             }
         }
 
@@ -64,6 +71,8 @@ public class CmdLineController {
         } catch (Exception e) {
             ui.print(e.getMessage());
         }
+
+        assert victory != null;
         
         if (highway2toString)
             ui.print(victory);

@@ -7,19 +7,20 @@ import java.util.ResourceBundle;
 
 /**
  * This class represent the victory message
- * @Author Amine CHOUHABI
+ * @author Amine CHOUHABI
+ * @author Gabriel Cogne
  */
 public class Victory {
     protected final HashMap<ResultType,String> types = new HashMap<>(){{
-        put(ResultType.brelan,"Brelan");
-        put(ResultType.carre,"carré");
-        put(ResultType.couleur,"couleur");
-        put(ResultType.doublePair,"double pair");
-        put(ResultType.full,"Full");
-        put(ResultType.higherCard,"Higher Card");
-        put(ResultType.pair,"Pair");
-        put(ResultType.quinteFlush,"Quinte Flush");
-        put(ResultType.suite,"Suite");
+        put(ResultType.brelan,"brelan de");
+        put(ResultType.carre,"carré de");
+        put(ResultType.couleur,"couleur au");
+        put(ResultType.doublePair,"double pair de");
+        put(ResultType.full,"full aux");
+        put(ResultType.higherCard,"carte la plus elevee :");
+        put(ResultType.pair,"pair de");
+        put(ResultType.quinteFlush,"quinte flush au");
+        put(ResultType.suite,"suite au");
     }};
     private final Victorieu victorieu;
     private final ResultType handWinType;
@@ -46,15 +47,15 @@ public class Victory {
     @Override
     public String toString() {
         if (victorieu == Victorieu.egalite){
-            return "Egalite "+ types.get(handWinType) + " " + getValueWinner();
+            return "Egalite";
         }
         else {
             if (victorieu == Victorieu.main1)
             {
-                return "La main 1 gagne par " + types.get(handWinType) + ":" + getValueWinner();
+                return "La main 1 gagne par " + types.get(handWinType) + " " + getValueWinner();
             }
             else {
-                return "La main 2 gagne par " + types.get(handWinType) + ":" + getValueWinner();
+                return "La main 2 gagne par " + types.get(handWinType) + " " + getValueWinner();
             }
         }
     }
