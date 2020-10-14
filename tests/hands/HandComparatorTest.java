@@ -16,6 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author D'Andrea William
  */
 
+//Test commentaire
 public class HandComparatorTest {
 
     private HandBuilder builder;
