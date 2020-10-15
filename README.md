@@ -12,8 +12,8 @@ il s'uffit d'éxécuter le script launcher.sh
 **Avec Java directement** :<br>
 Dans le répertoire du projet,
 <ol>
-    <li>Compiler avec la commande : <br><code>javac -d ../bin cards/Card.java cards/Color.java cards/Value.java hands/Hand.java hands/HandBuilder.java hands/HandComparator.java interaction/ColorVictory.java interaction/ResultType.java interaction/TwoCardVictory.java interaction/Victorieu.java interaction/Victory.java util/cmdline/CmdLineController.java util/cmdline/CmdLineUserInterface.java launcher/CmdLineMain.java</code>
-    <li>Copier les fichiers ressources de /res vers /bin</li>
+    <li>Compiler depuis le répertoire src/ avec la commande : <br><code>javac -d ../bin cards/Card.java cards/Color.java cards/Value.java hands/Hand.java hands/HandBuilder.java hands/HandComparator.java interaction/ColorVictory.java interaction/ResultType.java interaction/TwoCardVictory.java interaction/Victorieu.java interaction/Victory.java util/cmdline/CmdLineController.java util/cmdline/CmdLineUserInterface.java launcher/CmdLineMain.java</code>
+    <li>Copier les dossiers et les fichiers ressources de /res vers /bin</li>
     <li>Enfin, Executer <code>java launcher.CmdLineMain</code> dans le répertoire /bin</li>
 </li>
 </ol>
