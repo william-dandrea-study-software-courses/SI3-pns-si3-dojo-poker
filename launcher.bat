@@ -13,7 +13,7 @@ javac -d ../bin cards/Card.java cards/Color.java cards/Value.java hands/Hand.jav
 
 cd ..
 
-xcopy /E /Y res\values\ bin\values\
+xcopy /E /Y res\values\* bin\values\*
 
 cls
 
